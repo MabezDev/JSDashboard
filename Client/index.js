@@ -2,10 +2,16 @@
 
 'use strict';
 
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
 
 
 
 
 
+
+
+
+function init(){
+   // on load set up components 
+}
+
+window.addEventListener("load",init);

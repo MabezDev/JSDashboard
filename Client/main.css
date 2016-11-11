@@ -1,0 +1,27 @@
+/* css */
+
+
+#news_stand {
+    align-content: center;
+    color: green; 
+    max-width: 20%; /* stop news from spilling into widget section */
+    background-color: aqua;
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#header {
+    color: red;
+    background-color: aqua;
+    margin-left: 10px;
+}
+
+#widget_grid {
+    background-color: aqua;
+    float: left;
+}
+
+.title {
+    font-size: 21pt;
+}

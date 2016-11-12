@@ -4,14 +4,17 @@
 
 
 
-
-
-
-
-
-
-function init(){
-   // on load set up components 
+function addWidgit() {
+    
 }
 
-window.addEventListener("load",init);
+
+
+
+
+function init() {
+   // on load set up components
+    console.log("Dashboard loading...");
+}
+
+window.addEventListener("load", init);

@@ -28,8 +28,5 @@ function init() {
     }
 }
 
-if (typeof(window) !== 'undefined') {
-    var timer = setTimeout(function() {
-        window.addEventListener("load", init);
-    }, 200);
-}
+
+window.addEventListener("load", init);

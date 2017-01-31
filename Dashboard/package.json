@@ -1,0 +1,23 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MabezDev/JSDashboard.git"
+  },
+  "author": "Scott Daniel Mabin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MabezDev/JSDashboard/issues"
+  },
+  "homepage": "https://github.com/MabezDev/JSDashboard#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

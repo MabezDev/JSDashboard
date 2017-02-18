@@ -72,6 +72,16 @@ function handleDrop(event){
     event.preventDefault();
     var data = event.dataTransfer.getData("text");
     console.log("Drop Event: " + data + " -> "+event.target.id);
+    var source = document.getElementById(data);
+    var destination = document.getElementById(event.target.id);
+    var tempHTML = destination.innerHTML;
+    var tempID = destination.id;
+    
+    destination.innerHTML = source.innerHTML;
+    destination.id = data;
+
+    source.innerHTML = tempHTML;
+    source.id = tempID;
 }
 
 

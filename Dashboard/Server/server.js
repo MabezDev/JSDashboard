@@ -7,7 +7,7 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
-var webpages = __dirname + "/Client/";
+var webpages = "../Client/";
 
 // static files
 app.use('/', express.static(webpages, { extensions: ['html'] }));

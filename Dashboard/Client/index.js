@@ -1,57 +1,77 @@
 /*jslint node: true */
+/*jslint browser: true*/
+/*jslint esversion: 6*/
 
 'use strict';
 
 
 
-function addWidgit(title) {
-    var grid = document.getElementById('widget_grid'),
-        container = document.createElement('div'),
-        titleEl = document.createElement('p');
-    
-    container.className = "widget_item";
-    titleEl.textContent = title;
-    container.appendChild(titleEl);
-    container.draggable = true; // enable drag and drop in widgets
-    container.ondragstart= dragstart_handler;
-    container.ondragenter = drop_handler;
-    container.ondragover = dragover_handler;
-    grid.appendChild(container);
-}
+
 
 
 
 
 
 function init() {
-   // on load set up components
+    // on load set up components
     console.log("Dashboard loading...");
-    for (var i = 0; i < 9; i++) {
-        addWidgit("Testerino"+(i+1));
+    var gridContainer = document.getElementById('grid_container');
+
+    //console.log(createHorizontalContainer());
+    //gridContainer.appendChild(createHorizontalContainer());
+    var count = 0;
+    for(var i=0; i < 3; i++){
+        var hContainer = createHorizontalContainer();
+        for(var j=0; j < 3; j++){
+            hContainer.appendChild(createWidget(++count, "" + count));
+        }
+        gridContainer.appendChild(hContainer);
     }
 }
 
-function dragstart_handler(event){
-    console.log("Moved!");
-    event.dataTransfer.setData("text/plain", event.target.id);  // wont work as id's are all the same
-    //event.dataTransfer.dropEffect = "copy";
+function createHorizontalContainer(){
+    var div = document.createElement('div');
+    div.className = "horizontal_section";
+    return div;
 }
 
-function dragover_handler(ev) {
- ev.preventDefault();
- // Set the dropEffect to move
- ev.dataTransfer.dropEffect = "move"
+function createWidget(id, jsonData){
+    //jsondata should be a object that tells hwo the data should be displayed and where to get it from (have a function inside the object called update())
+    // for now its just a title
+
+    var div = document.createElement('div');
+    div.id = id;
+    if(jsonData){
+        div.className = "widget";
+        div.draggable = true;
+        div.ondragstart = handleDragStart;
+        div.ondragover = handleDragOver;
+        div.ondrop = handleDrop;
+        var text = document.createElement('p');
+        text.textContent = jsonData;
+        div.appendChild(text);
+
+        return div;
+    } else {
+        
+        div.className = "widget hidden";
+        return div;
+    }
 }
-function drop_handler(ev) {
- ev.preventDefault();
- // Get the id of the target and add the moved element to the target's DOM
- var data = ev.dataTransfer.getData("text");
- var elementDropped = document.getElementById(data);
- var elementDroppedOn = ev.target;
- //console.log("Dropped text: "+elementDropped.p.textContent);
- //console.log("DroppedOn text: "+elementDroppedOn.p.textContent);
- //console.log(elementDropped);
- console.log(elementDroppedOn);
+
+function handleDragStart(event){
+    event.dataTransfer.setData("text/plain", event.target.id);
+    event.dataTransfer.dropEffect = "copy";
+}
+
+function handleDragOver(event){
+    event.preventDefault(); //prevent default allows item to be dropped
+}
+
+function handleDrop(event){
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text");
+    console.log("Drop Event: " + data + " -> "+event.target.id);
 }
 
 

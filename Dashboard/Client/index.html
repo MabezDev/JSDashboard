@@ -11,14 +11,15 @@
 
     <body>
         <header id="header">
-            <div id="short_weather">
+            <span id="short_weather">
                 <h1 id="welcome_message">Hello</h1>
                 <h3 id="weather_one_line">You need a jacket, it's cold out</h3>
-            </div>
-            <div id="settings">
+            </span>
+            <span id="settings">
                 <!-- <button onclick="createWidget('Test')">Create Widget</button>
                 <button onclick="createWidget('Test')">Configure</button> -->
-            </div>
+                <button onclick="toggleBuilder()">Open Builder</button>
+            </span>
         </header>
 
         <div id="grid_container">
@@ -27,6 +28,20 @@
                 <div draggable="true" class="widget hidden"></div>
             </div> -->
         </div>
+
+        <div id="widget_builder"> <!-- opens a window to build a custom widget -->
+            <div id="current_state"> <!-- shows the current state of the widget that is being built -->
+                <!-- items are added to the inner html of this elemnt then the id willbe changed to a widget id and inserted into the next space in the page -->
+
+            </div>
+            <div id="item_palette"> <!-- lists items that can be added to a widget-->
+                <span id="variable">
+                    <p class="variable">Key: Value</p>
+                </span>
+
+            </div>
+            <button onclick="toggleBuilder()">Close</button>
+        <div>
 
         
     </body>

@@ -6,12 +6,6 @@
 
 
 
-
-
-
-
-
-
 function init() {
     // on load set up components
     console.log("Dashboard loading...");
@@ -50,18 +44,21 @@ function createWidget(id, jsonData){
         var text = document.createElement('p');
         text.textContent = jsonData;
         div.appendChild(text);
-
         return div;
     } else {
-        
         div.className = "widget hidden";
         return div;
     }
 }
 
+function toggleBuilder(){
+    var panel = document.getElementById('widget_builder');
+    panel.style.display = panel.style.display == "block" ? "none" : "block";
+}
+
 function handleDragStart(event){
     event.dataTransfer.setData("text/plain", event.target.id);
-    event.dataTransfer.dropEffect = "copy";
+    event.dataTransfer.dropEffect = "move";
 }
 
 function handleDragOver(event){

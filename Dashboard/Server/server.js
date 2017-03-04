@@ -17,8 +17,9 @@ app.use('/', express.static(webpages, { extensions: ['html'] }));
 */
 
 app.get("/api/data/weather"); // weather forecast etc
-app.get("/api/data/weather"); // temperature details - change to post to query location?
-app.post("/api/data/custom"); // custom json to be ran from this server and return variables they want back
+app.get("/api/data/temperature"); // temperature details - change to post to query location?
+app.post("/api/data/custom/json"); // custom json to be ran from this server and return variables they want back
+app.post("/api/data/custom/rss"); // custom rss widget, convert to json then just pass to the json function
 // example JSON object sent ot a /api/data/custom
 /*
 	custom = {

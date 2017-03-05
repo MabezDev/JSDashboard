@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/builder.css">
     <script src="js/index.js"></script>
     <script src="js/builder.js"></script>
+    <script src="js/dragndrop.js"></script>
 </head>
 
     <body>
@@ -47,12 +48,14 @@
                         <button onclick="testService()">Test Service</button>
                         <div id="service_output_container">
                             <p>Output from service: </p>
-                            <textarea id="service_output" readonly="readonly"></textarea>
+                            <select id="service_output" multiple="multiple"></select>
+                            <!-- <textarea id="service_output" readonly="readonly"></textarea> -->
                             <!-- <div id="service_output"></div> -->
                         </div>
                     </div>
                 </div>
                 <button onclick="toggleBuilder()">Close</button>
+                <button onclick="addToDashboard()">+</button>
             </div>
         <div>
 

@@ -28,6 +28,8 @@
 #current_state {
     float : left;
     padding: 1%;
+    width: 50%;
+    height: 50%;
 }
 
 #configure_container {
@@ -37,4 +39,9 @@
 
 #item_pallete {
     display: table;
+}
+
+#service_output {
+    min-width : 450px;
+    min-height: 500px;
 }

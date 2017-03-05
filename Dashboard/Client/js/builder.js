@@ -2,21 +2,34 @@
 
 function testService(){
 	var serviceUrl = document.getElementById('service_url').value;
-	var outputBox = document.getElementById('service_output');
+	var listElement = document.getElementById('service_output');
 	var xhr = new XMLHttpRequest();
 
 	var url = "/api/data/custom/test?url=" + encodeURIComponent(serviceUrl);
 
-	console.log(url);  
-
 	xhr.open("GET", url);
 	xhr.onload = function() {
 	    if (xhr.status === 200){
-			outputBox.value = this.responseText;
 			var jsonObj = JSON.parse(this.responseText);
-			console.log(jsonObj);
-			traverse(jsonObj);
-			// outputBox.innerHTML = "<pre><code>" + this.responseText + "</pre></code>";
+			var dotNotation = listPaths(jsonObj);
+
+			// var innerHTML = "";
+			// for(var i=0; i < dotNotation.length; i++){
+			// 	innerHTML += "<option>" + dotNotation[i];
+			// }
+			// listElement.innerHTML = innerHTML;
+
+			for(var i=0; i<dotNotation.length; i++){
+				var option = document.createElement("option");
+				option.textContent = dotNotation[i];
+
+				option.draggable = true;
+		        option.ondragstart = variableDataDragStart;
+		        option.ondragover = variableDataDragOver;
+		        option.ondrop = globalDrop;
+
+				listElement.append(option);
+			}
 	    } else{
 			console.log(xhr.status);
 	    }
@@ -25,15 +38,37 @@ function testService(){
 	xhr.send();
 }
 
-//TODO find a way f accessing specific keys in a way to allow users to pick and choose data
-function traverse(o) {
-	var keys = [];
-    for (i in o) {
-        if (!!o[i] && typeof(o[i])=="object") {
-            //console.log(i)
-            console.log(keys);
-            traverse(o[i]);
-        }
-        keys.push(i);
+
+function toggleBuilder(){
+    var panel = document.getElementById('widget_builder');
+    panel.style.display = panel.style.display == "block" ? "none" : "block";
+
+    var currentState = document.getElementById('current_state');
+    var widget = currentState.getElementsByClassName("widget")[0];
+
+    if(!widget){ // if there isn't a widget already being built, add a blank one
+        console.log("Nothing being worked on, creating blank widget");
+    	var widget = createWidget("builder_base","0"); //TODO id must be removed when added to the widget grid
+    	console.log(widget);
+    	currentState.append(widget);
     }
-}      
+}
+  
+
+
+function listPaths(a) {
+  var list = [];
+  (function(o, r) {
+    r = r || '';
+    if (typeof o != 'object') {
+      return true;
+    }
+    for (var c in o) {
+      if (arguments.callee(o[c], r + "." + c)) {
+        list.push(r.substring(1) + "." + c);
+      }
+    }
+    return false;
+  })(a);
+  return list;
+}

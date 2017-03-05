@@ -38,9 +38,9 @@ function createWidget(id, jsonData){
     if(jsonData){
         div.className = "widget";
         div.draggable = true;
-        div.ondragstart = handleDragStart;
-        div.ondragover = handleDragOver;
-        div.ondrop = handleDrop;
+        div.ondragstart = widgetDragStart;
+        div.ondragover = widgetDragOver;
+        div.ondrop = globalDrop;
         var text = document.createElement('p');
         text.textContent = jsonData;
         div.appendChild(text);
@@ -55,31 +55,5 @@ function toggleBuilder(){
     var panel = document.getElementById('widget_builder');
     panel.style.display = panel.style.display == "block" ? "none" : "block";
 }
-
-function handleDragStart(event){
-    event.dataTransfer.setData("text/plain", event.target.id);
-    event.dataTransfer.dropEffect = "move";
-}
-
-function handleDragOver(event){
-    event.preventDefault(); //prevent default allows item to be dropped
-}
-
-function handleDrop(event){
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    console.log("Drop Event: " + data + " -> "+event.target.id);
-    var source = document.getElementById(data);
-    var destination = document.getElementById(event.target.id);
-    var tempHTML = destination.innerHTML;
-    var tempID = destination.id;
-    
-    destination.innerHTML = source.innerHTML;
-    destination.id = data;
-
-    source.innerHTML = tempHTML;
-    source.id = tempID;
-}
-
 
 window.addEventListener("load", init);

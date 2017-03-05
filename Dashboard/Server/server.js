@@ -44,7 +44,6 @@ app.post("/api/data/custom/rss"); // custom rss widget, convert to json then jus
 
 function customTest(req, res){
 	var urlService = req.query.url;
-	console.log(urlService);
 
 	request(urlService, function(error, response, body) {
 	  if(body){

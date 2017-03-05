@@ -13,12 +13,6 @@ function testService(){
 			var jsonObj = JSON.parse(this.responseText);
 			var dotNotation = listPaths(jsonObj);
 
-			// var innerHTML = "";
-			// for(var i=0; i < dotNotation.length; i++){
-			// 	innerHTML += "<option>" + dotNotation[i];
-			// }
-			// listElement.innerHTML = innerHTML;
-
 			for(var i=0; i<dotNotation.length; i++){
 				var option = document.createElement("option");
 				option.textContent = dotNotation[i];
@@ -43,12 +37,13 @@ function toggleBuilder(){
     var panel = document.getElementById('widget_builder');
     panel.style.display = panel.style.display == "block" ? "none" : "block";
 
-    var currentState = document.getElementById('current_state');
-    var widget = currentState.getElementsByClassName("widget")[0];
+    var currentState = document.getElementById('current_state_container');
+    var widget = document.getElementById("builder_base");
 
     if(!widget){ // if there isn't a widget already being built, add a blank one
         console.log("Nothing being worked on, creating blank widget");
-    	var widget = createWidget("builder_base","0"); //TODO id must be removed when added to the widget grid
+    	var widget = createWidget("builder_base","Base widget"); //TODO id must be removed when added to the widget grid
+    	widget.className = "widget_blank";
     	console.log(widget);
     	currentState.append(widget);
     }

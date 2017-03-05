@@ -41,9 +41,18 @@ function createWidget(id, jsonData){
         div.ondragstart = widgetDragStart;
         div.ondragover = widgetDragOver;
         div.ondrop = globalDrop;
+
+        // drop mask so sub element don't interfere
+        var dropMask = document.createElement('div');
+        dropMask.id = "drop-mask"
+        div.appendChild(dropMask);
+
+        //rest of the widget data must be appended to the drop mask
+
         var text = document.createElement('p');
         text.textContent = jsonData;
-        div.appendChild(text);
+        dropMask.appendChild(text);
+        
         return div;
     } else {
         div.className = "widget hidden";

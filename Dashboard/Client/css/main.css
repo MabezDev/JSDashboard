@@ -58,3 +58,7 @@
     margin: 0 auto;
     background-color: white;
 }
+
+#drop-mask > * { /*child element cannot be targetable by dro targets*/
+    pointer-events: none;
+}

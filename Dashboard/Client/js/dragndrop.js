@@ -8,6 +8,8 @@ function globalDrop(event){
     var type = dataTransfer.type;
     var data = dataTransfer.data;
 
+    console.log(event.target);
+
     var destination = document.getElementById(event.target.id);
 
     console.log("Type: "+type);
@@ -31,12 +33,13 @@ function globalDrop(event){
 	}
 }
 
-// widget dragndrop
+// widget dragndrop - TODO using drop mask means we cannot use the id anymore, 
+// 	need to figure out a solution to this, maybe there is a better way than drop mask
 
 function widgetDragStart(event){
 	data = JSON.stringify({
 		type : "widget_to_widget",
-		data : event.target.id
+		data : event.target.id 
 	});
     event.dataTransfer.setData("data", data);
     event.dataTransfer.dropEffect = "move";

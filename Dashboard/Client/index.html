@@ -34,9 +34,16 @@
 
         <div id="widget_builder"> <!-- opens a window to build a custom widget -->
             <div id="builder_container">
-                <div id="current_state"> <!-- shows the current state of the widget that is being built -->
+                <div id="current_state_container"> <!-- shows the current state of the widget that is being built -->
                     <!-- items are added to the inner html of this elemnt then the id willbe changed to a widget id and inserted into the next space in the page -->
                 </div>
+
+                <div id="variable_builder_container">
+                    <div id="variable_builder">
+                        <p>Variable building goes here</p>
+                    </div>
+                </div>
+
                 <div id="configure_container">
                     <div id="item_palette"> <!-- lists items that can be added to a widget-->
                         <span id="variable">
@@ -54,8 +61,10 @@
                         </div>
                     </div>
                 </div>
-                <button onclick="toggleBuilder()">Close</button>
-                <button onclick="addToDashboard()">+</button>
+                <div id="builder_control">
+                    <button onclick="toggleBuilder()">Close</button>
+                    <button onclick="addToDashboard()">+</button>
+                </div>
             </div>
         <div>
 

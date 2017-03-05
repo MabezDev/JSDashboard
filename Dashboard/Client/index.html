@@ -7,7 +7,8 @@
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/builder.css">
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/builder.js"></script>
 </head>
 
     <body>
@@ -35,12 +36,20 @@
                 <div id="current_state"> <!-- shows the current state of the widget that is being built -->
                     <!-- items are added to the inner html of this elemnt then the id willbe changed to a widget id and inserted into the next space in the page -->
                 </div>
-                <div id="item_palette_container">
+                <div id="configure_container">
                     <div id="item_palette"> <!-- lists items that can be added to a widget-->
                         <span id="variable">
-                            <p class="variable">Key: Value</p>
-                        </span>
-
+                            <p class="variable" draggable="true">Key: Value</p>
+                        </span>    
+                    </div>
+                    <div id="data_config">
+                        <input id="service_url" type="url" name="service_url">
+                        <button onclick="testService()">Test Service</button>
+                        <div id="service_output_container">
+                            <p>Output from service: </p>
+                            <textarea id="service_output" readonly="readonly"></textarea>
+                            <!-- <div id="service_output"></div> -->
+                        </div>
                     </div>
                 </div>
                 <button onclick="toggleBuilder()">Close</button>

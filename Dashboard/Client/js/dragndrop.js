@@ -31,6 +31,8 @@ function dashboardDrop(event){
 }
 
 //TODO: might be a good idea to have a constants.js that exports vars like id's for dragging and dropping
+//TODO: the variales in the item palette should not b on the variable type, but should be a dummy type that passed data to the builder about what tye to start
+// building
 function builderDrop(event){
 	// handles all drops to do with making a widget
 
@@ -44,13 +46,24 @@ function builderDrop(event){
 
 	switch(destinationID){
 		case "builder_base":
-			console.log("Dropping " + source + " onto the development widget.");
+			//console.log("Dropping " + source + " onto the development widget.");
+			if(source == "variable_drag"){
+				// add variable to widget
+				console.log("Adding a variable to widget.");
+			}
 			break;
 		case "variable":
-			console.log("Dropping " + source + " onto a variable");
+			//console.log("Dropping " + source + " onto a variable");
+			if(source == "data_drag"){
+				console.log("Adding a data source to variable.");
+			}
 			break;
 		case "variable_builder":
-			console.log("Dropping " + source + " onto a variable_builder");
+			//console.log("Dropping " + source + " onto a variable_builder");
+			if(source == "variable_drag"){
+				// adding a blank variable to the builder to be built
+				console.log("Adding a variable to the variable builder.");
+			}
 			break;
 	}
 }
@@ -59,6 +72,8 @@ function builderDrop(event){
 	IMPORTANT - Every variable and every elemnt inside varibale must contain the 'widget_child_elements' class in there classList
 	else the drag and drop api will be broken (due to the poor implementation in HTML5)
 */
+
+// widget srag start
 
 function widgetDragStart(event){
 	data = JSON.stringify({
@@ -69,11 +84,7 @@ function widgetDragStart(event){
     event.dataTransfer.dropEffect = "move";
 }
 
-function widgetDragOver(event){
-    event.preventDefault(); //prevent default allows item to be dropped
-}
-
-// data dragndrop
+// data drag start
 
 function variableDataDragStart(event){
 	data = JSON.stringify({
@@ -84,12 +95,8 @@ function variableDataDragStart(event){
     event.dataTransfer.dropEffect = "move";
 }
 
-function variableDataDragOver(event){
-	event.preventDefault();
-}
 
-
-// variable drag handlers
+// variable drag start
 
 function variableDragStart(event){
 	data = JSON.stringify({
@@ -100,12 +107,8 @@ function variableDragStart(event){
     event.dataTransfer.dropEffect = "move";
 }
 
-function variableDragOver(event){
-	event.preventDefault();
-}
+// global drag over
 
-// variable builder handlers
-
-function variableBuilderDragOver(event){
+function globalDragOver(event){ // allow drops onto the variable builder
 	event.preventDefault();
 }

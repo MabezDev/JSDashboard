@@ -19,7 +19,7 @@ function testService(){
 
 				option.draggable = true;
 		        option.ondragstart = variableDataDragStart;
-		        option.ondragover = variableDataDragOver;
+		        option.ondragover = globalDragOver;
 		        option.ondrop = builderDrop;
 
 				listElement.append(option);
@@ -56,7 +56,7 @@ function toggleBuilder(){
 	    variable.draggable = true;
 	    // implement thes in dragndrop.js
 	    variable.ondragstart = variableDragStart;
-	    variable.ondragover = variableDragOver;
+	    variable.ondragover = globalDragOver;
 	    variable.ondrop = builderDrop;
 
 	    var key = document.createElement("p");
@@ -85,7 +85,7 @@ function toggleBuilder(){
 		// </div>
 		var variableSlot = document.createElement("div");
 		variableSlot.id = "variable_builder";
-		variableSlot.ondragover = variableBuilderDragOver;
+		variableSlot.ondragover = globalDragOver;
 		variableSlot.ondrop = builderDrop;
 		variableSlot.textContent = "Drop here to start";
 

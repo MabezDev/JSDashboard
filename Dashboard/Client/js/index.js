@@ -40,7 +40,7 @@ function createWidget(id, jsonData){
         div.className = "widget";
         div.draggable = true;
         div.ondragstart = widgetDragStart;
-        div.ondragover = widgetDragOver;
+        div.ondragover = globalDragOver;
         div.ondrop = dashboardDrop;
 
         // everything else appended to that div

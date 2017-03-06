@@ -36,22 +36,18 @@ function createWidget(id, jsonData){
     var div = document.createElement('div');
     div.id = id;
     if(jsonData){
+        // base creation
         div.className = "widget";
         div.draggable = true;
         div.ondragstart = widgetDragStart;
         div.ondragover = widgetDragOver;
-        div.ondrop = globalDrop;
+        div.ondrop = dashboardDrop;
 
-        // drop mask so sub element don't interfere
-        var dropMask = document.createElement('div');
-        dropMask.id = "drop-mask"
-        div.appendChild(dropMask);
-
-        //rest of the widget data must be appended to the drop mask
-
+        // everything else appended to that div
         var text = document.createElement('p');
         text.textContent = jsonData;
-        dropMask.appendChild(text);
+        text.className = "widget_child_elements";
+        div.appendChild(text);
         
         return div;
     } else {

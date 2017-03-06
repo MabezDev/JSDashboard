@@ -3,7 +3,7 @@
 .variable {
     padding : 0.5%;
     background-color: red;
-    display: table;
+    display: inline-block;
 }
 
 .widget_blank {
@@ -55,11 +55,11 @@
     background-color: green;
 }
 
-#item_pallete {
-    display: table;
+#item_pallete_container {
+    
 }
 
-#service_output { /*should by dynamic not a set pixel width and height */
+#service_output { /*TODO: should by dynamic not a set pixel width and height */
     min-width : 450px; 
     min-height: 500px;
 }

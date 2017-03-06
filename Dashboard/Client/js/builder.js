@@ -51,11 +51,11 @@ function toggleBuilder(){
     var itemContainer = document.getElementById("item_palette_container"); //container
 
     if(itemContainer.children.length == 0){  
-	    var variable = document.createElement("span");
-	    variable.id = "variable";
+	    var variable = document.createElement("div");
+	    variable.id = "variable_template"; // template id
 	    variable.draggable = true;
 	    // implement thes in dragndrop.js
-	    variable.ondragstart = variableDragStart;
+	    variable.ondragstart = variableTemplateDragStart; //TODO change to a varibale dragStart once its in the builder
 	    variable.ondragover = globalDragOver;
 	    variable.ondrop = builderDrop;
 

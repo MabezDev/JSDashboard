@@ -48,11 +48,18 @@
 }
 
 #variable_builder_container {
+    display: flex;
     display: inline-table;
     width: 25%;
     height: 80%;
     padding: 1%;
     background-color: green;
+}
+
+#variable_builder {
+    height: 100%;
+    width: 100%;
+    display: inline-table;
 }
 
 #item_pallete_container {

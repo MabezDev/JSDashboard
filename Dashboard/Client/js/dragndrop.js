@@ -44,25 +44,50 @@ function builderDrop(event){
 	var dataTransfer = JSON.parse(event.dataTransfer.getData("data"));
 	var source = dataTransfer.source;
 
+	//console.log("Source : "+ source + " || Destination : "+ destinationID);
+
 	switch(destinationID){
 		case "builder_base":
 			//console.log("Dropping " + source + " onto the development widget.");
 			if(source == "variable_drag"){
 				// add variable to widget
 				console.log("Adding a variable to widget.");
+				var widgetBuilderBase = document.getElementById("builder_base");
+				var currentVariable = document.getElementById("variable");
+				currentVariable.id = ""; //remove id so it doesnt break teh builder
+
+				widgetBuilderBase.appendChild(currentVariable);
+
 			}
 			break;
 		case "variable":
 			//console.log("Dropping " + source + " onto a variable");
 			if(source == "data_drag"){
 				console.log("Adding a data source to variable.");
+				var currentVariable = document.getElementById("variable");
+				currentVariable.children[1].textContent = dataTransfer.data;
 			}
 			break;
 		case "variable_builder":
 			//console.log("Dropping " + source + " onto a variable_builder");
-			if(source == "variable_drag"){
+			if(source == "variable_template_drag"){
 				// adding a blank variable to the builder to be built
-				console.log("Adding a variable to the variable builder.");
+				console.log("Adding a variable_template to the variable builder.");
+
+				var variableBuilder = document.getElementById("variable_builder");
+				var newVariable = document.getElementById(dataTransfer.data).cloneNode(true);
+
+				if(variableBuilder.children.length == 0){
+					variableBuilder.textContent = ""; //reset text
+					newVariable.id = "variable";
+					newVariable.ondragstart = variableDragStart;
+					newVariable.ondragover = globalDragOver;
+					newVariable.ondblclick = doubleClickHandler;
+					variableBuilder.appendChild(newVariable);
+				} else {
+					// ask to replace current widget they are working on
+				}
+
 			}
 			break;
 	}
@@ -101,7 +126,18 @@ function variableDataDragStart(event){
 function variableDragStart(event){
 	data = JSON.stringify({
 		source : "variable_drag",
-		data : event.target.textContent
+		data : event.target.textContent //TODO change data to the dom variable element
+	});
+	event.dataTransfer.setData("data", data);
+    event.dataTransfer.dropEffect = "move";
+}
+
+// variable template drag start
+
+function variableTemplateDragStart(event){
+	data = JSON.stringify({
+		source : "variable_template_drag",
+		data : event.target.id
 	});
 	event.dataTransfer.setData("data", data);
     event.dataTransfer.dropEffect = "move";
@@ -111,4 +147,12 @@ function variableDragStart(event){
 
 function globalDragOver(event){ // allow drops onto the variable builder
 	event.preventDefault();
+}
+
+// double click handler
+
+function doubleClickHandler(event){
+	var keyInput = prompt("Enter a key for the data: ","key");
+	var variable = document.getElementById(event.target.id);
+	variable.children[0].textContent = keyInput;
 }

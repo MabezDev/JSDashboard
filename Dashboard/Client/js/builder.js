@@ -1,8 +1,8 @@
 
 
 function testService(){
-	var serviceUrl = document.getElementById('service_url').value;
-	var listElement = document.getElementById('service_output');
+	var serviceUrl = document.getElementById(ID.SERVICEURL).value;
+	var listElement = document.getElementById(ID.SERVICELIST);
 	var xhr = new XMLHttpRequest();
 
 	var url = "/api/data/custom/test?url=" + encodeURIComponent(serviceUrl);
@@ -41,7 +41,7 @@ function toggleBuilder(){
     var widget = document.getElementById(ID.WIPWIDGET);
 
     if(!widget){ // if there isn't a widget already being built, add a blank one
-    	var widget = createWidget(ID.WIPWIDGET,"Base widget"); //TODO id must be removed when added to the widget grid
+    	var widget = createWidget(ID.WIPWIDGET,"Base widget");
     	widget.className = "widget_blank";
     	widget.ondrop = builderDrop;
     	currentState.append(widget);

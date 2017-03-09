@@ -34,28 +34,28 @@ function testService(){
 
 
 function toggleBuilder(){
-    var panel = document.getElementById('widget_builder');
+    var panel = document.getElementById(ID.BUILDER);
     panel.style.display = panel.style.display == "block" ? "none" : "block";
 
     var currentState = document.getElementById('current_state_container');
-    var widget = document.getElementById("builder_base");
+    var widget = document.getElementById(ID.WIPWIDGET);
 
     if(!widget){ // if there isn't a widget already being built, add a blank one
-    	var widget = createWidget("builder_base","Base widget"); //TODO id must be removed when added to the widget grid
+    	var widget = createWidget(ID.WIPWIDGET,"Base widget"); //TODO id must be removed when added to the widget grid
     	widget.className = "widget_blank";
     	widget.ondrop = builderDrop;
     	currentState.append(widget);
     }
 
     //create item palette and add items
-    var itemContainer = document.getElementById("item_palette_container"); //container
+    var itemContainer = document.getElementById(ID.ITEMCONTAINER); //container
 
     if(itemContainer.children.length == 0){  
 	    var variable = document.createElement("div");
-	    variable.id = "variable_template"; // template id
+	    variable.id = ID.TEMPLATEVARIABLE;
 	    variable.draggable = true;
-	    // implement thes in dragndrop.js
-	    variable.ondragstart = variableTemplateDragStart; //TODO change to a varibale dragStart once its in the builder
+	    // implemented in dragndrop.js
+	    variable.ondragstart = variableTemplateDragStart;
 	    variable.ondragover = globalDragOver;
 	    variable.ondrop = builderDrop;
 
@@ -77,18 +77,14 @@ function toggleBuilder(){
 
 	// create slot for variable to be dropped onto
 
-	var variableContainer = document.getElementById("variable_builder_container");
+	var variableContainer = document.getElementById(ID.VARIABLECONTAINER);
 
-	if(variableContainer.children.length == 0){ // TODO build multiple widgets at a time?
-		// <div id="variable_builder">
-		// <p>Variable building goes here</p>
-		// </div>
+	if(variableContainer.children.length == 0){
 		var variableSlot = document.createElement("div");
-		variableSlot.id = "variable_builder";
+		variableSlot.id = ID.VARIABLESLOT;
 		variableSlot.ondragover = globalDragOver;
 		variableSlot.ondrop = builderDrop;
 		variableSlot.textContent = "Drop here to start";
-
 		variableContainer.appendChild(variableSlot);
 	}
 

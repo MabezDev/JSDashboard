@@ -55,10 +55,8 @@ function createWidget(id, jsonData){
         return div;
     }
 }
-
-function toggleBuilder(){
-    var panel = document.getElementById('widget_builder');
-    panel.style.display = panel.style.display == "block" ? "none" : "block";
+function addToDashboard(){
+    var builder = document.getElementById(ID.BUILDER);
 }
 
 window.addEventListener("load", init);

@@ -10,6 +10,7 @@
     <script src="js/index.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/dragndrop.js"></script>
+    <script src="js/constants.js"></script>
 </head>
 
     <body>
@@ -19,17 +20,12 @@
                 <h3 id="weather_one_line">You need a jacket, it's cold out</h3>
             </span>
             <span id="settings">
-                <!-- <button onclick="createWidget('Test')">Create Widget</button>
-                <button onclick="createWidget('Test')">Configure</button> -->
                 <button onclick="toggleBuilder()">Open Builder</button>
             </span>
         </header>
 
         <div id="grid_container">
-            <!-- <div class="horizontal_section" >
-                <div draggable="true" class="widget"><p>Test</p></div>
-                <div draggable="true" class="widget hidden"></div>
-            </div> -->
+            
         </div>
 
         <div id="widget_builder"> <!-- opens a window to build a custom widget -->
@@ -52,14 +48,13 @@
                         <div id="service_output_container">
                             <p>Output from service: </p>
                             <select id="service_output" multiple="multiple"></select>
-                            <!-- <textarea id="service_output" readonly="readonly"></textarea> -->
-                            <!-- <div id="service_output"></div> -->
                         </div>
                     </div>
                 </div>
                 <div id="builder_control">
                     <button onclick="toggleBuilder()">Close</button>
                     <button onclick="addToDashboard()">+</button>
+                    <!-- add trash item to drop items onto -->
                 </div>
             </div>
         <div>

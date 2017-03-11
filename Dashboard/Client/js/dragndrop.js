@@ -54,7 +54,7 @@ function builderDrop(event){
 				console.log("Adding a variable to widget.");
 				var widgetBuilderBase = document.getElementById("builder_base");
 				var currentVariable = document.getElementById("variable");
-				currentVariable.id = ""; //remove id so it doesnt break teh builder
+				currentVariable.id = ""; //remove id so it doesnt break the builder
 
 				widgetBuilderBase.appendChild(currentVariable);
 
@@ -66,6 +66,7 @@ function builderDrop(event){
 				console.log("Adding a data source to variable.");
 				var currentVariable = document.getElementById("variable");
 				currentVariable.children[1].textContent = dataTransfer.data;
+				currentVariable.children[2].textContent = dataTransfer.data; // actual jsonKey
 			}
 			break;
 		case "variable_builder":
@@ -98,7 +99,7 @@ function builderDrop(event){
 	else the drag and drop api will be broken (due to the poor implementation in HTML5)
 */
 
-// widget srag start
+// widget drag start
 
 function widgetDragStart(event){
 	data = JSON.stringify({

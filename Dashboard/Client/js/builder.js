@@ -41,7 +41,7 @@ function toggleBuilder(){
     var widget = document.getElementById(ID.WIPWIDGET);
 
     if(!widget){ // if there isn't a widget already being built, add a blank one
-    	var widget = createWidget(ID.WIPWIDGET,"Base widget");
+    	var widget = createWidget(ID.WIPWIDGET,"Widget title");
     	widget.className = "widget_blank";
     	widget.ondrop = builderDrop;
     	currentState.append(widget);
@@ -68,8 +68,14 @@ function toggleBuilder(){
 	    value.textContent = "Value"
 	    value.className = "widget_child_elements variable";
 
+	    var jsonKey = document.createElement("p");
+	    jsonKey.textContent = "default"
+	    jsonKey.style.display = "none";
+
+
 	    variable.appendChild(key);
 	    variable.appendChild(value);
+	    variable.appendChild(jsonKey);
 
 
 	    itemContainer.appendChild(variable);

@@ -3,12 +3,12 @@
 .variable {
     padding : 0.5%;
     background-color: red;
-    display: inline-block;
+    display: inline-table;
 }
 
 .widget_blank {
-    /* width: 100%; */
-    /*pointer-events: none; TODO move to a drop div that fills the parent with no display*/ 
+    width: 100%;
+    height: 100%;
 }
 
 #widget_builder {
@@ -20,7 +20,7 @@
     display:none;
     position:fixed;
     background-color:#313131;
-    overflow:auto
+    /*overflow:auto;*/
 }
 
 #builder_container {
@@ -32,28 +32,27 @@
 
 #current_state_container {
     display: inline-table;
-    padding: 1%;
     width: 25%;
     height: 80%;
-    padding: 1%;
     background-color: purple;
+}
+
+#variable_builder_container {
+    display: inline-table;
+    width: 25%;
+    height: 80%;
+    background-color: green;
 }
 
 #configure_container {
     display: inline-table;
     width : 25%;
     height: 80%;
-    padding: 1%;
     background-color: orange;
 }
 
-#variable_builder_container {
-    display: flex;
-    display: inline-table;
-    width: 25%;
-    height: 80%;
-    padding: 1%;
-    background-color: green;
+#item_pallete_container {
+    
 }
 
 #variable_builder {
@@ -62,11 +61,13 @@
     display: inline-table;
 }
 
-#item_pallete_container {
-    
+#builder_base {
+    height: 100%;
+    width: 100%;
+    display: inline-table;
 }
 
 #service_output { /*TODO: should by dynamic not a set pixel width and height */
-    min-width : 450px; 
-    min-height: 500px;
+    min-width : 200px; 
+    min-height: 200px;
 }

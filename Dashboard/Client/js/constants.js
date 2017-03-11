@@ -27,5 +27,6 @@ var ID = {
 
 var CSS = {
 	HIDDEN : "hidden",
-	WIDGET : "widget"
+	WIDGET : "widget",
+	DRAGGABLECHILDREN : "widget_child_elements"
 }

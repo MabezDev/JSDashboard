@@ -40,25 +40,6 @@
     display: inline-table;
 }
 
-#widget_builder {
-    width:100%;
-    height:100%;
-    opacity:.95;
-    top:0;
-    left:0;
-    display:none;
-    position:fixed;
-    background-color:#313131;
-    overflow:auto
-}
-
-#builder_container {
-    width: 80%;
-    height: 80%;
-    margin: 0 auto;
-    background-color: white;
-}
-
 .widget_child_elements { /* Used to fix drag and dropping in HTML5*/
   pointer-events: none;
 }

@@ -1,0 +1,62 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "UP745497",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "eslint-config-crockford": "^1.0.0",
+    "eslint-config-google": "^0.7.1",
+    "gulp": "^3.9.1",
+    "gulp-beautify": "^2.0.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-uglify": "^2.1.0",
+    "pump": "^1.0.2",
+    "run-sequence": "^1.2.2"
+  },
+  "beautify": {
+    "indent_size": 2,
+    "end_with_newline": true
+  },
+  "eslintConfig": {
+    "extends": "crockford",
+    "_extends": "google",
+    "env": {
+      "browser": true,
+      "es6": false
+    },
+    "rules": {
+      "no-var": [
+        "error"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-use-before-define": [
+        "error"
+      ],
+      "space-in-parens": [
+        2,
+        "never"
+      ]
+    }
+  }
+}

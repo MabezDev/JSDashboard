@@ -161,12 +161,12 @@ function globalDragOver(event) { // allow drops onto the variable builder
 function variableDoubleClickHandler(event) {
   var keyInput = prompt('Enter a key for the data: ', 'key');
   var variable = document.getElementById(event.target.id);
-  variable.children[0].textContent = keyInput;
+  if(keyInput) variable.children[0].textContent = keyInput;
 }
 
 function titleDoubleClickHandler(event){
   var keyInput = prompt('Enter a title for the widget: ', 'Title');
   var title = document.getElementById(event.target.id);
-  title.textContent = keyInput;
+  if(keyInput) title.textContent = keyInput;
 }
 

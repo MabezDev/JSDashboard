@@ -91,6 +91,7 @@ function addToDashboard() {
       widget.className = 'widget_blank';
       widget.ondrop = builderDrop;
       widget.children[0].ondblclick = titleDoubleClickHandler;
+      widget.children[0].className = "";
       currentState.append(widget);
 
       updateWidgets();

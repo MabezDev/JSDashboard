@@ -30,24 +30,29 @@
     background-color: white;
 }
 
+#builder_layout {
+    width: 100%;
+    height: 100%;
+}
+
 #current_state_container {
-    display: inline-table;
-    width: 25%;
-    height: 80%;
+    display: block;
+    min-height: 70vh;
+    min-width: : 70vw;
     background-color: purple;
 }
 
 #variable_builder_container {
-    display: inline-table;
-    width: 25%;
-    height: 80%;
+    display: block;
+    min-height: 70vh;
+    min-width: : 70vw;
     background-color: green;
 }
 
 #configure_container {
-    display: inline-table;
-    width : 25%;
-    height: 80%;
+    display: block;
+    min-height: 70vh;
+    min-width: : 70vw; /* min-width: aint foing anything for some reason, min-height it working as expected */
     background-color: orange;
 }
 
@@ -64,6 +69,7 @@
 #builder_base {
     height: 100%;
     width: 100%;
+    min-height: 70vh;
     display: inline-table;
 }
 

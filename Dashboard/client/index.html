@@ -46,33 +46,46 @@
 
         <div id="widget_builder"> <!-- opens a window to build a custom widget -->
             <div id="builder_container">
-                <div id="current_state_container"> <!-- shows the current state of the widget that is being built -->
-                    <!-- items are added to the inner html of this elemnt then the id willbe changed to a widget id and inserted into the next space in the page -->
-                </div>
-
-                <div id="variable_builder_container">
-                    
-                </div>
-
-                <div id="configure_container">
-                    <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
-                        <!-- variable that can be used to create custom widgets are generated here --> 
-                    </div>
-                    <div id="data_config">
-                        <input id="service_url" type="url" name="service_url">
-                        <button onclick="testService()">Test Service</button>
-                        <div id="service_output_container">
-                            <p>Output from service: </p>
-                            <select id="service_output" multiple="multiple"></select>
+                <table id="builder_layout">
+                    <tr>
+                        <td>
+                        <div id="current_state_container"> <!-- shows the current state of the widget that is being built -->
+                            <!-- items are added to the inner html of this elemnt then the id willbe changed to a widget id and inserted into the next space in the page -->
                         </div>
-                    </div>
-                </div>
-                <div id="builder_control">
-                    <button onclick="toggleBuilder()">Close</button>
-                    <button onclick="addToDashboard()">+</button>
-                    <button onclick="testWidgetService()">*Test*</button>
-                    <!-- add trash item to drop items onto -->
-                </div>
+                        </td>
+
+                        <td>
+                        <div id="variable_builder_container">
+                            
+                        </div>
+                        </td>
+
+                        <td>
+                        <div id="configure_container">
+                            <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
+                                <!-- variable that can be used to create custom widgets are generated here --> 
+                            </div>
+                            <div id="data_config">
+                                <input id="service_url" type="url" name="service_url">
+                                <button onclick="testService()">Test Service</button>
+                                <div id="service_output_container">
+                                    <p>Output from service: </p>
+                                    <select id="service_output" multiple="multiple"></select>
+                                </div>
+                            </div>
+                        </div>
+                        </td>
+
+                        <td>
+                        <div id="builder_control">
+                            <button onclick="toggleBuilder()">Close</button>
+                            <button onclick="addToDashboard()">+</button>
+                            <button onclick="testWidgetService()">*Test*</button>
+                            <!-- add trash item to drop items onto -->
+                        </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         <div>
 

@@ -24,7 +24,8 @@
     "end_with_newline": true
   },
   "eslintConfig": {
-    "extends": "crockford",
+    "_extends": "crockford",
+    "extends": "eslint:recommended",
     "_extends": "google",
     "env": {
       "browser": true,
@@ -32,7 +33,7 @@
     },
     "rules": {
       "no-var": [
-        "error"
+        "warn"
       ],
       "indent": [
         "error",

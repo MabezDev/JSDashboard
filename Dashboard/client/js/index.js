@@ -8,36 +8,25 @@
 
 function init() {
   // on load set up components
-  console.log("Dashboard loading...");
-  var gridContainer = document.getElementById(ID.WIDGETGRID);
+  console.log('Dashboard loading...');
+  // //setInterval(updateWidgets, 3000);
 
-  //console.log(createHorizontalContainer());
-  //gridContainer.appendChild(createHorizontalContainer());
+  // updateWidgets();
   var count = 0;
-  for (var i = 0; i < 3; i++) {
-    var hContainer = createHorizontalContainer();
-    for (var j = 0; j < 3; j++) {
-      if (j == 1) { // add some empty spaces
-        hContainer.appendChild(createWidget(++count));
+  var tableRows = document.getElementById('widget_grid').children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      if(j == 1){
+        columns[j].appendChild(createWidget(++count));
       } else {
-        hContainer.appendChild(createWidget(++count, "" + count));
+        columns[j].appendChild(createWidget(++count, '' + count));
       }
     }
-    gridContainer.appendChild(hContainer);
   }
-
-  //setInterval(updateWidgets, 3000);
-
-  updateWidgets();
 }
 
-function createHorizontalContainer() {
-  var div = document.createElement('div');
-  div.className = "horizontal_section";
-  return div;
-}
-
-function createWidget(id, jsonData) {
+function createWidget(id, jsonData, forBuilder) {
   //jsondata should be a object that tells hwo the data should be displayed and where to get it from (have a function inside the object called update())
   // for now its just a title
 
@@ -45,22 +34,25 @@ function createWidget(id, jsonData) {
   div.id = id;
   if (jsonData) {
     // base creation
-    div.className = "widget";
+    div.className = 'widget';
     div.draggable = true;
     div.ondragstart = widgetDragStart;
     div.ondragover = globalDragOver;
     div.ondrop = dashboardDrop;
 
-    // everything else appended to that div
+    // blank title
     var text = document.createElement('p');
     text.textContent = jsonData;
-    text.className = CSS.DRAGGABLECHILDREN;
+    text.className = forBuilder ? "" : CSS.DRAGGABLECHILDREN;
+    text.id = forBuilder ? ID.WIPWIDGETTITLE : "";
     div.appendChild(text);
 
     return div;
   } else {
-    div.className = "widget hidden";
-    div.textContent = "hidden";
+    div.className = 'widget hidden';
+    // things can be dragged onto empy space
+    div.ondragover = globalDragOver;
+    div.ondrop = dashboardDrop;
     return div;
   }
 }
@@ -70,69 +62,94 @@ function addToDashboard() {
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
 
   if (serviceURL) {
-    console.log("Looking for free spot in grid...");
+    console.log('Looking for free spot in grid...');
 
     var slotFree = findFreeSlot();
     if (slotFree) {
       // add serviceURL - always the last item
-      var hiddenURL = document.createElement("p");
-      hiddenURL.style.display = "none";
+      var hiddenURL = document.createElement('p');
+      hiddenURL.style.display = 'none';
       hiddenURL.textContent = serviceURL;
       wipwidget.appendChild(hiddenURL);
 
       // switch into empty slot
       var emptySlot = document.getElementById(slotFree);
-      emptySlot.className = "widget";
+      emptySlot.className = 'widget';
       emptySlot.innerHTML = wipwidget.innerHTML;
       emptySlot.draggable = true;
       emptySlot.ondragstart = widgetDragStart;
       emptySlot.ondragover = globalDragOver;
       emptySlot.ondrop = dashboardDrop;
 
+      purgeVariableHandlers(emptySlot);
+
       //reset the builder widget
-      wipwidget.innerHTML = "";
+      var currentState = wipwidget.parentNode;
+      currentState.removeChild(wipwidget);
+
+      var widget = createWidget(ID.WIPWIDGET, 'Click to set title');
+      widget.className = 'widget_blank';
+      widget.ondrop = builderDrop;
+      widget.children[0].ondblclick = titleDoubleClickHandler;
+      currentState.append(widget);
 
       updateWidgets();
 
     } else {
-      console.log("Widget grid full! Delete an old widget!");
+      console.log('Widget grid full! Delete an old widget!');
     }
   } else {
-    console.log("ServiceURL cannot be empty!");
+    console.log('ServiceURL cannot be empty!');
   }
 }
 
-function findFreeSlot() {
-  var gridContainer = document.getElementById(ID.WIDGETGRID);
-  for (var i = 0; i < gridContainer.children.length; i++) {
-    var hSection = gridContainer.children[i];
-    for (var j = 0; j < hSection.children.length; j++) {
-      if (hSection.children[j].className.includes(CSS.HIDDEN)) {
-        return hSection.children[j].id;
-      }
-    }
+function purgeVariableHandlers(domWidget){
+  var title = domWidget.children[0];
+  title.className = CSS.DRAGGABLECHILDREN;
+  title.id = "";
+  var variables = domWidget.children;
+  for (var i = 1; i < variables.length - 1; i++) { //-1 as the last item is the service URL, start at 1 because the first elemtn is the title
+    variables[i].draggable = false;
+    variables[i].ondragstart = undefined;
+    variables[i].ondragover = undefined;
+    variables[i].ondrop = undefined;
+    variables[i].className = CSS.DRAGGABLECHILDREN; // must be appended to every item that should not be targetable by pointer events
   }
-  return;
 }
 
-function getWidgetsAsArray() {
-  var widgetsArray = []
-  var gridContainer = document.getElementById(ID.WIDGETGRID);
-  for (var i = 0; i < gridContainer.children.length; i++) {
-    var hSection = gridContainer.children[i];
-    for (var j = 0; j < hSection.children.length; j++) {
-      if (!hSection.children[j].className.includes(CSS.HIDDEN)) {
-        widgetsArray.push(hSection.children[j]);
+function getWidgetsAsArray(){
+  var widgetsArray =[];
+  var tableRows = document.getElementById('widget_grid').children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      var widget = columns[j].children[0];
+      if (!(widget.className.includes(CSS.HIDDEN))) {
+        widgetsArray.push(widget);
       }
     }
   }
-  return widgetsArray;
+  return widgetsArray;  
+}
+
+function findFreeSlot(){
+  var tableRows = document.getElementById('widget_grid').children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      var widget = columns[j].children[0];
+      if (widget.className.includes(CSS.HIDDEN)) {
+        return widget.id;
+      }
+    }
+  }
+  return;  
 }
 
 function updateWidgets() {
   var widgets = getWidgetsAsArray();
   for (var widget of widgets) {
-    console.log("Updating widet with ID: " + widget.id);
+    console.log('Updating widet with ID: ' + widget.id);
     updateWidget(widget);
   }
 }
@@ -162,8 +179,8 @@ function updateWidget(domWidget) {
   var xhr = new XMLHttpRequest(),
     dataFromServer;
 
-  xhr.open("POST", "/api/data/custom/json");
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.open('POST', '/api/data/custom/json');
+  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   xhr.onload = function() {
     if (xhr.status === 200) {
       console.log(JSON.parse(this.responseText)); // json formatted data, in the order requested
@@ -177,7 +194,7 @@ function updateWidget(domWidget) {
       }
 
     } else {
-      console.log("Failed to service widget.");
+      console.log('Failed to service widget.');
     }
   };
   xhr.send(JSON.stringify(updateRequest));
@@ -187,8 +204,8 @@ function updateWidget(domWidget) {
 function serviceWidgetData(updateRequest) {
   var xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "/api/data/custom/json");
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.open('POST', '/api/data/custom/json');
+  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   xhr.onload = function() {
     if (xhr.status === 200) {
       console.log(this.responseText)
@@ -201,26 +218,26 @@ function serviceWidgetData(updateRequest) {
   xhr.send(JSON.stringify(updateRequest));
 }
 
-function testWidgetService() {
-  var updateRequest = {
-    serviceURL: "https://query.yahooapis.com/v1/public/yql?q=select%20wind%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22chicago%2C%20il%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
-    jsonKeys: ["query.results.channel.wind.chill"]
-  };
+// function testWidgetService() {
+//   var updateRequest = {
+//     serviceURL: 'https://query.yahooapis.com/v1/public/yql?q=select%20wind%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22chicago%2C%20il%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys',
+//     jsonKeys: ['query.results.channel.wind.chill']
+//   };
 
-  var xhr = new XMLHttpRequest();
+//   var xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "/api/data/custom/json");
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      console.log(JSON.parse(this.responseText)); // json formatted data, in the order requested
-    } else {
-      console.log("Failed to service widget.");
-    }
-  };
+//   xhr.open('POST', '/api/data/custom/json');
+//   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+//   xhr.onload = function() {
+//     if (xhr.status === 200) {
+//       console.log(JSON.parse(this.responseText)); // json formatted data, in the order requested
+//     } else {
+//       console.log('Failed to service widget.');
+//     }
+//   };
 
-  xhr.send(JSON.stringify(updateRequest));
+//   xhr.send(JSON.stringify(updateRequest));
 
-}
+// }
 
-window.addEventListener("load", init);
+window.addEventListener('load', init);

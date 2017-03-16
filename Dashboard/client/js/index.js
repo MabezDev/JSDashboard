@@ -17,7 +17,7 @@ function init() {
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){
-      if(j == 1){
+      if(j == 1 && i == 0){
         // this is all we need to now to get rolling
         var newWidget = createWidget2(JSON.parse(WIDGET_RAW_JSON)).dom.base;
         newWidget.ondragstart = widgetDragStart;
@@ -25,7 +25,7 @@ function init() {
         newWidget.ondrop = dashboardDrop;
         columns[j].appendChild(newWidget);
       } else {
-        columns[j].appendChild(createWidget(++count, '' + count));
+        columns[j].appendChild(createWidget(++count));
       }
     }
   }
@@ -40,8 +40,6 @@ function init() {
   //widget.appendItem(createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}')));
   //console.log(JSON.stringify(widget.toJSON())); //console.log(JSON.stringify(widget.toJSON()));
   //console.log(widget.fromJSON(widget.toJSON()));
-
-  console.log(JSON.stringify(createWidget2(JSON.parse('{"type":"WIDGET","dom":{"base":{"tag":"DIV","content":"","className":"widget","id":"77","draggable":true},"title":{"tag":"P","content":"title","className":"widget_child_elements","id":"","draggable":false}},"json":{"serviceURL":"","title":""},"children":[{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}]}')).toJSON()));
 }
 
 function createWidget(id, jsonData, forBuilder) {

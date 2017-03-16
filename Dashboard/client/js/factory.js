@@ -2,8 +2,86 @@
 // Factory for creating objects used withing the dashbaord, widgets, variables etc 
 //
 
+// widget 
+var WidgetObject = {
+	type : TYPE.WIDGET,
+	dom : {  //specific to a variable but the api will be the same on all items
+		base : "",
+		title  : "",
+	},
+	json : { // set these (optional keys that only apply to this type of variable)
+		serviceURL : "", 
+		title : "",
+	} ,
+	children : [],
+	update : function(){ // then the update function pushes datachnages in the json them into the dom elements
+		console.log("Updating "+ widget.type + " with serviceURL: "+ widget.json.serviceURL);
+	},
+	toJSON : function() {
+		var toJSON =  {
+			type : this.type,
+			dom : {  //specific to a variable but the api will be the same on all items
+				base : "",
+				title  : "",
+			},
+			json : { // set these (optional keys that only apply to this type of variable)
+				serviceURL : "", 
+				title : "",
+			} ,
+			children : [],
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		toJSON.dom.title = dom2json(this.dom.title);
+		var children = [];
+		var jsonVars = this.children; // As we store a reference to the child as object we just call there toJSON function
+		for(var i=0; i<jsonVars.length; i++){
+			children.push(jsonVars[i].toJSON());
+		}
+		
+		toJSON.json.serviceURL = this.json.serviceURL;
+		toJSON.json.title = this.json.title;
+		toJSON.children = children;
+		return toJSON;
+	},
+	fromJSON : function(jsonData) { // load into this object
+		// reconstruct from json
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		var title = json2dom(domObjects.title);
+		base.appendChild(title);
+
+		
+		this.dom.base = base;
+		this.dom.title = title;
+		this.type = jsonData.type;
+		this.json.title = jsonData.json.title;
+		this.json.serviceURL = jsonData.serviceURL;
+		
+		var children = jsonData.children;
+		for(var i=0; i<children.length;i++){ 
+			if(children[i].type == TYPE.VARIABLE){// check type to create different items like labels etc
+				var variable = createVariable(children[i]);
+				console.log("Adding item of type "+ TYPE.VARIABLE);
+				//this.dom.base.appendChild(variable.dom.base);
+				this.appendItem(variable);
+			}
+		}
+
+		return this;
+	},
+	appendItem : function (itemToAdd) { 
+		this.children.push(itemToAdd); // add to children list
+		// append there dom content to the widgets
+		this.dom.base.appendChild(itemToAdd.dom.base);
+	}
+}
+
 
 function createWidget2(jsonData, id){
+	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
+	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
+
+	var newWidget = Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
 	// var div = document.createElement('div');
 	// div.id = id;
 	// 	// base creation
@@ -19,80 +97,8 @@ function createWidget2(jsonData, id){
 	// 	text.className = CSS.DRAGGABLECHILDREN;
 	// 	div.appendChild(text);
 
-	var widget = {
-		type : TYPE.WIDGET,
-		dom : {  //specific to a variable but the api will be the same on all items
-			base : "",
-			title  : "",
-		},
-		json : { // set these (optional keys that only apply to this type of variable)
-			serviceURL : "", 
-			title : "",
-		} ,
-		children : [],
-		update : function(){ // then the update function pushes datachnages in the json them into the dom elements
-			console.log("Updating "+ widget.type + " with serviceURL: "+ widget.json.serviceURL);
-		},
-		toJSON : function() {
-			var toJSON =  {
-				type : this.type,
-				dom : {  //specific to a variable but the api will be the same on all items
-					base : "",
-					title  : "",
-				},
-				json : { // set these (optional keys that only apply to this type of variable)
-					serviceURL : "", 
-					title : "",
-				} ,
-				children : [],
-			}
-			toJSON.dom.base = dom2json(this.dom.base);
-			toJSON.dom.title = dom2json(this.dom.title);
-			var children = [];
-			var jsonVars = this.children; // As we store a reference to the child as object we just call there toJSON function
-			for(var i=0; i<jsonVars.length; i++){
-				children.push(jsonVars[i].toJSON());
-			}
-			
-			toJSON.json.serviceURL = this.json.serviceURL;
-			toJSON.json.title = this.json.title;
-			toJSON.children = children;
-			return toJSON;
-		},
-		fromJSON : function(jsonData) { // load into this object
-			// reconstruct from json
-			var domObjects = jsonData.dom;
-			var base = json2dom(domObjects.base);
-			var title = json2dom(domObjects.title);
-			base.appendChild(title);
 
-			
-			this.dom.base = base;
-			this.dom.title = title;
-			this.type = jsonData.type;
-			this.json.title = jsonData.json.title;
-			this.json.serviceURL = jsonData.serviceURL;
-			
-			var children = jsonData.children;
-			for(var i=0; i<children.length;i++){ 
-				if(children[i].type == TYPE.VARIABLE){// check type to create different items like labels etc
-					var variable = createVariable(children[i]);
-					console.log("Adding item of type "+ TYPE.VARIABLE);
-					//this.dom.base.appendChild(variable.dom.base);
-					this.appendItem(variable);
-				}
-			}
-
-			return this;
-		},
-		appendItem : function (itemToAdd) { 
-			this.children.push(itemToAdd); // add to children list
-			// append there dom content to the widgets
-			this.dom.base.appendChild(itemToAdd.dom.base);
-		}
-	}
-
-	return jsonData ? widget.fromJSON(jsonData) : widget; //return blank or generate based on json input;
+	return jsonData ? newWidget.fromJSON(jsonData) : newWidget; //return blank or generate based on json input;
 } 
 
 function createVariable(jsonData){

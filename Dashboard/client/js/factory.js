@@ -3,18 +3,33 @@
 //
 
 
-function createWidget2(jsonData){
+function createWidget2(jsonData, id){
+	// var div = document.createElement('div');
+	// div.id = id;
+	// 	// base creation
+	// 	div.className = 'widget';
+	// 	div.draggable = true;
+	// 	div.ondragstart = widgetDragStart;
+	// 	div.ondragover = globalDragOver;
+	// 	div.ondrop = dashboardDrop;
+
+	// 	// blank title
+	// 	var text = document.createElement('p');
+	// 	text.textContent = "title";
+	// 	text.className = CSS.DRAGGABLECHILDREN;
+	// 	div.appendChild(text);
+
 	var widget = {
 		type : TYPE.WIDGET,
 		dom : {  //specific to a variable but the api will be the same on all items
 			base : "",
 			title  : "",
-			variables : ""
 		},
 		json : { // set these (optional keys that only apply to this type of variable)
 			serviceURL : "", 
-			title : "", 
+			title : "",
 		} ,
+		children : [],
 		update : function(){ // then the update function pushes datachnages in the json them into the dom elements
 			console.log("Updating "+ widget.type + " with serviceURL: "+ widget.json.serviceURL);
 		},
@@ -24,49 +39,60 @@ function createWidget2(jsonData){
 				dom : {  //specific to a variable but the api will be the same on all items
 					base : "",
 					title  : "",
-					variables : ""
 				},
 				json : { // set these (optional keys that only apply to this type of variable)
 					serviceURL : "", 
-					title : "", 
+					title : "",
 				} ,
+				children : [],
 			}
 			toJSON.dom.base = dom2json(this.dom.base);
-			toJSON.dom.key = dom2json(this.dom.title);
-			var variables = [];
-			for(var i=0; i<this.dom.variables.length; i++){
-				variables.push(dom2json(this.dom.variables[i]));
+			toJSON.dom.title = dom2json(this.dom.title);
+			var children = [];
+			var jsonVars = this.children; // As we store a reference to the child as object we just call there toJSON function
+			for(var i=0; i<jsonVars.length; i++){
+				children.push(jsonVars[i].toJSON());
 			}
-			toJSON.dom.value = dom2json(variables);
-
+			
 			toJSON.json.serviceURL = this.json.serviceURL;
 			toJSON.json.title = this.json.title;
+			toJSON.children = children;
 			return toJSON;
 		},
 		fromJSON : function(jsonData) { // load into this object
 			// reconstruct from json
 			var domObjects = jsonData.dom;
 			var base = json2dom(domObjects.base);
-			var title = json2dom(domObjects.key);
+			var title = json2dom(domObjects.title);
 			base.appendChild(title);
-			var domVars = domObjects.variables;
-			for(var i=0; i<domVars.length;i++){
-				base.appendChild(json2dom(domVars[i]));
-			}
 
-			var domElem = {
-				base : base,
-				key  : key,
-				value : value
-			}
-
-			this.dom = domElem;
+			
+			this.dom.base = base;
+			this.dom.title = title;
 			this.type = jsonData.type;
-			this.json.jsonKey = jsonData.json.jsonKey;
-			this.json.key = jsonData.json.key;
+			this.json.title = jsonData.json.title;
+			this.json.serviceURL = jsonData.serviceURL;
+			
+			var children = jsonData.children;
+			for(var i=0; i<children.length;i++){ 
+				if(children[i].type == TYPE.VARIABLE){// check type to create different items like labels etc
+					var variable = createVariable(children[i]);
+					console.log("Adding item of type "+ TYPE.VARIABLE);
+					//this.dom.base.appendChild(variable.dom.base);
+					this.appendItem(variable);
+				}
+			}
+
 			return this;
+		},
+		appendItem : function (itemToAdd) { 
+			this.children.push(itemToAdd); // add to children list
+			// append there dom content to the widgets
+			this.dom.base.appendChild(itemToAdd.dom.base);
 		}
 	}
+
+	return jsonData ? widget.fromJSON(jsonData) : widget; //return blank or generate based on json input;
 } 
 
 function createVariable(jsonData){

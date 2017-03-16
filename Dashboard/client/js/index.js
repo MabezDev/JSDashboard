@@ -24,6 +24,11 @@ function init() {
       }
     }
   }
+
+  var vari = createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}'));
+  console.log(vari);
+  //vari.update();
+  console.log(JSON.stringify(vari.toJSON()));
 }
 
 function createWidget(id, jsonData, forBuilder) {

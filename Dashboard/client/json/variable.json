@@ -1,0 +1,30 @@
+{
+	"type": "VARIABLE",
+	"dom": {
+		"base": {
+			"tag": "DIV",
+			"content": "",
+			"className": "",
+			"id": "variable",
+			"draggable": true
+		},
+		"key": {
+			"tag": "P",
+			"content": "Key",
+			"className": "widget_child_elements variable",
+			"id": "",
+			"draggable": false
+		},
+		"value": {
+			"tag": "P",
+			"content": "Value",
+			"className": "widget_child_elements variable",
+			"id": "",
+			"draggable": false
+		}
+	},
+	"json": {
+		"jsonKey": "",
+		"key": ""
+	}
+}

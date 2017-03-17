@@ -77,22 +77,34 @@ function addToDashboard() {
 
       // switch into empty slot
       var emptySlot = document.getElementById(slotFree);
-      emptySlot.className = 'widget';
-      emptySlot.innerHTML = wipwidget.innerHTML;
-      emptySlot.draggable = true;
-      emptySlot.ondragstart = widgetDragStart;
-      emptySlot.ondragover = globalDragOver;
-      emptySlot.ondrop = dashboardDrop;
+      // emptySlot.className = 'widget';
+      // emptySlot.innerHTML = wipwidget.innerHTML;
+      // emptySlot.draggable = true;
+      // emptySlot.ondragstart = widgetDragStart;
+      // emptySlot.ondragover = globalDragOver;
+      // emptySlot.ondrop = dashboardDrop;
+
+      //reset the builder widget
+      var currentState = wipwidget.parentNode;
+      currentState.removeChild(wipwidget); // remove the widget we built from the builder
+
+      // add drag and drop handlers
+
+      currentWidget.dom.base.draggable = true;
+      currentWidget.dom.base.ondragstart = widgetDragStart;
+      currentWidget.dom.base.ondragover = globalDragOver;
+      currentWidget.dom.base.ondrop = dashboardDrop;
+
+      var slotParent = emptySlot.parentNode;
+      slotParent.appendChild(currentWidget.dom.base); // add it to the dashbaord
+      slotParent.removeChild(emptySlot); // remove the empty slot
+      
 
       console.log("---Adding new widget to Dashboard---");
       console.log(currentWidget);
       console.log("------------------------------------");
 
       arrayOfWidgets.push(currentWidget); // add to array of widgets (global in index.js) for updating etc
-
-      //reset the builder widget
-      var currentState = wipwidget.parentNode;
-      currentState.removeChild(wipwidget);
 
       addWidgetBuilder(); // add a blank builder back tot he builder
 
@@ -144,6 +156,7 @@ function updateWidgets() {
 }
 
 function updateWidget2(widgetObject){
+  //var widgetObject = widgetObject;
   var jsonKeys = [],
   serviceURL = widgetObject.json.serviceURL;
 
@@ -169,6 +182,16 @@ function updateWidget2(widgetObject){
     if (xhr.status === 200) {
       console.log(JSON.parse(this.responseText)); // json formatted data, in the order requested
       dataFromServer = JSON.parse(this.responseText);
+
+      for(var j=0; j < dataFromServer.length; j++){
+        var returned = dataFromServer[j];
+        console.log(returned);
+        for(var k=0; k < widgetObject.children.length; k++){
+          if(widgetObject.children[k].json.jsonKey === returned.key){
+            widgetObject.children[k].dom.value.textContent = returned.value;
+          } 
+        }
+      }
 
     } else {
       console.log('Failed to service widget.');

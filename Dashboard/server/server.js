@@ -64,7 +64,12 @@ function serviceJsonWidget(req, res) {
         // }, serviceData);
 
         if (!value) value = 'KEY_NOT_FOUND';
-        values.push(value);
+
+        var toReturn = {
+          key : updateRequest.jsonKeys[i],
+          value : value
+        };
+        values.push(toReturn);
       }
       console.log(values);
       res.send(JSON.stringify(values));

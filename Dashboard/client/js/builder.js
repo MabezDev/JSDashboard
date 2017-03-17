@@ -1,5 +1,5 @@
-currentItem = undefined;
-currentWidget = undefined;
+var currentItem = undefined;
+var currentWidget = undefined;
 
 function testService() {
   var serviceUrl = document.getElementById(ID.SERVICEURL).value;

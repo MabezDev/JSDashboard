@@ -14,6 +14,8 @@ function dashboardDrop(event) {
   console.log('Type: ' + type);
   switch (type) {
     case 'widget_drag':
+
+      if(data == event.target.id) break; 
       console.log('Drop Event: ' + data + ' -> ' + event.target.id);
       var source = document.getElementById(data);
 
@@ -186,19 +188,25 @@ function globalDragOver(event) { // allow drops onto the variable builder
 
 function variableDoubleClickHandler(event) {
   var keyInput = prompt('Enter a key for the data: ', 'key');
-  var variable = document.getElementById(event.target.id);
-  if(keyInput) variable.children[0].textContent = keyInput;
+  if(keyInput){
+    currentItem.dom.key.textContent = keyInput;
+    currentItem.json.key = keyInput;
+  }
 }
 
 function titleDoubleClickHandler(event){
   var keyInput = prompt('Enter a title for the widget: ', 'Title');
-  var variable = document.getElementById(event.target.id);
-  if(keyInput) variable.textContent = keyInput;
+  if(keyInput){
+    currentWidget.dom.title.textContent = keyInput;
+    currentWidget.json.title = keyInput;
+  }
 }
 
 function labelDoubleClickHandler(event) {
   var keyInput = prompt('Enter label text: ', 'Text');
-  var variable = document.getElementById(event.target.id);
-  if(keyInput) variable.children[0].textContent = keyInput;
+  if(keyInput){
+    currentItem.dom.text.textContent = keyInput;
+    currentItem.json.text = keyInput;
+  }
 }
 

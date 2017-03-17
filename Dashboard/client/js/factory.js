@@ -2,22 +2,21 @@
 // Factory for creating objects used withing the dashbaord, widgets, variables etc 
 //
 
-// widget 
-var WidgetObject = {
-	type : TYPE.WIDGET,
-	dom : {  //specific to a variable but the api will be the same on all items
+function WidgetObject() {
+	this.type = TYPE.WIDGET;
+	this.dom = {  //specific to a variable but the api will be the same on all items
 		base : "",
 		title  : "",
-	},
-	json : { // set these (optional keys that only apply to this type of variable)
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable)
 		serviceURL : "", 
 		title : "",
-	} ,
-	children : [],
-	update : function(){ // then the update function pushes datachnages in the json them into the dom elements
+	};
+	this.children = [];
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
 		console.log("Updating "+ widget.type + " with serviceURL: "+ widget.json.serviceURL);
-	},
-	toJSON : function() {
+	};
+	this.toJSON = function() {
 		var toJSON =  {
 			type : this.type,
 			dom : {  //specific to a variable but the api will be the same on all items
@@ -42,8 +41,8 @@ var WidgetObject = {
 		toJSON.json.title = this.json.title;
 		toJSON.children = children;
 		return toJSON;
-	},
-	fromJSON : function(jsonData) { // load into this object
+	};
+	this.fromJSON = function(jsonData) { // load into this object
 		// reconstruct from json
 		var domObjects = jsonData.dom;
 		var base = json2dom(domObjects.base);
@@ -68,12 +67,119 @@ var WidgetObject = {
 		}
 
 		return this;
-	},
-	appendItem : function (itemToAdd) { 
+	};
+	this.appendItem = function (itemToAdd) { 
 		this.children.push(itemToAdd); // add to children list
 		// append there dom content to the widgets
 		this.dom.base.appendChild(itemToAdd.dom.base);
-	}
+	};
+	return this;
+};
+
+function VariableObject(){
+	this.type = TYPE.VARIABLE; // every item must have a type variable
+	this.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+		key  : "",
+		value : ""
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable)
+		jsonKey : "", 
+		key : "", 
+	};
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
+		console.log("Updating "+ variable.type + " with jsonKey: "+ variable.json.jsonKey);
+	};
+	this.toJSON = function() {
+		var toJSON =  {
+			type : this.type,
+			dom : {
+				base : "",
+				key  : "",
+				value  : ""
+			},
+			json : {
+				jsonKey : "",
+				key : ""
+			}
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		toJSON.dom.key = dom2json(this.dom.key);
+		toJSON.dom.value = dom2json(this.dom.value);
+		toJSON.json.jsonKey = this.json.jsonKey;
+		toJSON.json.key = this.json.key;
+		return toJSON;
+	};
+	this.fromJSON = function(jsonData) { // load into this object
+		// reconstruct from json
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		var key = json2dom(domObjects.key);
+		var value = json2dom(domObjects.value);
+		base.appendChild(key);
+		base.appendChild(value);
+
+		var domElem = {
+			base : base,
+			key  : key,
+			value : value
+		}
+
+		this.dom = domElem;
+		this.type = jsonData.type;
+		this.json.jsonKey = jsonData.json.jsonKey;
+		this.json.key = jsonData.json.key;
+		return this;
+	};
+}
+
+function LabelObject(){
+	this.type = TYPE.LABEL; // every item must have a type variable
+	this.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+		text  : ""
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable) 
+		text : "", 
+	};
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
+		console.log("Updating "+ variable.type + " with text: "+ variable.json.text);
+	};
+	this.toJSON = function() {
+		var toJSON =  {
+			type : TYPE.LABEL, // every item must have a type variable
+			dom : {  //specific to a variable but the api will be the same on all items
+				base : "",
+				text  : ""
+			},
+			json : { // set these (optional keys that only apply to this type of variable) 
+				text : "", 
+			}
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		toJSON.dom.text = dom2json(this.dom.text);
+		toJSON.json.text = this.json.text;
+		return toJSON;
+	};
+	this.fromJSON = function(jsonData) { // load into this object
+		// reconstruct from json
+
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		var text = json2dom(domObjects.text);
+		base.appendChild(text);
+
+		var domElem = {
+			base : base,
+			text  : text
+		}
+
+		this.dom = domElem;
+		this.type = jsonData.type;
+		this.json.text = jsonData.json.text;
+
+		return this;
+	};
 }
 
 
@@ -81,7 +187,7 @@ function createWidget2(jsonData, id){
 	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
 	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
 
-	var newWidget = Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
+	var newWidget = new WidgetObject();// Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
 	if(id){
 		var div = document.createElement('div');
 		div.id = id;
@@ -108,73 +214,33 @@ function createWidget2(jsonData, id){
 } 
 
 function createVariable(jsonData){
-	// write this in json fromJSON to create a dummy one for the builder
-
-    // variable.draggable = true; // this needs to added when its a builder template variable
-    // // implemented in dragndrop.js
-    // variable.ondragstart = variableTemplateDragStart;
-    // variable.ondragover = globalDragOver;
-    // variable.ondrop = builderDrop;
-
-	var variable = {
-		type : TYPE.VARIABLE, // every item must have a type variable
-		dom : {  //specific to a variable but the api will be the same on all items
-			base : "",
-			key  : "",
-			value : ""
-		},
-		json : { // set these (optional keys that only apply to this type of variable)
-			jsonKey : "", 
-			key : "", 
-		} ,
-		update : function(){ // then the update function pushes datachnages in the json them into the dom elements
-			console.log("Updating "+ variable.type + " with jsonKey: "+ variable.json.jsonKey);
-		},
-		toJSON : function() {
-			var toJSON =  {
-				type : this.type,
-				dom : {
-					base : "",
-					key  : "",
-					value  : ""
-				},
-				json : {
-					jsonKey : "",
-					key : ""
-				}
-			}
-			toJSON.dom.base = dom2json(this.dom.base);
-			toJSON.dom.key = dom2json(this.dom.key);
-			toJSON.dom.value = dom2json(this.dom.value);
-			toJSON.json.jsonKey = this.json.jsonKey;
-			toJSON.json.key = this.json.key;
-			return toJSON;
-		},
-		fromJSON : function(jsonData) { // load into this object
-			// reconstruct from json
-			var domObjects = jsonData.dom;
-			var base = json2dom(domObjects.base);
-			var key = json2dom(domObjects.key);
-			var value = json2dom(domObjects.value);
-			base.appendChild(key);
-			base.appendChild(value);
-
-			var domElem = {
-				base : base,
-				key  : key,
-				value : value
-			}
-
-			this.dom = domElem;
-			this.type = jsonData.type;
-			this.json.jsonKey = jsonData.json.jsonKey;
-			this.json.key = jsonData.json.key;
-			return this;
-		}
-	};
-
+    var variable = new VariableObject();
 	return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
 }
+
+function createLabel(jsonData){
+
+	// // label item
+
+ //    var labelElem = document.createElement('div');
+ //    labelElem.id = ID.TEMPLATELABEl;
+ //    labelElem.draggable = true;
+ //    // // implemented in dragndrop.js
+ //    // label.ondragstart = variableTemplateDragStart;
+ //    // label.ondragover = globalDragOver;
+ //    // label.ondrop = builderDrop;
+
+ //    var labelText = document.createElement('h2');
+ //    labelText.textContent = "Label";
+ //    labelText.className = "widget_child_elements variable";
+
+ //    labelElem.appendChild(labelText);
+
+	var label = new LabelObject();
+	return jsonData ? label.fromJSON(jsonData) : label;
+}
+
+
 
 function json2dom(jsonData){
 	var base = document.createElement(jsonData.tag);
@@ -183,75 +249,6 @@ function json2dom(jsonData){
 	base.textContent = jsonData.content;
 	base.draggable = jsonData.draggable;
 	return base;
-}
-
-function createLabel(jsonData){
-
-	// label item
-
-    var labelElem = document.createElement('div');
-    labelElem.id = ID.TEMPLATELABEl;
-    labelElem.draggable = true;
-    // // implemented in dragndrop.js
-    // label.ondragstart = variableTemplateDragStart;
-    // label.ondragover = globalDragOver;
-    // label.ondrop = builderDrop;
-
-    var labelText = document.createElement('h2');
-    labelText.textContent = "Label";
-    labelText.className = "widget_child_elements variable";
-
-    labelElem.appendChild(labelText);
-
-	var label = {
-		type : TYPE.LABEL, // every item must have a type variable
-		dom : {  //specific to a variable but the api will be the same on all items
-			base : labelElem,
-			text  : labelText
-		},
-		json : { // set these (optional keys that only apply to this type of variable) 
-			text : "Label", 
-		} ,
-		update : function(){ // then the update function pushes datachnages in the json them into the dom elements
-			console.log("Updating "+ variable.type + " with text: "+ variable.json.text);
-		},
-		toJSON : function() {
-			var toJSON =  {
-				type : TYPE.LABEL, // every item must have a type variable
-				dom : {  //specific to a variable but the api will be the same on all items
-					base : "",
-					text  : ""
-				},
-				json : { // set these (optional keys that only apply to this type of variable) 
-					text : "", 
-				}
-			}
-			toJSON.dom.base = dom2json(this.dom.base);
-			toJSON.dom.text = dom2json(this.dom.text);
-			toJSON.json.text = this.json.text;
-			return toJSON;
-		},
-		fromJSON : function(jsonData) { // load into this object
-			// reconstruct from json
-
-			var domObjects = jsonData.dom;
-			var base = json2dom(domObjects.base);
-			var text = json2dom(domObjects.text);
-			base.appendChild(text);
-
-			var domElem = {
-				base : base,
-				text  : text
-			}
-
-			this.dom = domElem;
-			this.type = jsonData.type;
-			this.json.text = jsonData.json.text;
-
-			return this;
-		}
-	};
-	return jsonData ? label.fromJSON(jsonData) : label;
 }
 
 // to save dom elemnts to json in the future, use elem.nodeName to get the type and then the textContent, className and ID in a mini json object, should be enough info

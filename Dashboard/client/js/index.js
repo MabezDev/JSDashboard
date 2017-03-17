@@ -4,6 +4,8 @@
 
 'use strict';
 
+var arrayOfWidgets = [];
+
 
 
 function init() {
@@ -11,28 +13,29 @@ function init() {
   console.log('Dashboard loading...');
   // //setInterval(updateWidgets, 3000);
 
-  // updateWidgets();
   var count = 0;
   var tableRows = document.getElementById('widget_grid').children[0].children;
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){
-      if(j == 1 && i == 0){
-        // this is all we need to now to get rolling
-        var newWidget = createWidget2(JSON.parse(WIDGET_RAW_JSON));
-        var newWidgetDom = newWidget.dom.base;
-        newWidgetDom.ondragstart = widgetDragStart;
-        newWidgetDom.ondragover = globalDragOver;
-        newWidgetDom.ondrop = dashboardDrop;
+      // if(j == 1 && i == 0){
+      //   // this is all we need to now to get rolling
+      //   var newWidget = createWidget2(JSON.parse(WIDGET_RAW_JSON));
+      //   // TODO - check if ID is in use when loaded, if it is give it the next available one
+      //   var newWidgetDom = newWidget.dom.base;
+      //   newWidgetDom.ondragstart = widgetDragStart;
+      //   newWidgetDom.ondragover = globalDragOver;
+      //   newWidgetDom.ondrop = dashboardDrop;
 
-        var label = createLabel(JSON.parse(LABEL_RAW_JSON));
-        newWidget.appendItem(label);
+      //   var label = createLabel(JSON.parse(LABEL_RAW_JSON));
+      //   newWidget.appendItem(label);
 
-        columns[j].appendChild(newWidgetDom);
-      } else {
-        //var newWidget = createWidget2(undefined,++count).dom.base;
-        columns[j].appendChild(createWidget2(undefined,++count).dom.base);
-      }
+      //   columns[j].appendChild(newWidgetDom);
+      // } else {
+      //   //var newWidget = createWidget2(undefined,++count).dom.base;
+      //   columns[j].appendChild(createWidget2(undefined,++count).dom.base);
+      // }
+      columns[j].appendChild(createWidget2(undefined,++count).dom.base); // all blank widgets
     }
   }
 
@@ -49,39 +52,9 @@ function init() {
 
   //console.log(JSON.stringify(createLabel().toJSON()));
   //console.log(JSON.stringify());
-
+  //console.log(new WidgetObject2());
+  //console.log(new Test());
 }
-
-// function createWidget(id, jsonData, forBuilder) {
-//   //jsondata should be a object that tells hwo the data should be displayed and where to get it from (have a function inside the object called update())
-//   // for now its just a title
-
-//   var div = document.createElement('div');
-//   div.id = id;
-//   if (jsonData) {
-//     // base creation
-//     div.className = 'widget';
-//     div.draggable = true;
-//     div.ondragstart = widgetDragStart;
-//     div.ondragover = globalDragOver;
-//     div.ondrop = dashboardDrop;
-
-//     // blank title
-//     var text = document.createElement('p');
-//     text.textContent = jsonData;
-//     text.className = forBuilder ? "" : CSS.DRAGGABLECHILDREN;
-//     text.id = forBuilder ? ID.WIPWIDGETTITLE : "";
-//     div.appendChild(text);
-
-//     return div;
-//   } else {
-//     div.className = 'widget hidden';
-//     // things can be dragged onto empy space
-//     div.ondragover = globalDragOver;
-//     div.ondrop = dashboardDrop;
-//     return div;
-//   }
-// }
 
 function addToDashboard() {
   var wipwidget = document.getElementById(ID.WIPWIDGET);
@@ -92,13 +65,15 @@ function addToDashboard() {
 
     var slotFree = findFreeSlot();
     if (slotFree) {
-      // add serviceURL - always the last item
-      // var hiddenURL = document.createElement('p');
-      // hiddenURL.style.display = 'none';
-      // hiddenURL.textContent = serviceURL;
-      // wipwidget.appendChild(hiddenURL);
 
-      currentWidget.json.serviceURL = serviceURL;
+      currentWidget.json.serviceURL = serviceURL; // set the service URL
+      
+      for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
+        currentWidget.children[i].dom.base.className = CSS.DRAGGABLECHILDREN;
+        currentWidget.children[i].dom.base.draggable = false;
+      }
+
+      currentWidget.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's
 
       // switch into empty slot
       var emptySlot = document.getElementById(slotFree);
@@ -109,8 +84,11 @@ function addToDashboard() {
       emptySlot.ondragover = globalDragOver;
       emptySlot.ondrop = dashboardDrop;
 
+      console.log("---Adding new widget to Dashboard---");
       console.log(currentWidget);
-      //purgeVariableHandlers(currentWidget);
+      console.log("------------------------------------");
+
+      arrayOfWidgets.push(currentWidget); // add to array of widgets (global in index.js) for updating etc
 
       //reset the builder widget
       var currentState = wipwidget.parentNode;
@@ -125,24 +103,6 @@ function addToDashboard() {
     }
   } else {
     console.log('ServiceURL cannot be empty!');
-  }
-}
-
-function purgeVariableHandlers(currentWidget){
-  // var title = domWidget.children[0];
-  // title.className = CSS.DRAGGABLECHILDREN;
-  // title.id = "";
-  // var variables = domWidget.children;
-  // for (var i = 1; i < variables.length - 1; i++) { //-1 as the last item is the service URL, start at 1 because the first elemtn is the title
-  //   variables[i].draggable = false;
-  //   variables[i].ondragstart = undefined;
-  //   variables[i].ondragover = undefined;
-  //   variables[i].ondrop = undefined;
-  //   variables[i].className = CSS.DRAGGABLECHILDREN; // must be appended to every item that should not be targetable by pointer events
-  // }
-
-  for(var i=0; i<currentWidget.children.length; i++){
-    console.log(currentWidget.children[i]);
   }
 }
 
@@ -176,11 +136,46 @@ function findFreeSlot(){
 }
 
 function updateWidgets() {
-  var widgets = getWidgetsAsArray();
-  for (var widget of widgets) {
-    console.log('Updating widet with ID: ' + widget.id);
-    updateWidget(widget);
+  //var widgets = getWidgetsAsArray();
+  for (var widget of arrayOfWidgets) {
+    console.log('Updating widget with ID: ' + widget.dom.base.id);
+    updateWidget2(widget);
   }
+}
+
+function updateWidget2(widgetObject){
+  var jsonKeys = [],
+  serviceURL = widgetObject.json.serviceURL;
+
+  for(var i=0; i < widgetObject.children.length; i++){
+    if(widgetObject.children[i].type == TYPE.VARIABLE){
+      jsonKeys.push(widgetObject.children[i].json.jsonKey);
+    }
+  }
+
+  if (!serviceURL || jsonKeys.length == 0) return;
+
+  var updateRequest = {
+    serviceURL: serviceURL,
+    jsonKeys: jsonKeys
+  };
+
+  var xhr = new XMLHttpRequest(),
+    dataFromServer;
+
+  xhr.open('POST', '/api/data/custom/json');
+  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log(JSON.parse(this.responseText)); // json formatted data, in the order requested
+      dataFromServer = JSON.parse(this.responseText);
+
+    } else {
+      console.log('Failed to service widget.');
+    }
+  };
+  xhr.send(JSON.stringify(updateRequest));
+
 }
 
 function updateWidget(domWidget) {

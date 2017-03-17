@@ -2,9 +2,12 @@
 
 var ID = {
   BUILDER: 'widget_builder',
-  WIPWIDGET: 'builder_base',
-  WIPWIDGETTITLE: 'builder_base_title',
+  WIPWIDGET: 'wip_widget',
+  WIPWIDGETTITLE: 'wip_widget_title',
   VARIABLE: 'variable',
+  LABEL: 'label',
+  VARIABLE_DISPLAY: 'variable_display',
+  LABEL_DISPLAY: 'label_display',
   WIDGETGRID: 'grid_container',
   // builder containers
   ITEMCONTAINER: 'item_palette_container',

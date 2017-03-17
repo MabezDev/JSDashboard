@@ -38,14 +38,16 @@
 #current_state_container {
     display: block;
     min-height: 70vh;
-    min-width: : 70vw;
+    min-width: : 300px;
+    width: 400px;
     background-color: purple;
 }
 
 #variable_builder_container {
     display: block;
     min-height: 70vh;
-    min-width: : 70vw;
+    min-width: : 300px;
+    width: 400px;
     background-color: green;
 }
 
@@ -63,14 +65,15 @@
 #variable_builder {
     height: 100%;
     width: 100%;
-    display: inline-table;
+    /*width: 300px;
+    height: 300px;*/
+    min-height: 70vh;
 }
 
-#builder_base {
+#wip_widget {
     height: 100%;
     width: 100%;
     min-height: 70vh;
-    display: inline-table;
 }
 
 #service_output { /*TODO: should by dynamic not a set pixel width and height */

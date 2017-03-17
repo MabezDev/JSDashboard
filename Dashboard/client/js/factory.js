@@ -248,7 +248,6 @@ function createLabel(jsonData){
 			this.type = jsonData.type;
 			this.json.text = jsonData.json.text;
 
-			console.log(this);
 			return this;
 		}
 	};

@@ -1,3 +1,6 @@
+currentItem = undefined;
+currentWidget = undefined;
+
 function testService() {
   var serviceUrl = document.getElementById(ID.SERVICEURL).value;
   var listElement = document.getElementById(ID.SERVICELIST);
@@ -35,54 +38,31 @@ function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
   panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
 
-  var currentState = document.getElementById('current_state_container');
-  var widget = document.getElementById(ID.WIPWIDGET);
-
-  if (!widget) { // if there isn't a widget already being built, add a blank one
-    var widget = createWidget(ID.WIPWIDGET, 'Click to set title', true);
-    widget.className = 'widget_blank';
-    widget.ondrop = builderDrop;
-    widget.children[0].ondblclick = titleDoubleClickHandler; // set click handler on title
-    currentState.append(widget);
-  }
+  // make sure a builder widget is in place
+  addWidgetBuilder();
 
   //create item palette and add items
   var itemContainer = document.getElementById(ID.ITEMCONTAINER); //container
 
-  if (itemContainer.children.length == 0) {
-    var variable = document.createElement('div');
-    variable.id = ID.TEMPLATEVARIABLE;
-    variable.draggable = true;
+  if (itemContainer.children.length < 2) {
+    // add a display variable
+    var variable = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON));
     // implemented in dragndrop.js
-    variable.ondragstart = variableTemplateDragStart;
-    variable.ondragover = globalDragOver;
-    variable.ondrop = builderDrop;
+    variable.dom.base.ondragstart = variableTemplateDragStart;
+    variable.dom.base.ondragover = globalDragOver;
+    variable.dom.base.ondrop = builderDrop;
 
-    var key = document.createElement('p');
-    key.textContent = 'Key'
-    key.className = 'widget_child_elements variable';
+    itemContainer.appendChild(variable.dom.base);
 
+    // add a display label
 
-    var value = document.createElement('p');
-    value.textContent = 'Value'
-    value.className = 'widget_child_elements variable';
+    var label = createLabel(JSON.parse(LABEL_DISPLAY_JSON));
 
-    var type = document.createElement('p');
-    type.textContent = variable.id;
-    type.style.display = 'none';
+    label.dom.base.ondragstart = variableTemplateDragStart;
+    label.dom.base.ondragover = globalDragOver;
+    label.dom.base.ondrop = builderDrop;
 
-    var jsonKey = document.createElement('p');
-    jsonKey.textContent = 'default'
-    jsonKey.style.display = 'none';
-
-
-    variable.appendChild(key);
-    variable.appendChild(value);
-    variable.appendChild(type);
-    variable.appendChild(jsonKey);
-
-
-    itemContainer.appendChild(variable);
+    itemContainer.appendChild(label.dom.base);
   }
 
   // create slot for variable to be dropped onto
@@ -100,6 +80,21 @@ function toggleBuilder() {
 
 
 
+}
+
+function addWidgetBuilder(){
+  var currentState = document.getElementById('current_state_container');
+  var widget = document.getElementById(ID.WIPWIDGET);
+
+  if (!widget) { // if there isn't a widget already being built, add a blank one
+    var widget = createWidget2(JSON.parse(BUILDER_WIDGET_JSON));
+    widget.dom.title.ondblclick = titleDoubleClickHandler; // set click handler on title
+    widget.dom.base.ondrop = builderDrop;
+    widget.dom.base.ondragover = globalDragOver;
+    currentState.append(widget.dom.base);
+
+    currentWidget = widget;
+  }
 }
 
 

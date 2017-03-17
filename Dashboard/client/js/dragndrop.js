@@ -50,47 +50,62 @@ function builderDrop(event) {
   var dataTransfer = JSON.parse(event.dataTransfer.getData('data'));
   var source = dataTransfer.source;
 
-  //console.log('Source : '+ source + ' || Destination : '+ destinationID);
+  console.log('Source : '+ source + ' || Destination : '+ destinationID);
 
   switch (destinationID) {
-    case 'builder_base':
+    case ID.WIPWIDGET:
       //console.log('Dropping ' + source + ' onto the development widget.');
       if (source == 'variable_drag') {
         // add variable to widget
         console.log('Adding a variable to widget.');
-        var widgetBuilderBase = document.getElementById('builder_base');
-        var currentVariable = document.getElementById('variable');
-        currentVariable.id = ''; //remove id so it doesnt break the builder
-
-        widgetBuilderBase.appendChild(currentVariable);
+        currentItem.dom.base.id = ""; // remove id so we don't break the builder
+        //currentItem.dom.base.className += CSS.DRAGGABLECHILDREN;
+        currentWidget.appendItem(currentItem);
 
       }
       break;
-    case 'variable':
+    case ID.VARIABLE_DISPLAY:
       //console.log('Dropping ' + source + ' onto a variable');
       if (source == 'data_drag') {
         console.log('Adding a data source to variable.');
-        var currentVariable = document.getElementById('variable');
-        currentVariable.children[1].textContent = dataTransfer.data;
-        currentVariable.children[currentVariable.children.length - 1].textContent = dataTransfer.data; // actual jsonKey - always last
+        // var currentVariable = document.getElementById('variable');
+        // currentVariable.children[1].textContent = dataTransfer.data;
+        // currentVariable.children[currentVariable.children.length - 1].textContent = dataTransfer.data; // actual jsonKey - always last
+        currentItem.dom.value.textContent = dataTransfer.data;
+        currentItem.json.jsonKey = dataTransfer.data;
+
       }
       break;
-    case 'variable_builder':
+    case ID.VARIABLESLOT:
       //console.log('Dropping ' + source + ' onto a variable_builder');
       if (source == 'variable_template_drag') {
         // adding a blank variable to the builder to be built
         console.log('Adding a variable_template to the variable builder.');
 
-        var variableBuilder = document.getElementById('variable_builder');
-        var newVariable = document.getElementById(dataTransfer.data).cloneNode(true);
+        var variableBuilder = document.getElementById(ID.VARIABLESLOT);
+        //var newVariable = document.getElementById(dataTransfer.data).cloneNode(true);
+
+        //console.log(ID: dataTransfer.data);
 
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
-          newVariable.id = 'variable';
-          newVariable.ondragstart = variableDragStart;
-          newVariable.ondragover = globalDragOver;
-          newVariable.ondblclick = variableDoubleClickHandler;
-          variableBuilder.appendChild(newVariable);
+
+          switch(dataTransfer.data){
+            case ID.LABEL_DISPLAY :
+              currentItem = createLabel(JSON.parse(LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
+              currentItem.dom.base.ondblclick = labelDoubleClickHandler;
+              break;
+            case ID.VARIABLE_DISPLAY :
+              currentItem = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON));
+              currentItem.dom.base.ondblclick = variableDoubleClickHandler;
+              break;
+          }
+
+
+          currentItem.dom.base.ondragstart = variableDragStart;
+          currentItem.dom.base.ondragover = globalDragOver;
+
+          variableBuilder.appendChild(currentItem.dom.base);
         } else {
           // ask to replace current widget they are working on
         }
@@ -150,6 +165,17 @@ function variableTemplateDragStart(event) {
   event.dataTransfer.dropEffect = 'move';
 }
 
+// // for label
+
+// function variableTemplateDragStart(event) {
+//   var data = JSON.stringify({
+//     source: 'label_template_drag',
+//     data: event.target.id
+//   });
+//   event.dataTransfer.setData('data', data);
+//   event.dataTransfer.dropEffect = 'move';
+// }
+
 // global drag over
 
 function globalDragOver(event) { // allow drops onto the variable builder
@@ -166,7 +192,13 @@ function variableDoubleClickHandler(event) {
 
 function titleDoubleClickHandler(event){
   var keyInput = prompt('Enter a title for the widget: ', 'Title');
-  var title = document.getElementById(event.target.id);
-  if(keyInput) title.textContent = keyInput;
+  var variable = document.getElementById(event.target.id);
+  if(keyInput) variable.textContent = keyInput;
+}
+
+function labelDoubleClickHandler(event) {
+  var keyInput = prompt('Enter label text: ', 'Text');
+  var variable = document.getElementById(event.target.id);
+  if(keyInput) variable.children[0].textContent = keyInput;
 }
 

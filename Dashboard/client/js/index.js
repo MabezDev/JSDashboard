@@ -93,10 +93,12 @@ function addToDashboard() {
     var slotFree = findFreeSlot();
     if (slotFree) {
       // add serviceURL - always the last item
-      var hiddenURL = document.createElement('p');
-      hiddenURL.style.display = 'none';
-      hiddenURL.textContent = serviceURL;
-      wipwidget.appendChild(hiddenURL);
+      // var hiddenURL = document.createElement('p');
+      // hiddenURL.style.display = 'none';
+      // hiddenURL.textContent = serviceURL;
+      // wipwidget.appendChild(hiddenURL);
+
+      currentWidget.json.serviceURL = serviceURL;
 
       // switch into empty slot
       var emptySlot = document.getElementById(slotFree);
@@ -107,18 +109,14 @@ function addToDashboard() {
       emptySlot.ondragover = globalDragOver;
       emptySlot.ondrop = dashboardDrop;
 
-      purgeVariableHandlers(emptySlot);
+      console.log(currentWidget);
+      //purgeVariableHandlers(currentWidget);
 
       //reset the builder widget
       var currentState = wipwidget.parentNode;
       currentState.removeChild(wipwidget);
 
-      var widget = createWidget(ID.WIPWIDGET, 'Click to set title');
-      widget.className = 'widget_blank';
-      widget.ondrop = builderDrop;
-      widget.children[0].ondblclick = titleDoubleClickHandler;
-      widget.children[0].className = "";
-      currentState.append(widget);
+      addWidgetBuilder(); // add a blank builder back tot he builder
 
       updateWidgets();
 
@@ -130,17 +128,21 @@ function addToDashboard() {
   }
 }
 
-function purgeVariableHandlers(domWidget){
-  var title = domWidget.children[0];
-  title.className = CSS.DRAGGABLECHILDREN;
-  title.id = "";
-  var variables = domWidget.children;
-  for (var i = 1; i < variables.length - 1; i++) { //-1 as the last item is the service URL, start at 1 because the first elemtn is the title
-    variables[i].draggable = false;
-    variables[i].ondragstart = undefined;
-    variables[i].ondragover = undefined;
-    variables[i].ondrop = undefined;
-    variables[i].className = CSS.DRAGGABLECHILDREN; // must be appended to every item that should not be targetable by pointer events
+function purgeVariableHandlers(currentWidget){
+  // var title = domWidget.children[0];
+  // title.className = CSS.DRAGGABLECHILDREN;
+  // title.id = "";
+  // var variables = domWidget.children;
+  // for (var i = 1; i < variables.length - 1; i++) { //-1 as the last item is the service URL, start at 1 because the first elemtn is the title
+  //   variables[i].draggable = false;
+  //   variables[i].ondragstart = undefined;
+  //   variables[i].ondragover = undefined;
+  //   variables[i].ondrop = undefined;
+  //   variables[i].className = CSS.DRAGGABLECHILDREN; // must be appended to every item that should not be targetable by pointer events
+  // }
+
+  for(var i=0; i<currentWidget.children.length; i++){
+    console.log(currentWidget.children[i]);
   }
 }
 

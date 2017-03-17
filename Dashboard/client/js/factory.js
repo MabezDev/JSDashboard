@@ -81,21 +81,27 @@ function createWidget2(jsonData, id){
 	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
 	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
 
-	var newWidget = Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
-	// var div = document.createElement('div');
-	// div.id = id;
-	// 	// base creation
-	// 	div.className = 'widget';
-	// 	div.draggable = true;
-	// 	div.ondragstart = widgetDragStart;
-	// 	div.ondragover = globalDragOver;
-	// 	div.ondrop = dashboardDrop;
+	var newWidget = Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
+	if(id){
+		var div = document.createElement('div');
+		div.id = id;
+		// base creation
+		div.className = 'widget hidden';
+		div.draggable = false;
+		// things can be dragged onto empy space
+		div.ondragover = globalDragOver;
+		div.ondrop = dashboardDrop;
 
-	// 	// blank title
-	// 	var text = document.createElement('p');
-	// 	text.textContent = "title";
-	// 	text.className = CSS.DRAGGABLECHILDREN;
-	// 	div.appendChild(text);
+		// blank title
+		var text = document.createElement('p');
+		text.textContent = "";
+		text.className = CSS.DRAGGABLECHILDREN;
+		div.appendChild(text);
+
+		// assign to new widget
+		newWidget.dom.base = div;
+		newWidget.dom.title = text;
+	}
 
 
 	return jsonData ? newWidget.fromJSON(jsonData) : newWidget; //return blank or generate based on json input;
@@ -179,9 +185,75 @@ function json2dom(jsonData){
 	return base;
 }
 
-// function createLabel(){
+function createLabel(jsonData){
 
-// }
+	// label item
+
+    var labelElem = document.createElement('div');
+    labelElem.id = ID.TEMPLATELABEl;
+    labelElem.draggable = true;
+    // // implemented in dragndrop.js
+    // label.ondragstart = variableTemplateDragStart;
+    // label.ondragover = globalDragOver;
+    // label.ondrop = builderDrop;
+
+    var labelText = document.createElement('h2');
+    labelText.textContent = "Label";
+    labelText.className = "widget_child_elements variable";
+
+    labelElem.appendChild(labelText);
+
+	var label = {
+		type : TYPE.LABEL, // every item must have a type variable
+		dom : {  //specific to a variable but the api will be the same on all items
+			base : labelElem,
+			text  : labelText
+		},
+		json : { // set these (optional keys that only apply to this type of variable) 
+			text : "Label", 
+		} ,
+		update : function(){ // then the update function pushes datachnages in the json them into the dom elements
+			console.log("Updating "+ variable.type + " with text: "+ variable.json.text);
+		},
+		toJSON : function() {
+			var toJSON =  {
+				type : TYPE.LABEL, // every item must have a type variable
+				dom : {  //specific to a variable but the api will be the same on all items
+					base : "",
+					text  : ""
+				},
+				json : { // set these (optional keys that only apply to this type of variable) 
+					text : "", 
+				}
+			}
+			toJSON.dom.base = dom2json(this.dom.base);
+			toJSON.dom.text = dom2json(this.dom.text);
+			toJSON.json.text = this.json.text;
+			return toJSON;
+		},
+		fromJSON : function(jsonData) { // load into this object
+			// reconstruct from json
+
+			var domObjects = jsonData.dom;
+			var base = json2dom(domObjects.base);
+			var text = json2dom(domObjects.text);
+			base.appendChild(text);
+
+			var domElem = {
+				base : base,
+				text  : text
+			}
+
+			this.dom = domElem;
+			this.type = jsonData.type;
+			this.json.text = jsonData.json.text;
+
+			console.log(this);
+			return this;
+		}
+	};
+	return jsonData ? label.fromJSON(jsonData) : label;
+}
 
 // to save dom elemnts to json in the future, use elem.nodeName to get the type and then the textContent, className and ID in a mini json object, should be enough info
 function dom2json(domElement){

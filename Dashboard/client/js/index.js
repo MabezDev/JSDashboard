@@ -19,13 +19,19 @@ function init() {
     for(var j=0; j<columns.length; j++){
       if(j == 1 && i == 0){
         // this is all we need to now to get rolling
-        var newWidget = createWidget2(JSON.parse(WIDGET_RAW_JSON)).dom.base;
-        newWidget.ondragstart = widgetDragStart;
-        newWidget.ondragover = globalDragOver;
-        newWidget.ondrop = dashboardDrop;
-        columns[j].appendChild(newWidget);
+        var newWidget = createWidget2(JSON.parse(WIDGET_RAW_JSON));
+        var newWidgetDom = newWidget.dom.base;
+        newWidgetDom.ondragstart = widgetDragStart;
+        newWidgetDom.ondragover = globalDragOver;
+        newWidgetDom.ondrop = dashboardDrop;
+
+        var label = createLabel(JSON.parse(LABEL_RAW_JSON));
+        newWidget.appendItem(label);
+
+        columns[j].appendChild(newWidgetDom);
       } else {
-        columns[j].appendChild(createWidget(++count));
+        //var newWidget = createWidget2(undefined,++count).dom.base;
+        columns[j].appendChild(createWidget2(undefined,++count).dom.base);
       }
     }
   }
@@ -40,38 +46,42 @@ function init() {
   //widget.appendItem(createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}')));
   //console.log(JSON.stringify(widget.toJSON())); //console.log(JSON.stringify(widget.toJSON()));
   //console.log(widget.fromJSON(widget.toJSON()));
+
+  //console.log(JSON.stringify(createLabel().toJSON()));
+  //console.log(JSON.stringify());
+
 }
 
-function createWidget(id, jsonData, forBuilder) {
-  //jsondata should be a object that tells hwo the data should be displayed and where to get it from (have a function inside the object called update())
-  // for now its just a title
+// function createWidget(id, jsonData, forBuilder) {
+//   //jsondata should be a object that tells hwo the data should be displayed and where to get it from (have a function inside the object called update())
+//   // for now its just a title
 
-  var div = document.createElement('div');
-  div.id = id;
-  if (jsonData) {
-    // base creation
-    div.className = 'widget';
-    div.draggable = true;
-    div.ondragstart = widgetDragStart;
-    div.ondragover = globalDragOver;
-    div.ondrop = dashboardDrop;
+//   var div = document.createElement('div');
+//   div.id = id;
+//   if (jsonData) {
+//     // base creation
+//     div.className = 'widget';
+//     div.draggable = true;
+//     div.ondragstart = widgetDragStart;
+//     div.ondragover = globalDragOver;
+//     div.ondrop = dashboardDrop;
 
-    // blank title
-    var text = document.createElement('p');
-    text.textContent = jsonData;
-    text.className = forBuilder ? "" : CSS.DRAGGABLECHILDREN;
-    text.id = forBuilder ? ID.WIPWIDGETTITLE : "";
-    div.appendChild(text);
+//     // blank title
+//     var text = document.createElement('p');
+//     text.textContent = jsonData;
+//     text.className = forBuilder ? "" : CSS.DRAGGABLECHILDREN;
+//     text.id = forBuilder ? ID.WIPWIDGETTITLE : "";
+//     div.appendChild(text);
 
-    return div;
-  } else {
-    div.className = 'widget hidden';
-    // things can be dragged onto empy space
-    div.ondragover = globalDragOver;
-    div.ondrop = dashboardDrop;
-    return div;
-  }
-}
+//     return div;
+//   } else {
+//     div.className = 'widget hidden';
+//     // things can be dragged onto empy space
+//     div.ondragover = globalDragOver;
+//     div.ondrop = dashboardDrop;
+//     return div;
+//   }
+// }
 
 function addToDashboard() {
   var wipwidget = document.getElementById(ID.WIPWIDGET);

@@ -53,3 +53,5 @@ var WIDGET_RAW_JSON = '{\
 		}\
 	]\
 }';
+
+var LABEL_RAW_JSON = '{"type":"LABEL","dom":{"base":{"tag":"DIV","content":"","className":"widget_child_elements","id":"undefined","draggable":true},"text":{"tag":"H2","content":"Label","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"text":"Label"}}';

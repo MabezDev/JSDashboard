@@ -3,6 +3,7 @@ TODO
 [Major]
 	- Implement a trashcan to remove widgets and items in the builder
 	- Implement a way to save widgets to the server
+	- set Update intervals
 	- Make it look good!
 
 

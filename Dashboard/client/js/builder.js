@@ -14,6 +14,8 @@ function testServiceForJSONKeys() {
       var jsonObj = JSON.parse(this.responseText);
       var dotNotation = listPaths(jsonObj);
 
+      listElement.innerHTML = "";
+
       for (var i = 0; i < dotNotation.length; i++) {
         var option = document.createElement('option');
         option.textContent = dotNotation[i];
@@ -45,6 +47,8 @@ function addToDashFromBuilder(){
         currentWidget.children[i].dom.base.draggable = false;
       }
 
+      currentWidget.dom.title.className = CSS.DRAGGABLECHILDREN; // stop the double click handler
+
       currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
 
       //reset the builder widget
@@ -71,13 +75,23 @@ function toggleBuilder() {
 
   if (itemContainer.children.length < 2) {
     // add a display variable
-    var variable = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON));
+    var variable = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON), TYPE.VARIABLE);
     // implemented in dragndrop.js
     variable.dom.base.ondragstart = itemTemplateDragStart;
     variable.dom.base.ondragover = globalDragOver;
     variable.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(variable.dom.base);
+
+    // add variable with units
+
+    var variableUnit = createVariable(JSON.parse(VARIABLE_UNIT_DISPLAY_JSON), TYPE.VARIABLEUNIT);
+
+    variableUnit.dom.base.ondragstart = itemTemplateDragStart;
+    variableUnit.dom.base.ondragover = globalDragOver;
+    variableUnit.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(variableUnit.dom.base);
 
     // add a display label
 
@@ -88,6 +102,15 @@ function toggleBuilder() {
     label.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(label.dom.base);
+
+    // add a big label
+
+    var bigLabel = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON));
+    bigLabel.dom.base.ondragstart = itemTemplateDragStart;
+    bigLabel.dom.base.ondragover = globalDragOver;
+    bigLabel.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(bigLabel.dom.base);
   }
 
   // create slot for variable to be dropped onto
@@ -112,7 +135,7 @@ function addWidgetBuilder(){
   var widget = document.getElementById(ID.WIPWIDGET);
 
   if (!widget) { // if there isn't a widget already being built, add a blank one
-    var widget = createWidget2(JSON.parse(BUILDER_WIDGET_JSON));
+    var widget = createWidget(JSON.parse(BUILDER_WIDGET_JSON));
     widget.dom.title.ondblclick = titleDoubleClickHandler; // set click handler on title
     widget.dom.base.ondrop = builderDrop;
     widget.dom.base.ondragover = globalDragOver;

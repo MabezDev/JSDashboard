@@ -2,6 +2,60 @@
 // Factory for creating objects used withing the dashbaord, widgets, variables etc 
 //
 
+/*
+	Item creators
+*/
+function createWidget(jsonData, id){
+	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
+	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
+
+	var newWidget = new WidgetObject();// Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
+	if(id){
+		var div = document.createElement('div');
+		div.id = id;
+		// base creation
+		div.className = 'widget hidden';
+		div.draggable = false;
+		// things can be dragged onto empy space
+		div.ondragover = globalDragOver;
+		div.ondrop = dashboardDrop;
+
+		// blank title
+		var text = document.createElement('p');
+		text.textContent = "";
+		text.className = CSS.DRAGGABLECHILDREN;
+		div.appendChild(text);
+
+		// assign to new widget
+		newWidget.dom.base = div;
+		newWidget.dom.title = text;
+	}
+
+
+	return jsonData ? newWidget.fromJSON(jsonData) : newWidget; //return blank or generate based on json input;
+} 
+
+function createVariable(jsonData, type){
+	if(type == TYPE.VARIABLE){
+	    var variable = new VariableObject();
+		return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
+	} else if(type == TYPE.VARIABLEUNIT){
+		var variable = new VariableUnitObject();
+		return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
+	} else {
+		console.log("Can't create variable from " + type);
+	}
+}
+
+function createLabel(jsonData){
+	var label = new LabelObject();
+	return jsonData ? label.fromJSON(jsonData) : label;
+}
+
+/*
+	Item Objects to be instantiated ONLY! (i.e new WidgetObject())
+*/
+
 function WidgetObject() {
 	this.type = TYPE.WIDGET;
 	this.dom = {  //specific to a variable but the api will be the same on all items
@@ -57,12 +111,17 @@ function WidgetObject() {
 		this.json.serviceURL = jsonData.json.serviceURL;
 		
 		var children = jsonData.children;
-		for(var i=0; i<children.length;i++){ 
+		for(var i=0; i<children.length;i++){
+			console.log("Adding item of type "+ children[i].type); 
 			if(children[i].type == TYPE.VARIABLE){// check type to create different items like labels etc
-				var variable = createVariable(children[i]);
-				console.log("Adding item of type "+ TYPE.VARIABLE);
-				//this.dom.base.appendChild(variable.dom.base);
+				var variable = createVariable(children[i], TYPE.VARIABLE);
 				this.appendItem(variable);
+			} else if(children[i].type == TYPE.VARIABLEUNIT) {
+				var variable = createVariable(children[i], TYPE.VARIABLEUNIT);
+				this.appendItem(variable);
+			} else if(children[i].type == TYPE.LABEL){
+				var label = createLabel(children[i], TYPE.LABEL);
+				this.appendItem(label);
 			}
 		}
 
@@ -182,65 +241,78 @@ function LabelObject(){
 	};
 }
 
+function VariableUnitObject(){
+	this.type = TYPE.VARIABLEUNIT; // every item must have a type variable
+	this.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+		key  : "",
+		value : "",
+		unit : ""
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable)
+		jsonKey : "", 
+		key : "", 
+		unit : ""
+	};
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
+		console.log("Updating "+ this.type);
+	};
+	this.toJSON = function() {
+		var toJSON =  {
+			type : this.type,
+			dom : {
+				base : "",
+				key  : "",
+				value : "",
+				unit : ""
+			},
+			json : {
+				jsonKey : "",
+				key : "",
+				unit : ""
+			}
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		toJSON.dom.key = dom2json(this.dom.key);
+		toJSON.dom.value = dom2json(this.dom.value);
+		toJSON.dom.unit = dom2json(this.dom.unit);
 
-function createWidget2(jsonData, id){
-	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
-	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
+		toJSON.json.jsonKey = this.json.jsonKey;
+		toJSON.json.key = this.json.key;
+		toJSON.json.unit = this.json.unit;
+		return toJSON;
+	};
+	this.fromJSON = function(jsonData) { // load into this object
+		// reconstruct from json
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		var key = json2dom(domObjects.key);
+		var value = json2dom(domObjects.value);
+		var unit = json2dom(domObjects.unit);
 
-	var newWidget = new WidgetObject();// Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
-	if(id){
-		var div = document.createElement('div');
-		div.id = id;
-		// base creation
-		div.className = 'widget hidden';
-		div.draggable = false;
-		// things can be dragged onto empy space
-		div.ondragover = globalDragOver;
-		div.ondrop = dashboardDrop;
+		base.appendChild(key);
+		base.appendChild(value);
+		base.appendChild(unit);
 
-		// blank title
-		var text = document.createElement('p');
-		text.textContent = "";
-		text.className = CSS.DRAGGABLECHILDREN;
-		div.appendChild(text);
+		var domElem = {
+			base : base,
+			key  : key,
+			value : value,
+			unit : unit
+		}
 
-		// assign to new widget
-		newWidget.dom.base = div;
-		newWidget.dom.title = text;
-	}
-
-
-	return jsonData ? newWidget.fromJSON(jsonData) : newWidget; //return blank or generate based on json input;
-} 
-
-function createVariable(jsonData){
-    var variable = new VariableObject();
-	return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
+		this.dom = domElem;
+		this.type = jsonData.type;
+		this.json.jsonKey = jsonData.json.jsonKey;
+		this.json.key = jsonData.json.key;
+		this.json.unit = jsonData.json.unit;
+		return this;
+	};
 }
 
-function createLabel(jsonData){
-
-	// // label item
-
- //    var labelElem = document.createElement('div');
- //    labelElem.id = ID.TEMPLATELABEl;
- //    labelElem.draggable = true;
- //    // // implemented in dragndrop.js
- //    // label.ondragstart = variableTemplateDragStart;
- //    // label.ondragover = globalDragOver;
- //    // label.ondrop = builderDrop;
-
- //    var labelText = document.createElement('h2');
- //    labelText.textContent = "Label";
- //    labelText.className = "widget_child_elements variable";
-
- //    labelElem.appendChild(labelText);
-
-	var label = new LabelObject();
-	return jsonData ? label.fromJSON(jsonData) : label;
-}
-
-
+/*
+	Helper functions for converting to and from json and dom elements
+*/
 
 function json2dom(jsonData){
 	var base = document.createElement(jsonData.tag);

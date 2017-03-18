@@ -1,7 +1,10 @@
 TODO
 
+[Major]
+	- Implement a trashcan to remove widgets and items in the builder
+	- Implement a way to save widgets to the server
+	- Make it look good!
 
-- add label item for the item pallete just to title things/sections within a widget
-- change the builder from containers to a table, should stop the wierd movements
-- remove all drag and drop handles from variables once added to widget - DONE (added CSS.DRAGGABLECHILDREN)
-- remove title form first dummy widget - [NOPE] - keeping title as a requirement
+
+[Minor]
+	- Implement the account creation etc if we have time

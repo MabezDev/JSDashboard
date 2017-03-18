@@ -7,8 +7,13 @@ var ID = {
 
   VARIABLE: 'variable',
   LABEL: 'label',
+  BIG_LABEL_DISPLAY: 'big_label',
+  VARIABLEUNIT: 'variable_unit',
+
   VARIABLE_DISPLAY: 'variable_display',
   LABEL_DISPLAY: 'label_display',
+  BIG_LABEL_DISPLAY: 'big_label_display',
+  VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
   
   WIDGETGRID: 'grid_container',
   // builder containers
@@ -29,5 +34,5 @@ var TYPE = {
   VARIABLE : "VARIABLE",
   LABEL : "LABEL",
   WIDGET : "WIDGET",
-  WIDGET_BLANK : "WIDGET_BLANK"
+  VARIABLEUNIT : "VARIABLEWITHUNIT"
 };

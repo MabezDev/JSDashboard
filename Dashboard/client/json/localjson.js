@@ -1,60 +1,32 @@
-var WIDGET_RAW_JSON = '{\
+/*
+	This file stores the json data to create template Items for the builder
+*/
+
+
+var BUILDER_WIDGET_JSON = '{\
 	"type": "WIDGET",\
 	"dom": {\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
 			"className": "widget",\
-			"id": "77",\
+			"id": "wip_widget",\
 			"draggable": true\
 		},\
 		"title": {\
 			"tag": "P",\
-			"content": "title",\
-			"className": "widget_child_elements",\
-			"id": "",\
+			"content": "Click here to set title",\
+			"className": "",\
+			"id": "wip_widget_title",\
 			"draggable": false\
 		}\
 	},\
 	"json": {\
 		"serviceURL": "",\
-		"title": ""\
+		"title": "Click here to set title"\
 	},\
-	"children": [\
-		{\
-			"type": "VARIABLE",\
-			"dom": {\
-				"base": {\
-					"tag": "DIV",\
-					"content": "",\
-					"className": "widget_child_elements",\
-					"id": "variable",\
-					"draggable": false\
-				},\
-				"key": {\
-					"tag": "P",\
-					"content": "Key",\
-					"className": "widget_child_elements variable",\
-					"id": "",\
-					"draggable": false\
-				},\
-				"value": {\
-					"tag": "P",\
-					"content": "Value",\
-					"className": "widget_child_elements variable",\
-					"id": "",\
-					"draggable": false\
-				}\
-			},\
-			"json": {\
-				"jsonKey": "test",\
-				"key": "test2"\
-			}\
-		}\
-	]\
-}';
-
-var LABEL_RAW_JSON = '{"type":"LABEL","dom":{"base":{"tag":"DIV","content":"","className":"widget_child_elements","id":"undefined","draggable":true},"text":{"tag":"H2","content":"Label","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"text":"Label"}}';
+	"children": []\
+	}';
 
 var VARIABLE_DISPLAY_JSON = '{\
 			"type": "VARIABLE",\
@@ -87,32 +59,44 @@ var VARIABLE_DISPLAY_JSON = '{\
 			}\
 		}';
 
-
-var BUILDER_WIDGET_JSON = '{\
-	"type": "WIDGET",\
-	"dom": {\
-		"base": {\
-			"tag": "DIV",\
-			"content": "",\
-			"className": "widget",\
-			"id": "wip_widget",\
-			"draggable": true\
-		},\
-		"title": {\
-			"tag": "P",\
-			"content": "Click here to set title",\
-			"className": "",\
-			"id": "wip_widget_title",\
-			"draggable": false\
-		}\
-	},\
-	"json": {\
-		"serviceURL": "",\
-		"title": "Click here to set title"\
-	},\
-	"children": []\
-	}';
-
+var VARIABLE_UNIT_DISPLAY_JSON = '{\
+			"type": "VARIABLEWITHUNIT",\
+			"dom": {\
+				"base": {\
+					"tag": "DIV",\
+					"content": "",\
+					"className": "",\
+					"id": "variable_unit_display",\
+					"draggable": true\
+				},\
+				"key": {\
+					"tag": "P",\
+					"content": "Key",\
+					"className": "variable",\
+					"id": "",\
+					"draggable": false\
+				},\
+				"value": {\
+					"tag": "P",\
+					"content": "Value",\
+					"className": "widget_child_elements variable",\
+					"id": "",\
+					"draggable": false\
+				},\
+				"unit": {\
+					"tag": "P",\
+					"content": "Unit",\
+					"className": "variable",\
+					"id": "",\
+					"draggable": false\
+				}\
+			},\
+			"json": {\
+				"jsonKey": "test",\
+				"key": "test2",\
+				"unit": "Unit"\
+			}\
+		}';
 
 var LABEL_DISPLAY_JSON = '{\
 	"type": "LABEL",\
@@ -125,7 +109,7 @@ var LABEL_DISPLAY_JSON = '{\
 			"draggable": true\
 		},\
 		"text": {\
-			"tag": "H2",\
+			"tag": "P",\
 			"content": "Label",\
 			"className": "widget_child_elements variable",\
 			"id": "",\
@@ -137,26 +121,26 @@ var LABEL_DISPLAY_JSON = '{\
 	}\
 }';
 
-// json for a label inside a widget on the dash
-var LABEL_JSON = '{\
+
+var BIG_LABEL_DISPLAY_JSON = '{\
 	"type": "LABEL",\
 	"dom": {\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
-			"className": "widget_child_elements",\
-			"id": "undefined",\
-			"draggable": false\
+			"className": "",\
+			"id": "big_label_display",\
+			"draggable": true\
 		},\
 		"text": {\
 			"tag": "H2",\
-			"content": "Label",\
+			"content": "Big Label",\
 			"className": "widget_child_elements variable",\
 			"id": "",\
 			"draggable": false\
 		}\
 	},\
 	"json": {\
-		"text": "Label"\
+		"text": "Big Label"\
 	}\
 }';

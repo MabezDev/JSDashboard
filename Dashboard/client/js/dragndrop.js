@@ -72,6 +72,14 @@ function builderDrop(event) {
         currentItem.json.jsonKey = dataTransfer.data;
       }
       break;
+    case ID.VARIABLE_UNIT_DISPLAY:
+      
+      if (source == 'data_drag') {
+        console.log('Adding a data source to variable.');
+        currentItem.dom.value.textContent = dataTransfer.data;
+        currentItem.json.jsonKey = dataTransfer.data;
+      }
+      break;
     case ID.VARIABLESLOT:
 
       if (source == 'item_template_drag') {
@@ -83,13 +91,24 @@ function builderDrop(event) {
           variableBuilder.textContent = ''; //reset text
 
           switch(dataTransfer.data){
+            case ID.BIG_LABEL_DISPLAY :
+              currentItem = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
+              currentItem.dom.base.ondblclick = labelDoubleClickHandler;
+              break;
             case ID.LABEL_DISPLAY :
-              currentItem = createLabel(JSON.parse(LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
+              currentItem = createLabel(JSON.parse(LABEL_DISPLAY_JSON));
               currentItem.dom.base.ondblclick = labelDoubleClickHandler;
               break;
             case ID.VARIABLE_DISPLAY :
-              currentItem = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON));
+              var json = JSON.parse(VARIABLE_DISPLAY_JSON);
+              currentItem = createVariable(json, json.type);
               currentItem.dom.base.ondblclick = variableDoubleClickHandler;
+              break;
+            case ID.VARIABLE_UNIT_DISPLAY :
+              var json = JSON.parse(VARIABLE_UNIT_DISPLAY_JSON);
+              currentItem = createVariable(json, json.type);
+              currentItem.dom.key.ondblclick = variableDoubleClickHandler;
+              currentItem.dom.unit.ondblclick = variableUnitDoubleClickHandler;
               break;
           }
 
@@ -170,6 +189,14 @@ function variableDoubleClickHandler(event) {
   if(keyInput){
     currentItem.dom.key.textContent = keyInput;
     currentItem.json.key = keyInput;
+  }
+}
+
+function variableUnitDoubleClickHandler(event) {
+  var keyInput = prompt('Enter a key for the data: ', 'key');
+  if(keyInput){
+    currentItem.dom.unit.textContent = keyInput;
+    currentItem.json.unit = keyInput;
   }
 }
 

@@ -15,6 +15,9 @@ function listSaved() {
   xhr.onload = function() {
     if (xhr.status === 200) {
       var fileNames = JSON.parse(this.responseText);
+
+      output.innerHTML = "";
+
       for (var i = 0; i < fileNames.length; i++) {
         var option = document.createElement('option');
         option.textContent = fileNames[i];
@@ -26,7 +29,6 @@ function listSaved() {
       console.log(xhr.status);
     }
   };
-
   xhr.send();
 }
 
@@ -42,7 +44,7 @@ function loadSavedWidget(event){
   xhr.onload = function() {
     if (xhr.status === 200) {
       var widgetJson = JSON.parse(this.responseText);
-      var newWidget = createWidget2(widgetJson);
+      var newWidget = createWidget(widgetJson);
       console.log("Imported widget object: ");
       console.log(newWidget);
 
@@ -54,4 +56,8 @@ function loadSavedWidget(event){
   };
 
   xhr.send();
+}
+
+function saveWidget(){
+
 }

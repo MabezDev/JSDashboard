@@ -30,13 +30,13 @@ function dashboardDrop(event) {
 
       if(destination.className.includes(CSS.HIDDEN)){
         // we need to swap the classes aroud too
-        destination.className = "widget";
+        destination.className = CSS.WIDGET;
         destination.draggable = true;
         destination.ondragstart = widgetDragStart;
         destination.ondragover = globalDragOver;
         destination.ondrop = dashboardDrop;
 
-        source.className = "widget hidden";
+        source.className = CSS.WIDGET + " " + CSS.HIDDEN;
         source.draggable = false;
       }
 

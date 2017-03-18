@@ -1,3 +1,5 @@
+
+// Holds the wip widget and the item to be added next
 var currentItem = undefined;
 var currentWidget = undefined;
 
@@ -43,11 +45,11 @@ function addToDashFromBuilder(){
       currentWidget.json.serviceURL = serviceURL; // set the service URL
       
       for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
-        currentWidget.children[i].dom.base.className = CSS.DRAGGABLECHILDREN;
+        currentWidget.children[i].dom.base.className = CSS.UNTARGETABLECHILDREN;
         currentWidget.children[i].dom.base.draggable = false;
       }
 
-      currentWidget.dom.title.className = CSS.DRAGGABLECHILDREN; // stop the double click handler
+      currentWidget.dom.title.className = CSS.UNTARGETABLECHILDREN; // stop the double click handler
 
       currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
 
@@ -57,7 +59,7 @@ function addToDashFromBuilder(){
 
       addToDashboard(currentWidget);
 
-      addWidgetBuilder(); // add a blank builder back tot he builder
+      addWidgetToBuilder(); // add a blank builder back tot he builder
   } else {
     console.log('ServiceURL cannot be empty!');
   }
@@ -68,7 +70,7 @@ function toggleBuilder() {
   panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
 
   // make sure a builder widget is in place
-  addWidgetBuilder();
+  addWidgetToBuilder();
 
   //create item palette and add items
   var itemContainer = document.getElementById(ID.ITEMCONTAINER); //container
@@ -130,8 +132,8 @@ function toggleBuilder() {
 
 }
 
-function addWidgetBuilder(){
-  var currentState = document.getElementById('current_state_container');
+function addWidgetToBuilder(){
+  var currentState = document.getElementById(ID.CURRENTSTATECONTAINER);
   var widget = document.getElementById(ID.WIPWIDGET);
 
   if (!widget) { // if there isn't a widget already being built, add a blank one

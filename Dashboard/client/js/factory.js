@@ -9,7 +9,7 @@ function createWidget(jsonData, id){
 	if (typeof jsonData === 'string' || jsonData instanceof String) console.error("You passed a string when A Json object was expected.");
 	if (!jsonData && !id) console.error("Either Json data OR ID must be defined");
 
-	var newWidget = new WidgetObject();// Object.create(WidgetObject);//Object.create(WidgetObject); // make a copy of the object - Object.create from ECMAScript 5
+	var newWidget = new WidgetObject();
 	if(id){
 		var div = document.createElement('div');
 		div.id = id;
@@ -23,7 +23,7 @@ function createWidget(jsonData, id){
 		// blank title
 		var text = document.createElement('p');
 		text.textContent = "";
-		text.className = CSS.DRAGGABLECHILDREN;
+		text.className = CSS.UNTARGETABLECHILDREN;
 		div.appendChild(text);
 
 		// assign to new widget
@@ -329,7 +329,7 @@ function dom2json(domElement){
 		tag : domElement.nodeName,
 		content : domElement.childNodes[0].nodeType == 3 ? domElement.childNodes[0].textContent : "", //makes sure we only get content from that node and not child nodes
 		className : domElement.className,
-		id : domElement.id,
+		id : domElement.id ? domElement.id : "", // stops undefined from showing up in the raw json
 		draggable : domElement.draggable
 	}
 }

@@ -1,13 +1,13 @@
 
 
 function toggleSavedWidgetLoader(){
-	var panel = document.getElementById('saved_widgets');
+	var panel = document.getElementById(ID.SAVED);
   	panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
 
 }
 
 function listSaved() {
-	var output = document.getElementById('saved_widgets_output');
+	var output = document.getElementById(ID.FILEOUTPUT);
   var xhr = new XMLHttpRequest();
   var url = '/api/account/widgets/stored/list';
 

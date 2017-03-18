@@ -14,7 +14,7 @@ function init() {
   // //setInterval(updateWidgets, 3000);
 
   var count = 0;
-  var tableRows = document.getElementById('widget_grid').children[0].children;
+  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){
@@ -68,7 +68,7 @@ function addToDashboard(newWidgetObject) {
 }
 
 function findFreeSlot(){
-  var tableRows = document.getElementById('widget_grid').children[0].children;
+  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){

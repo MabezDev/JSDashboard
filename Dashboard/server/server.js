@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var webpages = '../client/';
+var widgetFolder = 'widgets/';
 
 // static files
 app.use('/', express.static(webpages, {
@@ -29,6 +30,44 @@ app.get('/api/data/temperature'); // temperature details - location in query
 app.get('/api/data/custom/test', customTest); // perform the custom service request and return the data to the user
 app.post('/api/data/custom/json', serviceJsonWidget); // custom json to be ran from this server and return variables they want back
 app.post('/api/data/custom/rss'); // custom rss widget, convert to json then just pass to the json function
+
+//app.post('/api/account/create', createAccount);
+//app.post('/api/account/login', login);
+app.get('/api/account/widgets/stored/get', getWidgetJSON); // gets a widget, takes parameter of filename (or id if we have time to set up database)
+app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
+
+function getWidgetJSON(req, res){
+  var filename = req.query.file;
+
+  if(!filename) return;
+
+  fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
+    if (!err){
+      res.send(JSON.parse(data));
+    }else{
+      console.log(err);
+      res.sendStatus(404);
+    }
+
+  });
+}
+
+function listWidgets(req, res){
+  filenameArray = [];
+  fs.readdir(widgetFolder, (err, files) => {
+    files.forEach(file => {
+      filenameArray.push(file);
+    });
+
+    if(filenameArray.length !== 0){
+      res.json(filenameArray);
+    } else {
+      res.sendStatus(404);
+    }
+
+  });
+}
+
 
 // example JSON object sent ot a /api/data/custom
 /*
@@ -59,7 +98,7 @@ function serviceJsonWidget(req, res) {
       var serviceData = JSON.parse(body);
       for (var i = 0; i < updateRequest.jsonKeys.length; i++) {
         var value = updateRequest.jsonKeys[i].split('.').reduce((a, b) => (a != undefined) ? a[b] : a, serviceData); // see http://stackoverflow.com/questions/8051975/access-object-child-properties-using-a-dot-notation-string
-        // var value = updateRequest.jsonKeys[i].split('.').reduce(function(a, b) {
+        // var value = updateRequest.jsonKeys[i].split('.').reduce(function(a, b) { //non es6 way
         //   return (a != undefined) ? a[b] : a;
         // }, serviceData);
 

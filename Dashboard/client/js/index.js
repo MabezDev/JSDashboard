@@ -38,83 +38,47 @@ function init() {
       columns[j].appendChild(createWidget2(undefined,++count).dom.base); // all blank widgets
     }
   }
-
-  // var vari = createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}'));
-  // console.log(vari);
-  // //vari.update();
-  // console.log(JSON.stringify(vari.toJSON()));
-
-  //var widget = createWidget2("", 77);
-  //widget.appendItem(createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}')));
-  //widget.appendItem(createVariable(JSON.parse('{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"","id":"variable","draggable":true},"key":{"tag":"P","content":"Key","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"Value","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"test","key":"test2"}}')));
-  //console.log(JSON.stringify(widget.toJSON())); //console.log(JSON.stringify(widget.toJSON()));
-  //console.log(widget.fromJSON(widget.toJSON()));
-
-  //console.log(JSON.stringify(createLabel().toJSON()));
-  //console.log(JSON.stringify());
-  //console.log(new WidgetObject2());
-  //console.log(new Test());
 }
 
-function addToDashboard() {
-  var wipwidget = document.getElementById(ID.WIPWIDGET);
-  var serviceURL = document.getElementById(ID.SERVICEURL).value;
+function addToDashboard(newWidgetObject) {
+  console.log('Looking for free spot in grid...');
 
-  if (serviceURL) {
-    console.log('Looking for free spot in grid...');
+  var slotFree = findFreeSlot();
+  if (slotFree) {
 
-    var slotFree = findFreeSlot();
-    if (slotFree) {
+    var emptySlot = document.getElementById(slotFree);
 
-      currentWidget.json.serviceURL = serviceURL; // set the service URL
-      
-      for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
-        currentWidget.children[i].dom.base.className = CSS.DRAGGABLECHILDREN;
-        currentWidget.children[i].dom.base.draggable = false;
-      }
+    // assign new unique id
+    newWidgetObject.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's, will need a function to get the next available ID
 
-      currentWidget.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's
+    // add drag and drop handlers
+    newWidgetObject.dom.base.draggable = true;
+    newWidgetObject.dom.base.ondragstart = widgetDragStart;
+    newWidgetObject.dom.base.ondragover = globalDragOver;
+    newWidgetObject.dom.base.ondrop = dashboardDrop;
 
-      // switch into empty slot
-      var emptySlot = document.getElementById(slotFree);
-      // emptySlot.className = 'widget';
-      // emptySlot.innerHTML = wipwidget.innerHTML;
-      // emptySlot.draggable = true;
-      // emptySlot.ondragstart = widgetDragStart;
-      // emptySlot.ondragover = globalDragOver;
-      // emptySlot.ondrop = dashboardDrop;
+    // switch into empty slot
+    var slotParent = emptySlot.parentNode;
+    slotParent.appendChild(newWidgetObject.dom.base); // add it to the dashbaord
+    slotParent.removeChild(emptySlot); // remove the empty slot
+    
+    console.log("------------------------------------");
+    console.log("---Adding new widget to Dashboard---");
+    console.log("------------------------------------");
+    console.log("Object form: ")
+    console.log(newWidgetObject);
+    console.log("------------------------------------");
+    console.log("JSON String form: ");
+    console.log(JSON.stringify(newWidgetObject.toJSON()));
+    console.log("------------------------------------");
+    
 
-      //reset the builder widget
-      var currentState = wipwidget.parentNode;
-      currentState.removeChild(wipwidget); // remove the widget we built from the builder
+    arrayOfWidgets.push(newWidgetObject); // add to array of widgets (global in index.js) for updating etc
 
-      // add drag and drop handlers
+    updateWidgets();
 
-      currentWidget.dom.base.draggable = true;
-      currentWidget.dom.base.ondragstart = widgetDragStart;
-      currentWidget.dom.base.ondragover = globalDragOver;
-      currentWidget.dom.base.ondrop = dashboardDrop;
-
-      var slotParent = emptySlot.parentNode;
-      slotParent.appendChild(currentWidget.dom.base); // add it to the dashbaord
-      slotParent.removeChild(emptySlot); // remove the empty slot
-      
-
-      console.log("---Adding new widget to Dashboard---");
-      console.log(currentWidget);
-      console.log("------------------------------------");
-
-      arrayOfWidgets.push(currentWidget); // add to array of widgets (global in index.js) for updating etc
-
-      addWidgetBuilder(); // add a blank builder back tot he builder
-
-      updateWidgets();
-
-    } else {
-      console.log('Widget grid full! Delete an old widget!');
-    }
   } else {
-    console.log('ServiceURL cannot be empty!');
+    console.log('Widget grid full! Delete an old widget!');
   }
 }
 
@@ -149,6 +113,8 @@ function findFreeSlot(){
 
 function updateWidgets() {
   //var widgets = getWidgetsAsArray();
+  console.log("Updating");
+  console.log(arrayOfWidgets.length);
   for (var widget of arrayOfWidgets) {
     console.log('Updating widget with ID: ' + widget.dom.base.id);
     updateWidget2(widget);
@@ -156,7 +122,6 @@ function updateWidgets() {
 }
 
 function updateWidget2(widgetObject){
-  //var widgetObject = widgetObject;
   var jsonKeys = [],
   serviceURL = widgetObject.json.serviceURL;
 

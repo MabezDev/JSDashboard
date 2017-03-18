@@ -7,11 +7,14 @@
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/builder.css">
+    <link rel="stylesheet" type="text/css" href="css/savedwidgets.css">
     <script src="js/index.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/dragndrop.js"></script>
     <script src="js/constants.js"></script>
     <script src="js/factory.js"></script>
+    <script src="js/savedwidgets.js"></script>
+    <!-- stores json templetes for widget items -->
     <script src="json/widget_json.js"></script>
 </head>
 
@@ -23,6 +26,7 @@
             </span>
             <span id="settings">
                 <button onclick="toggleBuilder()">Open Builder</button>
+                <button onclick="toggleSavedWidgetLoader()">Open Saved Widgets</button>
             </span>
         </header>
 
@@ -69,7 +73,7 @@
                             </div>
                             <div id="data_config">
                                 <input id="service_url" type="url" name="service_url">
-                                <button onclick="testService()">Test Service</button>
+                                <button onclick="testServiceForJSONKeys()">Test Service</button>
                                 <div id="service_output_container">
                                     <p>Output from service: </p>
                                     <select id="service_output" multiple="multiple"></select>
@@ -81,23 +85,25 @@
                         <td>
                         <div id="builder_control">
                             <button onclick="toggleBuilder()">Close</button>
-                            <button onclick="addToDashboard()">+</button>
-                            <button onclick="testWidgetService()">*Test*</button>
+                            <button onclick="addToDashFromBuilder()">+</button>
                             <!-- add trash item to drop items onto -->
                         </div>
                         </td>
                     </tr>
                 </table>
             </div>
-        <div>
+        </div>
+
+        <div id="saved_widgets">
+            <div id="saved_container">
+                <button onclick="listSaved()">List saved Widgets</button>
+                <select id="saved_widgets_output" multiple="multiple"></select>
+                <button onclick="toggleSavedWidgetLoader()">Close</button>
+            </div>
+        </div>
 
         
+        
     </body>
-
-
-
-
-
-
 
 </html>

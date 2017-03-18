@@ -1,7 +1,7 @@
 var currentItem = undefined;
 var currentWidget = undefined;
 
-function testService() {
+function testServiceForJSONKeys() {
   var serviceUrl = document.getElementById(ID.SERVICEURL).value;
   var listElement = document.getElementById(ID.SERVICELIST);
   var xhr = new XMLHttpRequest();
@@ -33,6 +33,31 @@ function testService() {
   xhr.send();
 }
 
+function addToDashFromBuilder(){
+  var wipwidget = document.getElementById(ID.WIPWIDGET);
+  var serviceURL = document.getElementById(ID.SERVICEURL).value;
+
+  if (serviceURL) {
+      currentWidget.json.serviceURL = serviceURL; // set the service URL
+      
+      for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
+        currentWidget.children[i].dom.base.className = CSS.DRAGGABLECHILDREN;
+        currentWidget.children[i].dom.base.draggable = false;
+      }
+
+      currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
+
+      //reset the builder widget
+      var currentState = wipwidget.parentNode;
+      currentState.removeChild(wipwidget); // remove the widget we built from the builder
+
+      addToDashboard(currentWidget);
+
+      addWidgetBuilder(); // add a blank builder back tot he builder
+  } else {
+    console.log('ServiceURL cannot be empty!');
+  }
+}
 
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
@@ -48,7 +73,7 @@ function toggleBuilder() {
     // add a display variable
     var variable = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON));
     // implemented in dragndrop.js
-    variable.dom.base.ondragstart = variableTemplateDragStart;
+    variable.dom.base.ondragstart = itemTemplateDragStart;
     variable.dom.base.ondragover = globalDragOver;
     variable.dom.base.ondrop = builderDrop;
 
@@ -58,7 +83,7 @@ function toggleBuilder() {
 
     var label = createLabel(JSON.parse(LABEL_DISPLAY_JSON));
 
-    label.dom.base.ondragstart = variableTemplateDragStart;
+    label.dom.base.ondragstart = itemTemplateDragStart;
     label.dom.base.ondragover = globalDragOver;
     label.dom.base.ondrop = builderDrop;
 

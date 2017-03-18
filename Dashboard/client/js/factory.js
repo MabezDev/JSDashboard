@@ -54,7 +54,7 @@ function WidgetObject() {
 		this.dom.title = title;
 		this.type = jsonData.type;
 		this.json.title = jsonData.json.title;
-		this.json.serviceURL = jsonData.serviceURL;
+		this.json.serviceURL = jsonData.json.serviceURL;
 		
 		var children = jsonData.children;
 		for(var i=0; i<children.length;i++){ 

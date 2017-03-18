@@ -56,38 +56,28 @@ function builderDrop(event) {
 
   switch (destinationID) {
     case ID.WIPWIDGET:
-      //console.log('Dropping ' + source + ' onto the development widget.');
+      
       if (source == 'variable_drag') {
         // add variable to widget
         console.log('Adding a variable to widget.');
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
-        //currentItem.dom.base.className += CSS.DRAGGABLECHILDREN;
         currentWidget.appendItem(currentItem);
-
       }
       break;
     case ID.VARIABLE_DISPLAY:
-      //console.log('Dropping ' + source + ' onto a variable');
+      
       if (source == 'data_drag') {
         console.log('Adding a data source to variable.');
-        // var currentVariable = document.getElementById('variable');
-        // currentVariable.children[1].textContent = dataTransfer.data;
-        // currentVariable.children[currentVariable.children.length - 1].textContent = dataTransfer.data; // actual jsonKey - always last
         currentItem.dom.value.textContent = dataTransfer.data;
         currentItem.json.jsonKey = dataTransfer.data;
-
       }
       break;
     case ID.VARIABLESLOT:
-      //console.log('Dropping ' + source + ' onto a variable_builder');
-      if (source == 'variable_template_drag') {
+
+      if (source == 'item_template_drag') {
         // adding a blank variable to the builder to be built
         console.log('Adding a variable_template to the variable builder.');
-
         var variableBuilder = document.getElementById(ID.VARIABLESLOT);
-        //var newVariable = document.getElementById(dataTransfer.data).cloneNode(true);
-
-        //console.log(ID: dataTransfer.data);
 
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
@@ -158,25 +148,14 @@ function variableDragStart(event) {
 
 // variable template drag start
 
-function variableTemplateDragStart(event) {
+function itemTemplateDragStart(event) {
   var data = JSON.stringify({
-    source: 'variable_template_drag',
+    source: 'item_template_drag',
     data: event.target.id
   });
   event.dataTransfer.setData('data', data);
   event.dataTransfer.dropEffect = 'move';
 }
-
-// // for label
-
-// function variableTemplateDragStart(event) {
-//   var data = JSON.stringify({
-//     source: 'label_template_drag',
-//     data: event.target.id
-//   });
-//   event.dataTransfer.setData('data', data);
-//   event.dataTransfer.dropEffect = 'move';
-// }
 
 // global drag over
 

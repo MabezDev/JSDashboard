@@ -40,9 +40,11 @@ function testServiceForJSONKeys() {
 function addToDashFromBuilder(){
   var wipwidget = document.getElementById(ID.WIPWIDGET);
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
+  var urlType = document.getElementById(ID.URLTYPEJSON);
 
   if (serviceURL) {
       currentWidget.json.serviceURL = serviceURL; // set the service URL
+      currentWidget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
       
       for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
         currentWidget.children[i].dom.base.className = CSS.UNTARGETABLECHILDREN;

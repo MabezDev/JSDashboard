@@ -23,7 +23,8 @@ var BUILDER_WIDGET_JSON = '{\
 	},\
 	"json": {\
 		"serviceURL": "",\
-		"title": "Click here to set title"\
+		"title": "Click here to set title",\
+		"urlType" : ""\
 	},\
 	"children": []\
 	}';

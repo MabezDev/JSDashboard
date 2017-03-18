@@ -20,6 +20,7 @@ var ID = {
   VARIABLESLOT: 'variable_builder',
   SERVICELIST: 'service_output',
   SERVICEURL: 'service_url',
+  URLTYPEJSON: 'type_json',
 
   //saved widget id's
   SAVED : 'saved_widgets',
@@ -38,3 +39,8 @@ var TYPE = {
   WIDGET : "WIDGET",
   VARIABLEUNIT : "VARIABLEWITHUNIT"
 };
+
+var URL = {
+  JSON : "JSON",
+  RSS : "RSS"
+}

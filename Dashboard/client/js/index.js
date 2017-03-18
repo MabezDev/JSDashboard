@@ -111,7 +111,7 @@ function updateWidget(widgetObject){
   var xhr = new XMLHttpRequest(),
     dataFromServer;
 
-  xhr.open('POST', '/api/data/custom/json');
+  xhr.open('POST', '/api/data/custom/service?type='+widgetObject.json.urlType);
   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   xhr.onload = function() {
     if (xhr.status === 200) {

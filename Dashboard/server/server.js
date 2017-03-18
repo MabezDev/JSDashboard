@@ -8,6 +8,7 @@ var request = require('request');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var Feed = require('rss-to-json');
 
 var webpages = '../client/';
 var widgetFolder = 'widgets/';
@@ -28,8 +29,8 @@ app.get('/api/data/weather'); // weather forecast etc
 app.get('/api/data/temperature'); // temperature details - location in query
 
 app.get('/api/data/custom/test', customTest); // perform the custom service request and return the data to the user
-app.post('/api/data/custom/json', serviceJsonWidget); // custom json to be ran from this server and return variables they want back
-app.post('/api/data/custom/rss'); // custom rss widget, convert to json then just pass to the json function
+app.post('/api/data/custom/service', serviceWidget); // custom json to be ran from this server and return variables they want back
+//app.post('/api/data/custom/rss'); // custom rss widget, convert to json then just pass to the json function
 
 //app.post('/api/account/create', createAccount);
 //app.post('/api/account/login', login);
@@ -86,35 +87,44 @@ function listWidgets(req, res){
 
 */
 
-function serviceJsonWidget(req, res) {
+function serviceWidget(req, res) {
   var updateRequest = req.body;
+  var type = req.query.type; // json native or rss
   if (!updateRequest) return;
 
-  var values = [];
-
-  request(updateRequest.serviceURL, function(error, response, body) {
-    if (error) res.send(404);
-    if (body) {
-      var serviceData = JSON.parse(body);
-      for (var i = 0; i < updateRequest.jsonKeys.length; i++) {
-        var value = updateRequest.jsonKeys[i].split('.').reduce((a, b) => (a != undefined) ? a[b] : a, serviceData); // see http://stackoverflow.com/questions/8051975/access-object-child-properties-using-a-dot-notation-string
-        // var value = updateRequest.jsonKeys[i].split('.').reduce(function(a, b) { //non es6 way
-        //   return (a != undefined) ? a[b] : a;
-        // }, serviceData);
-
-        if (!value) value = 'KEY_NOT_FOUND';
-
-        var toReturn = {
-          key : updateRequest.jsonKeys[i],
-          value : value
-        };
-        values.push(toReturn);
+  if(type == "JSON"){
+    request(updateRequest.serviceURL, function(error, response, body) {
+      if (error) res.send(404);
+      if (body) {
+        var serviceData = JSON.parse(body);
+        var values = parseData(serviceData, updateRequest);
+        console.log(values);
+        res.send(JSON.stringify(values));
       }
-      console.log(values);
-      res.send(JSON.stringify(values));
-    }
-  });
+    });
+  } else if(type == "RSS"){
+    console.log("IMplement RSS FEEDS!¬");
+  }
 
+}
+
+function parseData(bodyObject, requestedKeysObject){
+  var values = [];
+  for (var i = 0; i < requestedKeysObject.jsonKeys.length; i++) {
+    var value = requestedKeysObject.jsonKeys[i].split('.').reduce((a, b) => (a != undefined) ? a[b] : a, bodyObject); // see http://stackoverflow.com/questions/8051975/access-object-child-properties-using-a-dot-notation-string
+    // var value = updateRequest.jsonKeys[i].split('.').reduce(function(a, b) { //non es6 way
+    //   return (a != undefined) ? a[b] : a;
+    // }, serviceData);
+
+    if (!value) value = 'KEY_NOT_FOUND';
+
+    var toReturn = {
+      key : requestedKeysObject.jsonKeys[i],
+      value : value
+    };
+    values.push(toReturn);
+  }
+  return values;
 }
 
 

@@ -65,6 +65,7 @@ function WidgetObject() {
 	this.json = { // set these (optional keys that only apply to this type of variable)
 		serviceURL : "", 
 		title : "",
+		urlType : ""
 	};
 	this.children = [];
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
@@ -80,6 +81,7 @@ function WidgetObject() {
 			json : { // set these (optional keys that only apply to this type of variable)
 				serviceURL : "", 
 				title : "",
+				urlType : ""
 			} ,
 			children : [],
 		}
@@ -94,6 +96,7 @@ function WidgetObject() {
 		toJSON.json.serviceURL = this.json.serviceURL;
 		toJSON.json.title = this.json.title;
 		toJSON.children = children;
+		toJSON.json.urlType = this.json.urlType;
 		return toJSON;
 	};
 	this.fromJSON = function(jsonData) { // load into this object
@@ -109,6 +112,7 @@ function WidgetObject() {
 		this.type = jsonData.type;
 		this.json.title = jsonData.json.title;
 		this.json.serviceURL = jsonData.json.serviceURL;
+		this.json.urlType = jsonData.json.urlType;
 		
 		var children = jsonData.children;
 		for(var i=0; i<children.length;i++){

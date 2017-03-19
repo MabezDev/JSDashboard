@@ -75,9 +75,17 @@ function builderDrop(event) {
     case ID.VARIABLE_UNIT_DISPLAY:
       
       if (source == 'data_drag') {
-        console.log('Adding a data source to variable.');
         currentItem.dom.value.textContent = dataTransfer.data;
         currentItem.json.jsonKey = dataTransfer.data;
+        
+      }
+      break;
+    case ID.VARIABLE_DATA_DISPLAY:
+      
+      if (source == 'data_drag') {
+        currentItem.dom.value.textContent = dataTransfer.data;
+        currentItem.json.jsonKey = dataTransfer.data;
+        
       }
       break;
     case ID.VARIABLESLOT:
@@ -109,6 +117,10 @@ function builderDrop(event) {
               currentItem = createVariable(json, json.type);
               currentItem.dom.key.ondblclick = variableDoubleClickHandler;
               currentItem.dom.unit.ondblclick = variableUnitDoubleClickHandler;
+              break;
+            case ID.VARIABLE_DATA_DISPLAY :
+              var json = JSON.parse(VARIABLE_DATA_DISPLAY_JSON);
+              currentItem = createVariable(json, json.type);
               break;
           }
 

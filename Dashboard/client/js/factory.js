@@ -42,6 +42,9 @@ function createVariable(jsonData, type){
 	} else if(type == TYPE.VARIABLEUNIT){
 		var variable = new VariableUnitObject();
 		return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
+	} else if(type == TYPE.VARIABLEDATA) {
+		var variable = new VariableDataObject();
+		return jsonData ? variable.fromJSON(jsonData) : variable; //return blank or generate based on json input
 	} else {
 		console.log("Can't create variable from " + type);
 	}
@@ -122,6 +125,9 @@ function WidgetObject() {
 				this.appendItem(variable);
 			} else if(children[i].type == TYPE.VARIABLEUNIT) {
 				var variable = createVariable(children[i], TYPE.VARIABLEUNIT);
+				this.appendItem(variable);
+			} else if(children[i].type == TYPE.VARIABLEDATA) {
+				var variable = createVariable(children[i], TYPE.VARIABLEDATA);
 				this.appendItem(variable);
 			} else if(children[i].type == TYPE.LABEL){
 				var label = createLabel(children[i], TYPE.LABEL);
@@ -310,6 +316,57 @@ function VariableUnitObject(){
 		this.json.jsonKey = jsonData.json.jsonKey;
 		this.json.key = jsonData.json.key;
 		this.json.unit = jsonData.json.unit;
+		return this;
+	};
+}
+
+
+function VariableDataObject(){
+	this.type = TYPE.VARIABLEDATA; // every item must have a type variable
+	this.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+		value : ""
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable)
+		jsonKey : ""
+	};
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
+		console.log("Updating "+ this.type);
+	};
+	this.toJSON = function() {
+		var toJSON =  {
+			type : this.type,
+			dom : {
+				base : "",
+				value : ""
+			},
+			json : {
+				jsonKey : ""
+			}
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		toJSON.dom.value = dom2json(this.dom.value);
+
+		toJSON.json.jsonKey = this.json.jsonKey;
+		return toJSON;
+	};
+	this.fromJSON = function(jsonData) { // load into this object
+		// reconstruct from json
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		var value = json2dom(domObjects.value);
+
+		base.appendChild(value);
+		
+
+		var domElem = {
+			base : base,
+			value : value
+		}
+
+		this.dom = domElem;
+		this.type = jsonData.type;
+		this.json.jsonKey = jsonData.json.jsonKey;
 		return this;
 	};
 }

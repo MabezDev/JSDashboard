@@ -93,7 +93,7 @@ function updateWidget(widgetObject){
   serviceURL = widgetObject.json.serviceURL;
 
   for(var i=0; i < widgetObject.children.length; i++){
-    if(widgetObject.children[i].type == TYPE.VARIABLE || widgetObject.children[i].type == TYPE.VARIABLEUNIT){
+    if(widgetObject.children[i].type == TYPE.VARIABLE || widgetObject.children[i].type == TYPE.VARIABLEUNIT || widgetObject.children[i].type == TYPE.VARIABLEDATA){
       jsonKeys.push(widgetObject.children[i].json.jsonKey);
     }
   }

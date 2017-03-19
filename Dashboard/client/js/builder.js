@@ -7,8 +7,9 @@ function testServiceForJSONKeys() {
   var serviceUrl = document.getElementById(ID.SERVICEURL).value;
   var listElement = document.getElementById(ID.SERVICELIST);
   var xhr = new XMLHttpRequest();
+  var urlType = document.getElementById(ID.URLTYPEJSON);
 
-  var url = '/api/data/custom/test?url=' + encodeURIComponent(serviceUrl);
+  var url = '/api/data/custom/test?url=' + encodeURIComponent(serviceUrl) + '&type=' + (urlType.checked ? URL.JSON : URL.RSS);
 
   xhr.open('GET', url);
   xhr.onload = function() {
@@ -77,7 +78,7 @@ function toggleBuilder() {
   //create item palette and add items
   var itemContainer = document.getElementById(ID.ITEMCONTAINER); //container
 
-  if (itemContainer.children.length < 2) {
+  if (itemContainer.children.length == 0) {
     // add a display variable
     var variable = createVariable(JSON.parse(VARIABLE_DISPLAY_JSON), TYPE.VARIABLE);
     // implemented in dragndrop.js
@@ -96,6 +97,16 @@ function toggleBuilder() {
     variableUnit.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(variableUnit.dom.base);
+
+    // add variable with just data
+
+    var variableData = createVariable(JSON.parse(VARIABLE_DATA_DISPLAY_JSON), TYPE.VARIABLEDATA);
+
+    variableData.dom.base.ondragstart = itemTemplateDragStart;
+    variableData.dom.base.ondragover = globalDragOver;
+    variableData.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(variableData.dom.base);
 
     // add a display label
 

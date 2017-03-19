@@ -103,7 +103,12 @@ function serviceWidget(req, res) {
       }
     });
   } else if(type == "RSS"){
-    console.log("IMplement RSS FEEDS!¬");
+    Feed.load(updateRequest.serviceURL, function(err, rss){
+        var serviceData = rss;
+        var values = parseData(serviceData, updateRequest);
+        console.log(values);
+        res.send(JSON.stringify(values));
+    });
   }
 
 }
@@ -130,14 +135,25 @@ function parseData(bodyObject, requestedKeysObject){
 
 function customTest(req, res) {
   var urlService = req.query.url;
+  var type = req.query.type;
 
-  request(urlService, function(error, response, body) {
-    if (body) {
-      res.send(body);
-    } else {
-      res.sendStatus(404); // could not connect to service
-    }
-  });
+  if(type == "JSON"){
+    request(urlService, function(error, response, body) {
+      if (body) {
+        res.send(body);
+      } else {
+        res.sendStatus(404); // could not connect to service
+      }
+    });
+  } else if(type == "RSS"){
+    Feed.load(urlService, function(err, rss){
+      if(rss){
+        res.send(rss);
+      } else {
+        res.send(404);
+      }
+    });
+  }
 
 }
 

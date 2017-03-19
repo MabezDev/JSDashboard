@@ -99,6 +99,29 @@ var VARIABLE_UNIT_DISPLAY_JSON = '{\
 			}\
 		}';
 
+var VARIABLE_DATA_DISPLAY_JSON = '{\
+			"type": "VARIABLEDATA",\
+			"dom": {\
+				"base": {\
+					"tag": "DIV",\
+					"content": "",\
+					"className": "",\
+					"id": "variable_data_display",\
+					"draggable": true\
+				},\
+				"value": {\
+					"tag": "P",\
+					"content": "Value",\
+					"className": "widget_child_elements variable",\
+					"id": "",\
+					"draggable": false\
+				}\
+			},\
+			"json": {\
+				"jsonKey": ""\
+			}\
+		}';
+
 var LABEL_DISPLAY_JSON = '{\
 	"type": "LABEL",\
 	"dom": {\

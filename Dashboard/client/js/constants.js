@@ -11,6 +11,7 @@ var ID = {
   LABEL_DISPLAY: 'label_display',
   BIG_LABEL_DISPLAY: 'big_label_display',
   VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
+  VARIABLE_DATA_DISPLAY: 'variable_data_display',
   
   // builder id's
   BUILDER: 'widget_builder',
@@ -30,14 +31,16 @@ var ID = {
 var CSS = {
   HIDDEN: 'hidden',
   WIDGET: 'widget',
-  UNTARGETABLECHILDREN: 'widget_child_elements'
+  UNTARGETABLECHILDREN: 'widget_child_elements',
+  ITEMCONTAINER : 'item_container'
 };
 
 var TYPE = {
   VARIABLE : "VARIABLE",
   LABEL : "LABEL",
   WIDGET : "WIDGET",
-  VARIABLEUNIT : "VARIABLEWITHUNIT"
+  VARIABLEUNIT : "VARIABLEWITHUNIT",
+  VARIABLEDATA : "VARIABLEDATA"
 };
 
 var URL = {

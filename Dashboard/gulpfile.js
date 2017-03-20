@@ -22,7 +22,8 @@ const path = {
   //'clientjs' : ['./client/js/index.js'],
   'pages': './client/*.html',
   'buildserver': './build/server/',
-  'buildclient': './build/client/'
+  'buildclient': './build/client/js',
+  'build': './build'
 };
 
 gulp.task('clean', function() {
@@ -32,13 +33,13 @@ gulp.task('clean', function() {
 gulp.task('beautify-server', function() {
   gulp.src(path.serverjs)
     .pipe(beautify(package.beautify))
-    .pipe(gulp.dest('./server/'));
+    .pipe(gulp.dest(path.buildserver));
 });
 
 gulp.task('beautify-client', function() {
   gulp.src(path.clientjs)
     .pipe(beautify(package.beautify))
-    .pipe(gulp.dest('./client/js/'));
+    .pipe(gulp.dest(path.buildclient));
 });
 
 

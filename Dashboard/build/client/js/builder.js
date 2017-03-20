@@ -1,4 +1,3 @@
-
 // Holds the wip widget and the item to be added next
 var currentItem = undefined;
 var currentWidget = undefined;
@@ -38,31 +37,31 @@ function testServiceForJSONKeys() {
   xhr.send();
 }
 
-function addToDashFromBuilder(){
+function addToDashFromBuilder() {
   var wipwidget = document.getElementById(ID.WIPWIDGET);
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
   var urlType = document.getElementById(ID.URLTYPEJSON);
 
   if (serviceURL) {
-      currentWidget.json.serviceURL = serviceURL; // set the service URL
-      currentWidget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
-      
-      for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
-        currentWidget.children[i].dom.base.className = CSS.UNTARGETABLECHILDREN;
-        currentWidget.children[i].dom.base.draggable = false;
-      }
+    currentWidget.json.serviceURL = serviceURL; // set the service URL
+    currentWidget.json.urlType = urlType.checked ? URL.JSON : URL.RSS;
 
-      currentWidget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
+    for (var i = 0; i < currentWidget.children.length; i++) { // make sure children are not targetable or draggable
+      currentWidget.children[i].dom.base.className = CSS.UNTARGETABLECHILDREN;
+      currentWidget.children[i].dom.base.draggable = false;
+    }
 
-      currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
+    currentWidget.dom.title.className = CSS.UNTARGETABLECHILDREN; // stop the double click handler
 
-      //reset the builder widget
-      var currentState = wipwidget.parentNode;
-      currentState.removeChild(wipwidget); // remove the widget we built from the builder
+    currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
 
-      addToDashboard(currentWidget);
+    //reset the builder widget
+    var currentState = wipwidget.parentNode;
+    currentState.removeChild(wipwidget); // remove the widget we built from the builder
 
-      addWidgetToBuilder(); // add a blank builder back tot he builder
+    addToDashboard(currentWidget);
+
+    addWidgetToBuilder(); // add a blank builder back tot he builder
   } else {
     console.log('ServiceURL cannot be empty!');
   }
@@ -145,7 +144,7 @@ function toggleBuilder() {
 
 }
 
-function addWidgetToBuilder(){
+function addWidgetToBuilder() {
   var currentState = document.getElementById(ID.CURRENTSTATECONTAINER);
   var widget = document.getElementById(ID.WIPWIDGET);
 

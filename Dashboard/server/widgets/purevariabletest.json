@@ -9,9 +9,9 @@
 			"draggable": true
 		},
 		"title": {
-			"tag": "P",
+			"tag": "H3",
 			"content": "Newstand",
-			"className": "widget_child_elements",
+			"className": "widget_child_elements widget_title",
 			"id": "",
 			"draggable": false
 		}

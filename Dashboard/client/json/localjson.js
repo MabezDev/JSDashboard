@@ -14,9 +14,9 @@ var BUILDER_WIDGET_JSON = '{\
 			"draggable": true\
 		},\
 		"title": {\
-			"tag": "P",\
+			"tag": "H3",\
 			"content": "Click here to set title",\
-			"className": "",\
+			"className": "widget_title widget_title",\
 			"id": "wip_widget_title",\
 			"draggable": false\
 		}\
@@ -35,7 +35,7 @@ var VARIABLE_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "",\
+					"className": "item",\
 					"id": "variable_display",\
 					"draggable": true\
 				},\
@@ -66,7 +66,7 @@ var VARIABLE_UNIT_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "",\
+					"className": "item",\
 					"id": "variable_unit_display",\
 					"draggable": true\
 				},\
@@ -105,7 +105,7 @@ var VARIABLE_DATA_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "",\
+					"className": "item",\
 					"id": "variable_data_display",\
 					"draggable": true\
 				},\
@@ -128,7 +128,7 @@ var LABEL_DISPLAY_JSON = '{\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
-			"className": "",\
+			"className": "item",\
 			"id": "label_display",\
 			"draggable": true\
 		},\
@@ -152,14 +152,14 @@ var BIG_LABEL_DISPLAY_JSON = '{\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
-			"className": "",\
+			"className": "item",\
 			"id": "big_label_display",\
 			"draggable": true\
 		},\
 		"text": {\
-			"tag": "H2",\
+			"tag": "P",\
 			"content": "Big Label",\
-			"className": "widget_child_elements variable",\
+			"className": "widget_child_elements variable big_text",\
 			"id": "",\
 			"draggable": false\
 		}\

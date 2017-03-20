@@ -1,9 +1,24 @@
-
+/*
+.color-primary-0 { color: #26596A } 
+.color-primary-1 { color: #0D2D37 }
+.color-primary-2 { color: #184351 }
+.color-primary-3 { color: #377184 }
+.color-primary-4 { color: #4B899D }*/
 
 .variable {
-    padding : 0.5%;
-    background-color: red;
+    padding : 5px;
+    background-color: #184351;
+    border-radius: 4px;
     display: inline-block;
+    cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
+}
+
+.item {
+    cursor:grab;
+}
+
+.big_text {
+    font-size: 16pt;
 }
 
 .widget_blank {
@@ -19,7 +34,7 @@
 #widget_builder {
     width:100%;
     height:100%;
-    opacity:.95;
+    opacity:.98;
     top:0;
     left:0;
     display:none;
@@ -30,7 +45,7 @@
 
 #builder_container {
     width: 80%;
-    height: 80%;
+    height: 90%;
     margin: 0 auto;
     background-color: white;
 }
@@ -45,7 +60,6 @@
     min-height: 70vh;
     min-width: : 300px;
     width: 400px;
-    background-color: purple;
 }
 
 #variable_builder_container {
@@ -85,6 +99,9 @@
     min-width : 200px; 
     min-height: 200px;
 }
+
+
+ /*These are ids for when the items are in the display, this arranges them nicely then doesnt effect it as the id is removed*/
 
 #variable_display{
     display: inline;

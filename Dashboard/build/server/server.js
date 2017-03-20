@@ -38,15 +38,17 @@ app.post('/api/data/custom/service', serviceWidget); // custom json to be ran fr
 app.get('/api/account/widgets/stored/get', getWidgetJSON); // gets a widget, takes parameter of filename (or id if we have time to set up database)
 app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
 
-function getWidgetJSON(req, res){
+function getWidgetJSON(req, res) {
   var filename = req.query.file;
 
-  if(!filename) return;
+  if (!filename) return;
 
-  fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
-    if (!err){
+  fs.readFile('widgets/' + filename, {
+    encoding: 'utf-8'
+  }, function(err, data) {
+    if (!err) {
       res.send(JSON.parse(data));
-    }else{
+    } else {
       console.log(err);
       res.sendStatus(404);
     }
@@ -54,14 +56,14 @@ function getWidgetJSON(req, res){
   });
 }
 
-function listWidgets(req, res){
+function listWidgets(req, res) {
   filenameArray = [];
   fs.readdir(widgetFolder, (err, files) => {
     files.forEach(file => {
       filenameArray.push(file);
     });
 
-    if(filenameArray.length !== 0){
+    if (filenameArray.length !== 0) {
       res.json(filenameArray);
     } else {
       res.sendStatus(404);
@@ -93,9 +95,9 @@ function serviceWidget(req, res) {
   var type = req.query.type; // json native or rss
   if (!updateRequest) return;
 
-  if(type == "JSON"){
+  if (type == "JSON") {
     request(updateRequest.serviceURL, function(error, response, body) {
-      if (error) res.sendStatus(404);
+      if (error) res.send(404);
       if (body) {
         var serviceData = JSON.parse(body);
         var values = parseData(serviceData, updateRequest);
@@ -103,30 +105,30 @@ function serviceWidget(req, res) {
         res.send(JSON.stringify(values));
       }
     });
-  } else if(type == "RSS"){
-    Feed.load(updateRequest.serviceURL, function(err, rss){
-      if (err) res.sendStatus(404);
-      if (rss) {
-        var serviceData = rss;
-        var values = parseData(serviceData, updateRequest);
-        console.log(values);
-        res.send(JSON.stringify(values));
-      }
+  } else if (type == "RSS") {
+    Feed.load(updateRequest.serviceURL, function(err, rss) {
+      var serviceData = rss;
+      var values = parseData(serviceData, updateRequest);
+      console.log(values);
+      res.send(JSON.stringify(values));
     });
   }
 
 }
 
-function parseData(bodyObject, requestedKeysObject){
+function parseData(bodyObject, requestedKeysObject) {
   var values = [];
   for (var i = 0; i < requestedKeysObject.jsonKeys.length; i++) {
     var value = requestedKeysObject.jsonKeys[i].split('.').reduce((a, b) => (a != undefined) ? a[b] : a, bodyObject); // see http://stackoverflow.com/questions/8051975/access-object-child-properties-using-a-dot-notation-string
-    
+    // var value = updateRequest.jsonKeys[i].split('.').reduce(function(a, b) { //non es6 way
+    //   return (a != undefined) ? a[b] : a;
+    // }, serviceData);
+
     if (!value) value = 'KEY_NOT_FOUND';
 
     var toReturn = {
-      key : requestedKeysObject.jsonKeys[i],
-      value : value
+      key: requestedKeysObject.jsonKeys[i],
+      value: value
     };
     values.push(toReturn);
   }
@@ -138,7 +140,7 @@ function customTest(req, res) {
   var urlService = req.query.url;
   var type = req.query.type;
 
-  if(type == "JSON"){
+  if (type == "JSON") {
     request(urlService, function(error, response, body) {
       if (body) {
         res.send(body);
@@ -146,12 +148,12 @@ function customTest(req, res) {
         res.sendStatus(404); // could not connect to service
       }
     });
-  } else if(type == "RSS"){
-    Feed.load(urlService, function(err, rss){
-      if(rss){
+  } else if (type == "RSS") {
+    Feed.load(urlService, function(err, rss) {
+      if (rss) {
         res.send(rss);
       } else {
-        res.sendStatus(404);
+        res.send(404);
       }
     });
   }

@@ -139,8 +139,7 @@ function WidgetObject() {
 	};
 	this.appendItem = function (itemToAdd) { 
 		this.children.push(itemToAdd); // add to children list
-		// append there dom content to the widgets
-		this.dom.base.appendChild(itemToAdd.dom.base);
+		this.dom.base.appendChild(itemToAdd.dom.base); // append there dom content to the widgets
 	};
 	return this;
 };

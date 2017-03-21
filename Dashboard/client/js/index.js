@@ -93,7 +93,10 @@ function updateWidget(widgetObject){
   serviceURL = widgetObject.json.serviceURL;
 
   for(var i=0; i < widgetObject.children.length; i++){
-    if(widgetObject.children[i].type == TYPE.VARIABLE || widgetObject.children[i].type == TYPE.VARIABLEUNIT || widgetObject.children[i].type == TYPE.VARIABLEDATA){
+    if(widgetObject.children[i].type == TYPE.VARIABLE 
+      || widgetObject.children[i].type == TYPE.VARIABLEUNIT 
+      || widgetObject.children[i].type == TYPE.VARIABLEHTML
+      || widgetObject.children[i].type == TYPE.VARIABLEDATA ){
       jsonKeys.push(widgetObject.children[i].json.jsonKey);
     }
   }
@@ -121,7 +124,12 @@ function updateWidget(widgetObject){
         var returned = dataFromServer[j];
         for(var k=0; k < widgetObject.children.length; k++){
           if(widgetObject.children[k].json.jsonKey === returned.key){
-            widgetObject.children[k].dom.value.textContent = returned.value;
+            console.log(widgetObject.children[k].type);
+            if(widgetObject.children[k].type == TYPE.VARIABLEHTML){
+              widgetObject.children[k].dom.value.innerHTML = returned.value;
+            } else { // another type would be image, setting the src would be different
+              widgetObject.children[k].dom.value.textContent = returned.value;
+            }
           } 
         }
       }

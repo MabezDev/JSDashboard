@@ -5,20 +5,20 @@
 			"tag": "DIV",
 			"content": "",
 			"className": "widget",
-			"id": "2",
+			"id": "1",
 			"draggable": true
 		},
 		"title": {
 			"tag": "H3",
-			"content": "Newstand",
-			"className": "widget_child_elements widget_title",
+			"content": "/r/Overwatch",
+			"className": "widget_title widget_title widget_child_elements",
 			"id": "",
 			"draggable": false
 		}
 	},
 	"json": {
-		"serviceURL": "http://feeds.bbci.co.uk/news/world/europe/rss.xml",
-		"title": "Newstand",
+		"serviceURL": "https://www.reddit.com/r/overwatch/.rss",
+		"title": "/r/Overwatch",
 		"urlType": "RSS"
 	},
 	"children": [
@@ -34,26 +34,26 @@
 				},
 				"key": {
 					"tag": "P",
-					"content": "Newest headline: ",
+					"content": "Top : ",
 					"className": "widget_child_elements variable",
 					"id": "",
 					"draggable": false
 				},
 				"value": {
 					"tag": "P",
-					"content": "items.0.title",
+					"content": "feed.entries.1.title",
 					"className": "widget_child_elements variable",
 					"id": "",
 					"draggable": false
 				}
 			},
 			"json": {
-				"jsonKey": "feed.entries.0.title",
-				"key": "Newest headline: "
+				"jsonKey": "feed.entries.1.title",
+				"key": "Top : "
 			}
 		},
 		{
-			"type": "VARIABLEDATA",
+			"type": "VARIABLEHTML",
 			"dom": {
 				"base": {
 					"tag": "DIV",
@@ -64,14 +64,14 @@
 				},
 				"value": {
 					"tag": "P",
-					"content": "feed.entries.0.description",
+					"content": "feed.entries.1.content",
 					"className": "widget_child_elements variable",
 					"id": "",
 					"draggable": false
 				}
 			},
 			"json": {
-				"jsonKey": "feed.entries.0.content"
+				"jsonKey": "feed.entries.1.content"
 			}
 		}
 	]

@@ -12,6 +12,7 @@ var ID = {
   BIG_LABEL_DISPLAY: 'big_label_display',
   VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
   VARIABLE_DATA_DISPLAY: 'variable_data_display',
+  VARIABLE_HTML_DISPLAY: 'variable_html_display',
   
   // builder id's
   BUILDER: 'widget_builder',
@@ -40,7 +41,8 @@ var TYPE = {
   LABEL : "LABEL",
   WIDGET : "WIDGET",
   VARIABLEUNIT : "VARIABLEWITHUNIT",
-  VARIABLEDATA : "VARIABLEDATA"
+  VARIABLEDATA : "VARIABLEDATA",
+  VARIABLEHTML : "VARIABLEHTML"
 };
 
 var URL = {

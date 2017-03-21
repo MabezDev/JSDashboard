@@ -122,6 +122,30 @@ var VARIABLE_DATA_DISPLAY_JSON = '{\
 			}\
 		}';
 
+
+var VARIABLE_HTML_DISPLAY_JSON = '{\
+			"type": "VARIABLEHTML",\
+			"dom": {\
+				"base": {\
+					"tag": "DIV",\
+					"content": "",\
+					"className": "item",\
+					"id": "variable_html_display",\
+					"draggable": true\
+				},\
+				"value": {\
+					"tag": "P",\
+					"content": "HTML content",\
+					"className": "widget_child_elements variable",\
+					"id": "",\
+					"draggable": false\
+				}\
+			},\
+			"json": {\
+				"jsonKey": ""\
+			}\
+		}';
+
 var LABEL_DISPLAY_JSON = '{\
 	"type": "LABEL",\
 	"dom": {\

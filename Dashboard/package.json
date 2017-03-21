@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dashboard" : "cd server && node server.js"
+    "dashboard" : "cd server && node server.js",
+    "test" : "cd server && nodemon server.js"
   },
   "author": "UP745497",
   "license": "ISC",

@@ -108,6 +108,16 @@ function toggleBuilder() {
 
     itemContainer.appendChild(variableData.dom.base);
 
+    // add variable with just data
+
+    var variableHTML = createVariable(JSON.parse(VARIABLE_HTML_DISPLAY_JSON), TYPE.VARIABLEHTML);
+
+    variableHTML.dom.base.ondragstart = itemTemplateDragStart;
+    variableHTML.dom.base.ondragover = globalDragOver;
+    variableHTML.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(variableHTML.dom.base);
+
     // add a display label
 
     var label = createLabel(JSON.parse(LABEL_DISPLAY_JSON));

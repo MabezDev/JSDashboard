@@ -9,7 +9,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler')
 var app = express();
-var Feed = require('rss-to-json');
+//var Feed = require('rss-to-json'); //var FeedMe = require('feedme');
+var parser = require('rss-parser');
 
 var webpages = '../client/';
 var widgetFolder = 'widgets/';
@@ -93,6 +94,8 @@ function serviceWidget(req, res) {
   var type = req.query.type; // json native or rss
   if (!updateRequest) return;
 
+  console.log("New Update request for the URL : "+ updateRequest.serviceURL);
+
   if(type == "JSON"){
     request(updateRequest.serviceURL, function(error, response, body) {
       if (error) res.sendStatus(404);
@@ -101,16 +104,20 @@ function serviceWidget(req, res) {
         var values = parseData(serviceData, updateRequest);
         console.log(values);
         res.send(JSON.stringify(values));
+      } else {
+        res.sendStatus(404);
       }
     });
   } else if(type == "RSS"){
-    Feed.load(updateRequest.serviceURL, function(err, rss){
+    parser.parseURL(updateRequest.serviceURL, function(err, parsed) {
       if (err) res.sendStatus(404);
-      if (rss) {
-        var serviceData = rss;
+      if(parsed){
+        var serviceData = parsed;
         var values = parseData(serviceData, updateRequest);
         console.log(values);
         res.send(JSON.stringify(values));
+      } else {
+        res.sendStatus(404);
       }
     });
   }
@@ -147,9 +154,9 @@ function customTest(req, res) {
       }
     });
   } else if(type == "RSS"){
-    Feed.load(urlService, function(err, rss){
-      if(rss){
-        res.send(rss);
+    parser.parseURL(urlService, function(err, parsed) {
+      if(parsed){
+        res.send(parsed);
       } else {
         res.sendStatus(404);
       }

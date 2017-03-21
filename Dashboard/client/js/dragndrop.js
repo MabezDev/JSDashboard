@@ -88,6 +88,14 @@ function builderDrop(event) {
         
       }
       break;
+    case ID.VARIABLE_HTML_DISPLAY:
+      
+      if (source == 'data_drag') {
+        currentItem.dom.value.textContent = dataTransfer.data;
+        currentItem.json.jsonKey = dataTransfer.data;
+        
+      }
+      break;
     case ID.VARIABLESLOT:
 
       if (source == 'item_template_drag') {
@@ -120,6 +128,10 @@ function builderDrop(event) {
               break;
             case ID.VARIABLE_DATA_DISPLAY :
               var json = JSON.parse(VARIABLE_DATA_DISPLAY_JSON);
+              currentItem = createVariable(json, json.type);
+              break;
+            case ID.VARIABLE_HTML_DISPLAY :
+              var json = JSON.parse(VARIABLE_HTML_DISPLAY_JSON);
               currentItem = createVariable(json, json.type);
               break;
           }

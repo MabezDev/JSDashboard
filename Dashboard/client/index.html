@@ -27,6 +27,7 @@
             <span id="settings">
                 <button onclick="toggleBuilder()">Open Builder</button>
                 <button onclick="toggleSavedWidgetLoader()">Open Saved Widgets</button>
+                <button onclick="">How To Use</button>
             </span>
         </header>
 
@@ -61,24 +62,20 @@
                         </td>
 
                         <td>
+                        
                         <div id="variable_builder_container">
-                            
-                        </div>
-                        </td>
-
-                        <td>
-                        <div id="configure_container">
-                            <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
-                                <!-- variable that can be used to create custom widgets are generated here --> 
+                            <h3 class="builder_title">Variable Builder</h3>
+                            <div id="variable_slot_builder" >
+                                
                             </div>
                             <div id="data_config">
-                                <input id="service_url" type="url" name="service_url">
+                                <input id="service_url" class="data_config_item" type="url" name="service_url">
                                 <button onclick="testServiceForJSONKeys()">Test Service</button>
                                 <form>
-                                    <input id="type_json" type='radio' name='option'> JSON
-                                    <input id="type_rss" type='radio' name='option'> RSS
+                                    <input id="type_json" class="data_config_item" type='radio' name='option'> JSON
+                                    <input id="type_rss" class="data_config_item" type='radio' name='option'> RSS
                                 </form>
-                                <div id="service_output_container">
+                                <div id="service_output_container" class="data_config_item">
                                     <p>Output from service: </p>
                                     <select id="service_output" multiple="multiple"></select>
                                 </div>
@@ -87,12 +84,32 @@
                         </td>
 
                         <td>
+                        <div id="configure_container">
+                            <h3 class="builder_title">Item palette</h3>
+                            <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
+                                <!-- variable that can be used to create custom widgets are generated here --> 
+                            </div>
+                            <div id="builder_control">
+                                <button onclick="toggleBuilder()">Close</button>
+                                <button onclick="addToDashFromBuilder()">+</button>
+                                <!-- add trash item to drop items onto -->
+                                <div id="builder_trashcan">
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </td>
+
+                        <!-- <td>
                         <div id="builder_control">
                             <button onclick="toggleBuilder()">Close</button>
                             <button onclick="addToDashFromBuilder()">+</button>
-                            <!-- add trash item to drop items onto -->
+                            <div id="builder_trashcan">
+
+                            </div>
                         </div>
-                        </td>
+                        </td> -->
                     </tr>
                 </table>
             </div>

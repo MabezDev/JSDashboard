@@ -18,11 +18,13 @@ var ID = {
   BUILDER: 'widget_builder',
   ITEMCONTAINER: 'item_palette_container',
   VARIABLECONTAINER: 'variable_builder_container',
+  VARIABLESLOTCONTAINER: 'variable_slot_builder',
   CURRENTSTATECONTAINER : "current_state_container",
   VARIABLESLOT: 'variable_builder',
   SERVICELIST: 'service_output',
   SERVICEURL: 'service_url',
   URLTYPEJSON: 'type_json',
+  BUILDERTRASHCAN: 'builder_trashcan',
 
   //saved widget id's
   SAVED : 'saved_widgets',

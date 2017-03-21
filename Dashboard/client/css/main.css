@@ -22,6 +22,10 @@
     background-color: #377184;
     border-radius: 15px;
     padding : 10px;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: #324247;
 }
 
 .widget_title {
@@ -35,6 +39,10 @@
     margin-bottom: 15px;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: #324247;
 }
 
 .hidden {
@@ -53,7 +61,8 @@
     width: 100%;
     height: 100%;
     margin-left: -10px; 
-    margin-right: -10px; 
+    margin-right: -10px;
+    border-spacing: 20px 0; 
 }
 
 .widget_container {
@@ -64,13 +73,9 @@
     width: 33%;
 }
 
-table {
-  /*border-collapse: separate;*/
-  border-spacing: 20px 0;
-}
-
 body {
     background-color: #f4fcfc;
+    /*background-color: #273033;*/
 }
 
 p {

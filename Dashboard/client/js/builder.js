@@ -140,7 +140,7 @@ function toggleBuilder() {
 
   // create slot for variable to be dropped onto
 
-  var variableContainer = document.getElementById(ID.VARIABLECONTAINER);
+  var variableContainer = document.getElementById(ID.VARIABLESLOTCONTAINER);
 
   if (variableContainer.children.length == 0) {
     var variableSlot = document.createElement('div');

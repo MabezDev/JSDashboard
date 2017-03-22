@@ -2,7 +2,8 @@
 // Holds the wip widget and the item to be added next
 var currentItem = undefined;
 var currentWidget = undefined;
-var currentTestWidget = undefined;
+// and the preview item
+var currentPreviewWidget = undefined;
 
 function testServiceForJSONKeys() {
   var serviceUrl = document.getElementById(ID.SERVICEURL).value;
@@ -38,6 +39,7 @@ function testServiceForJSONKeys() {
 
   xhr.send();
 
+  // when ever we test a url pre-emptively push them intpo the widget so we can preview at any time 
   currentWidget.json.serviceURL = serviceUrl;
   currentWidget.json.urlType = (urlType.checked ? URL.JSON : URL.RSS);
 }
@@ -196,22 +198,22 @@ function saveWidgetOnServer(){
     }
 }
 
-function testBuilderWidget(isClosed){
+function previewWidgetWindow(isClosed){
   var popUpContainer = document.getElementById(ID.TESTPOPUPCONTAINER);
   var popUp = document.getElementById(ID.TESTPOPUP);
   if(isClosed){ // if its closed, open it
-    currentTestWidget = createWidget(currentWidget.toJSON()); // exact copy of the current state
-    currentTestWidget.dom.base.id="";
-    updateWidget(currentTestWidget);
+    currentPreviewWidget = createWidget(currentWidget.toJSON()); // exact copy of the current state
+    currentPreviewWidget.dom.base.id="";
+    updateWidget(currentPreviewWidget);
 
     // open pop up of widget
     popUpContainer.style.display = "block";
-    popUp.appendChild(currentTestWidget.dom.base);
+    popUp.appendChild(currentPreviewWidget.dom.base);
   } else { // close it and clean up objects
     // open pop up of widget
     popUpContainer.style.display = "none";
-    popUp.removeChild(currentTestWidget.dom.base);
-    currentTestWidget = undefined;
+    popUp.removeChild(currentPreviewWidget.dom.base);
+    currentPreviewWidget = undefined;
   }
 }
 

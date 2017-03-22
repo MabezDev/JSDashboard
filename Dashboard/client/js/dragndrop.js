@@ -2,6 +2,9 @@
 
 //dashboardDrop - handles drops on the the dashboard screen
 
+// currently Dragging dom element is put here for manipulation
+var currentItemDragging = undefined;
+
 function dashboardDrop(event) {
   event.preventDefault();
 
@@ -149,11 +152,12 @@ function builderDrop(event) {
       break;
     case ID.BUILDERTRASHCAN:
       
-      if (source == 'variable_drag') { 
-        var parent = currentItem.dom.base.parentNode;
-        parent.removeChild(currentItem.dom.base);
-        currentItem = undefined;
-        
+      if (source == 'variable_drag') {
+        if(!currentWidget.removeItem(currentItemDragging)){
+          // if its not in the widget its in the varibale builder
+          var parent = currentItemDragging.parentNode;
+          parent.removeChild(currentItemDragging);
+        } 
       }
       break;
   }
@@ -194,6 +198,8 @@ function variableDragStart(event) {
     source: 'variable_drag',
     data: event.target.textContent
   });
+
+  currentItemDragging = event.target;
   event.dataTransfer.setData('data', data);
   event.dataTransfer.dropEffect = 'move';
 }

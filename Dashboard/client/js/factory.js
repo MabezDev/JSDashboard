@@ -161,6 +161,17 @@ function WidgetObject() {
 		this.children.push(itemToAdd); // add to children list
 		this.dom.base.appendChild(itemToAdd.dom.base); // append there dom content to the widgets
 	};
+
+	this.removeItem = function (itemToRemove) {
+		for(var i=0; i < this.children.length; i++){
+			if(this.children[i].dom.base === itemToRemove){
+        		this.dom.base.removeChild(this.children[i].dom.base);
+        		this.children = this.children.filter(e => e !== this.children[i]);
+        		return true;
+			}
+		}
+		return false; 
+	};
 	return this;
 };
 

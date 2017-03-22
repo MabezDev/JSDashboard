@@ -13,7 +13,6 @@
     cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
     /*border-style: solid;*/
     /*border-width: 1px;*/
-    overflow: hidden;
 }
 
 .item {
@@ -97,7 +96,10 @@
 }
 
 #builder_control {
+    width: 100%;
     margin-top: 80px;
+    align-items: center;
+    text-align: center;
 }
 
 #builder_trashcan {
@@ -123,19 +125,18 @@
     min-height: 70vh;
 }
 
-/*#data_config {
-    align-content: center;
-    align-items: center;
+#data_config {
+    text-align: center;
 }
 
 .data_config_item {
-    align-content: center;
-    align-items: center;
-}*/
+    display: inline-block;
+    padding-top: 20px;
+}
 
 #service_output { /*TODO: should by dynamic not a set pixel width and height */
     min-width : 200px; 
-    min-height: 200px;
+    min-height: 170px;
 }
 
 
@@ -164,4 +165,8 @@
 #variable_data_display {
     display: inline;
     margin: 0.7%;
+}
+
+.radio_text {
+   display: inline-block;
 }

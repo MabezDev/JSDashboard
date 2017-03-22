@@ -85,3 +85,30 @@ p {
     margin-bottom: 10px;
     /*pointer-events: auto;*/
 }
+
+button {
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    /*background-color: #CC5916;*/
+    background-color: #FF4A27;
+    border-radius: 5px;
+}
+
+.medium-btn {
+    width: 70px;
+    height: 30px;
+    display: inline-block;
+}
+
+.large-btn {
+    width: 100px;
+    height: 30px;
+    font-size: 10pt;
+    display: inline-block;
+    margin-top: 15px;
+}

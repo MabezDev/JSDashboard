@@ -69,11 +69,11 @@
                                 
                             </div>
                             <div id="data_config">
-                                <input id="service_url" class="data_config_item" type="url" name="service_url">
-                                <button onclick="testServiceForJSONKeys()">Test Service</button>
-                                <form>
-                                    <input id="type_json" class="data_config_item" type='radio' name='option'> JSON
-                                    <input id="type_rss" class="data_config_item" type='radio' name='option'> RSS
+                                <form class="data_config_item">
+                                    <input id="service_url" type="url" name="service_url" value="URL Here" onFocus="this.select()">
+                                    <input class="radio" id="type_json" type='radio' name='option'> <p class="radio_text">JSON</p>
+                                    <input class="radio" id="type_rss" type='radio' name='option'> <p class="radio_text">RSS</p>
+                                    <button class="large-btn" onclick="testServiceForJSONKeys();return false;">Test Service</button>
                                 </form>
                                 <div id="service_output_container" class="data_config_item">
                                     <p>Output from service: </p>
@@ -89,13 +89,12 @@
                             <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
                                 <!-- variable that can be used to create custom widgets are generated here --> 
                             </div>
+                            <div id="builder_trashcan" ondragover="globalDragOver(event)" ondrop="builderDrop(event)">
+                                    
+                            </div>
                             <div id="builder_control">
-                                <button onclick="toggleBuilder()">Close</button>
-                                <button onclick="addToDashFromBuilder()">+</button>
-                                <!-- add trash item to drop items onto -->
-                                <div id="builder_trashcan">
-
-                                </div>
+                                <button class="medium-btn" onclick="toggleBuilder()">Close</button>
+                                <button class="medium-btn" onclick="addToDashFromBuilder()">+</button>
                             </div>
                         </div>
                         </div>

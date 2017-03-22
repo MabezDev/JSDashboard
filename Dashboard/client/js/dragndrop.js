@@ -147,6 +147,15 @@ function builderDrop(event) {
 
       }
       break;
+    case ID.BUILDERTRASHCAN:
+      
+      if (source == 'variable_drag') { 
+        var parent = currentItem.dom.base.parentNode;
+        parent.removeChild(currentItem.dom.base);
+        currentItem = undefined;
+        
+      }
+      break;
   }
 }
 

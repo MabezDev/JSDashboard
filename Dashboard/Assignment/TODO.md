@@ -2,11 +2,12 @@ TODO
 
 [Major]
 	- Implement last updated time to widget, with dom display
-	- Implement a trashcan to remove widgets and items in the builder
-	- Implement a way to save widgets to the server
+	- Implement a trashcan to remove widgets and items in the builder - [SEMI] - functionality for the builder is there but looks like crap
+	- Display Saved widgets in a preview gallery type deal
+	- Implement a way to save widgets to the server - [DONE] - need to either check if the filename exists or just save a random name if we can get the view running nicely
 	- add img item
-	- add html item (display a small amouint of html as a variable (set innerHTML to content)) - done
-	- set Update intervals
+	- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
+	- set Update intervals - [SEMI] - global interval set not widget specific
 	- add clock to top bar
 	- spacer item (purely dom (probs a span block with width options))
 	- Make it look good! (WIP)

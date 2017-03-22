@@ -174,6 +174,28 @@ function addWidgetToBuilder(){
   }
 }
 
+function saveWidgetOnServer(){
+
+  var fileName = prompt('Enter the fileName you wish to use: ', '');
+  if(fileName){
+
+    var xhr = new XMLHttpRequest();
+    var url = '/api/account/widgets/stored/save?file='+fileName;
+
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        console.log("Saved " + fnToSave + " successfully!");
+      } else {
+        console.log("XHR failed with code: " + xhr.status);
+      }
+    };
+
+    xhr.send(JSON.stringify(currentWidget.toJSON()));
+    }
+}
+
 function testBuilderWidget(isClosed){
   var popUpContainer = document.getElementById(ID.TESTPOPUPCONTAINER);
   var popUp = document.getElementById(ID.TESTPOPUP);
@@ -195,7 +217,7 @@ function testBuilderWidget(isClosed){
 
 
 
-function listPaths(a) {
+function listPaths(a) { // converts a json object into a list of valid object paths (dot notation form) - i.e item.group.value etc
   var list = [];
   (function(o, r) {
     r = r || '';

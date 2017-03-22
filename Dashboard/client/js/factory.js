@@ -67,15 +67,30 @@ function WidgetObject() {
 	this.dom = {  //specific to a variable but the api will be the same on all items
 		base : "",
 		title  : "",
+		//time : ""
 	};
 	this.json = { // set these (optional keys that only apply to this type of variable)
 		serviceURL : "", 
 		title : "",
-		urlType : ""
+		urlType : "",
+		//time : 0
 	};
 	this.children = [];
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ widget.type + " with serviceURL: "+ widget.json.serviceURL);
+		console.log("Updating "+ this.type + " with serviceURL: "+ this.json.serviceURL);
+		// var now = new Date();
+		// if(this.json.time !== 0 && this.json.time){
+		// 	var timeSince = (now.getTime() - this.json.time);
+		// 	if(timeSince < 300){ // less than 5 mins
+		// 		this.dom.time.textContent = "Last Updated: " + (timeSince % 60) + " minutes ago."
+		// 	} else { // else just display the time
+		// 		this.dom.time.textContent = "Last Updated: " + now.toLocaleTimeString(); 
+		// 	}
+		// }
+		// this.json.time = now.getTime(); // update time after
+		for(var item of this.children){
+		    item.update();
+		}
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -83,6 +98,7 @@ function WidgetObject() {
 			dom : {  //specific to a variable but the api will be the same on all items
 				base : "",
 				title  : "",
+				//time : 0
 			},
 			json : { // set these (optional keys that only apply to this type of variable)
 				serviceURL : "", 
@@ -93,6 +109,7 @@ function WidgetObject() {
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
 		toJSON.dom.title = dom2json(this.dom.title);
+		//toJSON.dom.time = dom2json(this.dom.time);
 		var children = [];
 		var jsonVars = this.children; // As we store a reference to the child as object we just call there toJSON function
 		for(var i=0; i<jsonVars.length; i++){
@@ -156,10 +173,11 @@ function VariableObject(){
 	};
 	this.json = { // set these (optional keys that only apply to this type of variable)
 		jsonKey : "", 
-		key : "", 
+		key : "",
+		value : ""  
 	};
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ variable.type + " with jsonKey: "+ variable.json.jsonKey);
+		this.dom.value.textContent = this.json.value;
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -171,7 +189,8 @@ function VariableObject(){
 			},
 			json : {
 				jsonKey : "",
-				key : ""
+				key : "",
+				value : ""
 			}
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
@@ -214,7 +233,7 @@ function LabelObject(){
 		text : "", 
 	};
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ variable.type + " with text: "+ variable.json.text);
+		// console.log("Updating "+ this.type + " with text: "+ this.json.text);
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -264,10 +283,11 @@ function VariableUnitObject(){
 	this.json = { // set these (optional keys that only apply to this type of variable)
 		jsonKey : "", 
 		key : "", 
-		unit : ""
+		unit : "",
+		value : ""
 	};
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ this.type);
+		this.dom.value.textContent = this.json.value;
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -281,7 +301,8 @@ function VariableUnitObject(){
 			json : {
 				jsonKey : "",
 				key : "",
-				unit : ""
+				unit : "",
+				value : ""
 			}
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
@@ -330,10 +351,11 @@ function VariableDataObject(){
 		value : ""
 	};
 	this.json = { // set these (optional keys that only apply to this type of variable)
-		jsonKey : ""
+		jsonKey : "",
+		value : ""
 	};
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ this.type);
+		this.dom.value.textContent = this.json.value;
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -343,7 +365,8 @@ function VariableDataObject(){
 				value : ""
 			},
 			json : {
-				jsonKey : ""
+				jsonKey : "",
+				value : ""
 			}
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
@@ -380,10 +403,11 @@ function VariableHTMLObject(){
 		value : ""
 	};
 	this.json = { // set these (optional keys that only apply to this type of variable)
-		jsonKey : ""
+		jsonKey : "",
+		value : ""
 	};
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ this.type);
+		this.dom.value.innerHTML = this.json.value;
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -393,7 +417,8 @@ function VariableHTMLObject(){
 				value : ""
 			},
 			json : {
-				jsonKey : ""
+				jsonKey : "",
+				value : ""
 			}
 		}
 		toJSON.dom.base = dom2json(this.dom.base);

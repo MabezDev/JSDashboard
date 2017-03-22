@@ -13,7 +13,7 @@
     <script src="js/dragndrop.js"></script>
     <script src="js/constants.js"></script>
     <script src="js/factory.js"></script>
-    <script src="js/savedwidgets.js"></script>
+    <script src="js/widgetmanager.js"></script>
     <!-- stores json templates for widget items -->
     <script src="json/localjson.js"></script>
 </head>
@@ -92,7 +92,7 @@
                             <div id="builder_control">
                                 <button class="medium-btn" onclick="addToDashFromBuilder()">Add to Dashboard</button>
                                 <button class="medium-btn" onclick="testBuilderWidget(true)">Preview Widget</button>
-                                <button class="medium-btn" onclick="">Save Widget</button>
+                                <button class="medium-btn" onclick="saveWidgetOnServer()">Save Widget</button>
                                 <div id="quit_builder">
                                     <button class="small-btn" onclick="toggleBuilder()">Hide</button>
                                 </div>

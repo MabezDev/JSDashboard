@@ -38,20 +38,22 @@ app.post('/api/data/custom/service', serviceWidget); // custom json to be ran fr
 //app.post('/api/account/login', login);
 app.get('/api/account/widgets/stored/get', getWidgetJSON); // gets a widget, takes parameter of filename (or id if we have time to set up database)
 app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
+app.post('/api/account/widgets/stored/save', saveWidgetJSON); //save a widget
 
-function getWidgetJSON(req, res){
+function saveWidgetJSON(req, res){
   var filename = req.query.file;
+  var widgetContent = req.body;
+  if(!filename || filename == "" || !widgetContent) return;
+  widgetContent = JSON.stringify(widgetContent);
 
-  if(!filename) return;
-
-  fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
+  fs.writeFile('widgets/' + filename, widgetContent, {encoding: 'utf-8'}, function(err){
     if (!err){
-      res.send(JSON.parse(data));
+      res.sendStatus(200);
     }else{
       console.log(err);
       res.sendStatus(404);
     }
-
+    console.log(filename + " saved successfully!");
   });
 }
 
@@ -65,6 +67,23 @@ function listWidgets(req, res){
     if(filenameArray.length !== 0){
       res.json(filenameArray);
     } else {
+      res.sendStatus(404);
+    }
+
+  });
+}
+
+
+function getWidgetJSON(req, res){
+  var filename = req.query.file;
+
+  if(!filename) return;
+
+  fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
+    if (!err){
+      res.send(JSON.parse(data));
+    }else{
+      console.log(err);
       res.sendStatus(404);
     }
 

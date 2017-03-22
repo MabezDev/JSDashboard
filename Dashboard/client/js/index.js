@@ -24,6 +24,7 @@ function init() {
   setInterval(() => {
     updateWidgets();
   }, 180000); // every 3mins
+
 }
 
 function addToDashboard(newWidgetObject) {
@@ -126,17 +127,15 @@ function updateWidget(widgetObject){
         var returned = dataFromServer[j];
         for(var k=0; k < widgetObject.children.length; k++){
           if(widgetObject.children[k].json.jsonKey === returned.key){
-            if(widgetObject.children[k].type == TYPE.VARIABLEHTML){
-              widgetObject.children[k].dom.value.innerHTML = returned.value;
-            } else { // another type would be image, setting the src would be different
-              widgetObject.children[k].dom.value.textContent = returned.value;
-            }
+            widgetObject.children[k].json.value = returned.value;
           } 
         }
       }
     } else {
       console.log('Failed to service widget.');
     }
+
+    widgetObject.update(); // updates all child objects, pushing the data we just recieved into the dom
   };
   xhr.send(JSON.stringify(updateRequest));
 

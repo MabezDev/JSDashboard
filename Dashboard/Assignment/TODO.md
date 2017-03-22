@@ -1,6 +1,7 @@
 TODO
 
 [Major]
+	- Implement last updated time to widget, with dom display
 	- Implement a trashcan to remove widgets and items in the builder
 	- Implement a way to save widgets to the server
 	- add img item
@@ -8,7 +9,8 @@ TODO
 	- set Update intervals
 	- add clock to top bar
 	- spacer item (purely dom (probs a span block with width options))
-	- Make it look good!
+	- Make it look good! (WIP)
+	- Use iframe to link to github read me to show users how to use the dash
 
 
 [Minor]

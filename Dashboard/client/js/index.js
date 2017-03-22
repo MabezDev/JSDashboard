@@ -10,8 +10,6 @@ var arrayOfWidgets = [];
 
 function init() {
   // on load set up components
-  console.log('Dashboard loading...');
-  // //setInterval(updateWidgets, 3000);
 
   var count = 0;
   var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
@@ -21,6 +19,11 @@ function init() {
       columns[j].appendChild(createWidget(undefined,++count).dom.base); // all blank widgets
     }
   }
+
+  updateWidgets();
+  setInterval(() => {
+    updateWidgets();
+  }, 180000); // every 3mins
 }
 
 function addToDashboard(newWidgetObject) {
@@ -123,7 +126,6 @@ function updateWidget(widgetObject){
         var returned = dataFromServer[j];
         for(var k=0; k < widgetObject.children.length; k++){
           if(widgetObject.children[k].json.jsonKey === returned.key){
-            console.log(widgetObject.children[k].type);
             if(widgetObject.children[k].type == TYPE.VARIABLEHTML){
               widgetObject.children[k].dom.value.innerHTML = returned.value;
             } else { // another type would be image, setting the src would be different

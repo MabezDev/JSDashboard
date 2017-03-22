@@ -18,11 +18,21 @@
 
 #title {
     display: inline-block;
+    margin-left: 40px;
 }
 
 #navigation {
     display: inline-block;
     float: right;
+
+    position: relative;
+    top: 50%;
+    transform: perspective(1px) translateY(+80%);
+    -webkit-transform: perspective(1px) translateY(+80%);
+    -moz-transform: perspective(1px) translateY(+80%);
+    -ms-transform: perspective(1px) translateY(+80%);
+
+    margin-right: 100px;
 }
 
 .widget {
@@ -125,5 +135,5 @@ button {
     height: 30px;
     font-size: 10pt;
     display: inline-block;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
 }

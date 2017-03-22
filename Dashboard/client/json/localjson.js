@@ -135,7 +135,7 @@ var VARIABLE_HTML_DISPLAY_JSON = '{\
 				},\
 				"value": {\
 					"tag": "P",\
-					"content": "HTML content",\
+					"content": "HTML Content",\
 					"className": "widget_child_elements variable",\
 					"id": "",\
 					"draggable": false\

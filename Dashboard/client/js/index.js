@@ -119,7 +119,6 @@ function updateWidget(widgetObject){
   xhr.onload = function() {
     if (xhr.status === 200) {
       dataFromServer = JSON.parse(this.responseText);
-
       for(var j=0; j < dataFromServer.length; j++){
         var returned = dataFromServer[j];
         for(var k=0; k < widgetObject.children.length; k++){
@@ -133,7 +132,6 @@ function updateWidget(widgetObject){
           } 
         }
       }
-
     } else {
       console.log('Failed to service widget.');
     }

@@ -4,7 +4,7 @@ TODO
 	- Implement a trashcan to remove widgets and items in the builder
 	- Implement a way to save widgets to the server
 	- add img item
-	- add html item (display a small amouint of html as a variable (set innerHTML to content))
+	- add html item (display a small amouint of html as a variable (set innerHTML to content)) - done
 	- set Update intervals
 	- add clock to top bar
 	- spacer item (purely dom (probs a span block with width options))

@@ -25,6 +25,9 @@ var ID = {
   SERVICEURL: 'service_url',
   URLTYPEJSON: 'type_json',
   BUILDERTRASHCAN: 'builder_trashcan',
+  TESTPOPUP: 'widget_test_popup',
+  TESTPOPUPCONTAINER: 'widget_test_container',
+  TESTCONTROL: 'widget_test_control',
 
   //saved widget id's
   SAVED : 'saved_widgets',

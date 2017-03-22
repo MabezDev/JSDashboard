@@ -95,6 +95,7 @@ function serviceWidget(req, res) {
   if (!updateRequest) return;
 
   console.log("New Update request for the URL : "+ updateRequest.serviceURL);
+  console.log(updateRequest);
 
   if(type == "JSON"){
     request(updateRequest.serviceURL, function(error, response, body) {
@@ -120,6 +121,8 @@ function serviceWidget(req, res) {
         res.sendStatus(404);
       }
     });
+  } else {
+    console.log("No type specified!");
   }
 
 }
@@ -161,6 +164,8 @@ function customTest(req, res) {
         res.sendStatus(404);
       }
     });
+  } else {
+    console.log("No type specified!");
   }
 
 }

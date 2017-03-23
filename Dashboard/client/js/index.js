@@ -25,12 +25,13 @@ function init() {
     updateWidgets();
   }, 180000); // every 3mins
 
+  
 }
 
 function addToDashboard(newWidgetObject) {
   console.log('Looking for free spot in grid...');
 
-  var slotFree = findFreeSlot();
+  var slotFree = findFreeSlot(ID.WIDGETGRID);
   if (slotFree) {
     console.log("Slot "+ slotFree + " is free!");
     var emptySlot = document.getElementById(slotFree);
@@ -71,8 +72,8 @@ function addToDashboard(newWidgetObject) {
   }
 }
 
-function findFreeSlot(){
-  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
+function findFreeSlot(gridID){
+  var tableRows = document.getElementById(gridID).children[0].children;
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){

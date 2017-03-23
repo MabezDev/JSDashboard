@@ -1,0 +1,78 @@
+{
+	"type": "WIDGET",
+	"dom": {
+		"base": {
+			"tag": "DIV",
+			"content": "",
+			"className": "widget",
+			"id": "2",
+			"draggable": true
+		},
+		"title": {
+			"tag": "H3",
+			"content": "Newstand",
+			"className": "widget_child_elements widget_title",
+			"id": "",
+			"draggable": false
+		}
+	},
+	"json": {
+		"serviceURL": "http://feeds.bbci.co.uk/news/world/europe/rss.xml",
+		"title": "Newstand",
+		"urlType": "RSS"
+	},
+	"children": [
+		{
+			"type": "VARIABLE",
+			"dom": {
+				"base": {
+					"tag": "DIV",
+					"content": "",
+					"className": "widget_child_elements",
+					"id": "",
+					"draggable": false
+				},
+				"key": {
+					"tag": "P",
+					"content": "Newest headline: ",
+					"className": "widget_child_elements variable",
+					"id": "",
+					"draggable": false
+				},
+				"value": {
+					"tag": "P",
+					"content": "items.0.title",
+					"className": "widget_child_elements variable",
+					"id": "",
+					"draggable": false
+				}
+			},
+			"json": {
+				"jsonKey": "feed.entries.0.title",
+				"key": "Newest headline: "
+			}
+		},
+		{
+			"type": "VARIABLEDATA",
+			"dom": {
+				"base": {
+					"tag": "DIV",
+					"content": "",
+					"className": "widget_child_elements",
+					"id": "",
+					"draggable": false
+				},
+				"value": {
+					"tag": "P",
+					"content": "feed.entries.0.description",
+					"className": "widget_child_elements variable",
+					"id": "",
+					"draggable": false
+				}
+			},
+			"json": {
+				"jsonKey": "feed.entries.0.content"
+			}
+		}
+	]
+}

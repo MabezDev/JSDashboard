@@ -37,11 +37,11 @@
 
 .widget {
     width: 100%;
-    min-height: 26vh;
+    height: 100%;
     background-color: #377184;
     border-radius: 15px;
     padding : 10px;
-
+    min-height: 26vh;
     border-style: solid;
     border-width: 3px;
     border-color: #324247;
@@ -76,7 +76,7 @@
   pointer-events: none;
 }
 
-#widget_grid{
+.widget_grid{
     width: 100%;
     height: 100%;
     margin-left: -10px; 
@@ -87,6 +87,14 @@
 .widget_container {
     min-width: 400px;
     min-height: 400px;
+    max-width: 33%
+    max-height: 33%;
+    width: 33%;
+}
+
+.widget_container_manager {
+    /*min-width: 220px;
+    min-height: 220px;*/
     max-width: 33%
     max-height: 33%;
     width: 33%;

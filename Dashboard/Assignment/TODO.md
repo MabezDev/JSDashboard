@@ -13,6 +13,9 @@ TODO
 	- Make it look good! (WIP)
 	- Use iframe to link to github read me to show users how to use the dash
 
+	Bugs
+		- fix validation of serviceURL, it keeps taking the default value of URL here
+
 
 [Minor]
 	- Implement the account creation etc if we have time

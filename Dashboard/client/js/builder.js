@@ -79,6 +79,7 @@ function finalizeWidget(widget){
       widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
 
       widget.dom.title.id = ""; // remove title id so we dont break when building another widget
+      widget.dom.base.id = ""; // remove id so we dont break when building another widget
       return widget;
   } else {
     console.log("serviceURL cannot be empty!");

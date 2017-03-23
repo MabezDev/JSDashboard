@@ -39,6 +39,7 @@ app.post('/api/data/custom/service', serviceWidget); // custom json to be ran fr
 app.get('/api/account/widgets/stored/get', getWidgetJSON); // gets a widget, takes parameter of filename (or id if we have time to set up database)
 app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
 app.post('/api/account/widgets/stored/save', saveWidgetJSON); //save a widget
+app.get('/api/account/widgets/stored/list/content', sendMultipleWidgets); //save a widget
 
 function saveWidgetJSON(req, res){
   var filename = req.query.file;
@@ -73,6 +74,47 @@ function listWidgets(req, res){
   });
 }
 
+function sendMultipleWidgets(req, res){
+  var pageNumber = req.query.p;
+
+  if(!pageNumber) return;
+
+  var widgetArray = [];
+  var promises = [];
+  fs.readdir(widgetFolder, (err, files) => {
+    
+    for(var i=0; i<files.length; i++){
+      promises.push(getData(widgetFolder + files[i], {encoding: 'utf-8'})); //.then((content) => widgetArray.push({name : files[i], data : content})
+    }
+
+    Promise.all(promises)
+      .then((data) => {
+        if(data.length !== 0){
+          var lowerBound = (pageNumber - 1) * 9; // find the lower bound i.e page 1, the lower bound is 0
+          var selection = data.slice(lowerBound, lowerBound + 9);
+          res.json(selection);
+        } else {
+          res.sendStatus(404);
+        }
+
+      })
+      .catch((e) => console.log(e));
+
+    
+
+  });
+   
+}
+
+function getData(fileName, type) {
+  return new Promise(function(resolve, reject){
+    fs.readFile(fileName, type, (err, data) => {
+        if (err) { reject(err); }
+        resolve(JSON.parse(data));
+    })
+  });
+}
+
 
 function getWidgetJSON(req, res){
   var filename = req.query.file;
@@ -86,7 +128,6 @@ function getWidgetJSON(req, res){
       console.log(err);
       res.sendStatus(404);
     }
-
   });
 }
 
@@ -118,7 +159,9 @@ function serviceWidget(req, res) {
 
   if(type == "JSON"){
     request(updateRequest.serviceURL, function(error, response, body) {
-      if (error) res.sendStatus(404);
+      if (error) {
+        console.log(error);
+      }
       if (body) {
         var serviceData = JSON.parse(body);
         var values = parseData(serviceData, updateRequest);
@@ -130,7 +173,9 @@ function serviceWidget(req, res) {
     });
   } else if(type == "RSS"){
     parser.parseURL(updateRequest.serviceURL, function(err, parsed) {
-      if (err) res.sendStatus(404);
+      if (err) {
+        console.log(err);
+      }
       if(parsed){
         var serviceData = parsed;
         var values = parseData(serviceData, updateRequest);

@@ -29,7 +29,7 @@
         </header>
 
         <div id="grid_container">
-            <table id="widget_grid">
+            <table id="widget_grid" class="widget_grid">
                 <tr class="widget_container">
                     <td class="widget_container"></td>
                     <td class="widget_container"></td>
@@ -126,25 +126,29 @@
 
         <div id="saved_widgets">
             <div id="saved_container">
-                <button onclick="listSaved()">List saved Widgets</button>
-                <select id="saved_widgets_output" multiple="multiple"></select>
-                <button onclick="toggleSavedWidgetLoader()">Hide</button>
-                <table id="widget_grid_saved_widgets">
-                <tr class="widget_container">
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
+                <table id="widget_grid_saved_widgets" class="widget_grid">
+                <tr class="widget_container_manager">
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
                 </tr>
-                <tr class="widget_container">
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
+                <tr class="widget_container_manager">
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
                 </tr>
-                <tr class="widget_container">
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
-                    <td class="widget_container"></td>
+                <tr class="widget_container_manager">
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
+                    <td class="widget_container_manager"></td>
                 </tr>
+                <div id="saved_control">
+                    <button onclick="listSaved()">List saved Widgets</button>
+                    <select id="saved_widgets_output" multiple="multiple"></select>
+                    <button onclick="toggleSavedWidgetLoader()">Hide</button>
+                    <a href="#" onclick="movePage(false)"><</a>
+                    <a href="#" onclick="movePage(true)">></a>
+                </div>
             </table>
             </div>
         </div>

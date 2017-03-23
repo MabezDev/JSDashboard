@@ -146,7 +146,7 @@ function WidgetObject() {
 		
 		var children = jsonData.children;
 		for(var i=0; i<children.length;i++){
-			console.log("Adding item of type "+ children[i].type); 
+			//console.log("Adding item of type "+ children[i].type); 
 			if(children[i].type == TYPE.VARIABLE){// check type to create different items like labels etc
 				var variable = createVariable(children[i], TYPE.VARIABLE);
 				this.appendItem(variable);

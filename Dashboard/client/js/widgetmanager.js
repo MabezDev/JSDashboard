@@ -1,4 +1,6 @@
-
+var pageNumber = 1;
+var displayWidgetStore = [];
+var outOfData = false;
 
 function toggleSavedWidgetLoader(){
 	var panel = document.getElementById(ID.SAVED);
@@ -32,6 +34,42 @@ function listSaved() {
   xhr.send();
 }
 
+function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
+  var displayGrid = document.getElementById(ID.SAVED_GRID);
+  var xhr = new XMLHttpRequest();
+  var url = '/api/account/widgets/stored/list/content?p=' + pageNumber;
+
+  console.log("Loading page number "+ pageNumber);
+
+  xhr.open('GET', url);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var widgets = JSON.parse(this.responseText);
+      outOfData = widgets.length < 9;
+      displayWidgetStore = [];
+
+      var count = 0;
+      var tableRows = displayGrid.children[0].children;
+      for(var i=0; i<tableRows.length; i++){
+        var columns = tableRows[i].children;
+        for(var j=0; j<columns.length; j++){
+          columns[j].innerHTML = "";
+          if(widgets[count]){
+            var widgetFromServer = createWidget(widgets[count]);
+            displayWidgetStore.push(widgetFromServer);
+            columns[j].appendChild(widgetFromServer.dom.base);
+            count++;
+          }
+        }
+      }
+
+    } else {
+      console.log(xhr.status);
+    }
+  };
+  xhr.send();
+}
+
 function loadSavedWidget(event){
   console.log("Loading widget : " + event.target.textContent);
 
@@ -58,6 +96,14 @@ function loadSavedWidget(event){
   xhr.send();
 }
 
-function saveWidget(){
+function movePage(next){
+  if(next){
+    if(!outOfData) loadWidgetsIntoManager(++pageNumber);
+  } else { // previous page
+    if(pageNumber > 1) loadWidgetsIntoManager(--pageNumber);
+  }
+}
 
+window.onload = function(){
+  loadWidgetsIntoManager(pageNumber);
 }

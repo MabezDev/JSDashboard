@@ -13,6 +13,7 @@ var ID = {
   VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
   VARIABLE_DATA_DISPLAY: 'variable_data_display',
   VARIABLE_HTML_DISPLAY: 'variable_html_display',
+  POSITIONAL_DISPLAY: 'positional_display',
   
   // builder id's
   BUILDER: 'widget_builder',
@@ -28,6 +29,8 @@ var ID = {
   TESTPOPUP: 'widget_test_popup',
   TESTPOPUPCONTAINER: 'widget_test_container',
   TESTCONTROL: 'widget_test_control',
+
+  SAVED_GRID : 'widget_grid_saved_widgets',
 
   //saved widget id's
   SAVED : 'saved_widgets',
@@ -47,7 +50,8 @@ var TYPE = {
   WIDGET : "WIDGET",
   VARIABLEUNIT : "VARIABLEWITHUNIT",
   VARIABLEDATA : "VARIABLEDATA",
-  VARIABLEHTML : "VARIABLEHTML"
+  VARIABLEHTML : "VARIABLEHTML",
+  POSITIONALOBJECT : "POSITIONALOBJECT"
 };
 
 var URL = {

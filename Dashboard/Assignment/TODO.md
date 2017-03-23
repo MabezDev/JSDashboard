@@ -9,7 +9,7 @@ TODO
 	- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
 	- set Update intervals - [SEMI] - global interval set not widget specific
 	- add clock to top bar
-	- spacer item (purely dom (probs a span block with width options))
+	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh
 	- Make it look good! (WIP)
 	- Use iframe to link to github read me to show users how to use the dash
 

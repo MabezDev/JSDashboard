@@ -50,7 +50,7 @@
 .widget_title {
     padding : 3px;
     font-size: 18pt;
-    background-color: #043444;
+    background-color: #42aaf4; /*#043444;*/
     border-radius: 4px;
     display: inline-block;
     cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
@@ -101,7 +101,8 @@ p {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 0px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
+    margin-bottom: 0px;
     /*pointer-events: auto;*/
 }
 

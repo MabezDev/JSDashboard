@@ -64,6 +64,7 @@ function builderDrop(event) {
         // add variable to widget
         console.log('Adding a variable to widget.');
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
+        console.log(currentItem);
         currentWidget.appendItem(currentItem);
       }
       break;
@@ -137,6 +138,12 @@ function builderDrop(event) {
               var json = JSON.parse(VARIABLE_HTML_DISPLAY_JSON);
               currentItem = createVariable(json, json.type);
               break;
+            case ID.POSITIONAL_DISPLAY :
+              var json = JSON.parse(POSITIONAL_DISPLAY_JSON);
+              currentItem = createPositionalItem(json);
+              break;
+
+              
           }
 
 

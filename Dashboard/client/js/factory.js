@@ -53,6 +53,13 @@ function createVariable(jsonData, type){
 	}
 }
 
+function createPositionalItem(jsonData){
+	var positionalObject = new PositionalObject();
+	return jsonData ? positionalObject.fromJSON(jsonData) : positionalObject; //return blank or generate based on json input
+}
+
+
+
 function createLabel(jsonData){
 	var label = new LabelObject();
 	return jsonData ? label.fromJSON(jsonData) : label;
@@ -152,19 +159,22 @@ function WidgetObject() {
 			} else if(children[i].type == TYPE.LABEL){
 				var label = createLabel(children[i], TYPE.LABEL);
 				this.appendItem(label);
+			} else if(children[i].type == TYPE.POSITIONALOBJECT){
+				var positionalObject = createPositionalItem(children[i]);
+				this.appendItem(positionalObject);
 			}
 		}
 
 		return this;
 	};
-	this.appendItem = function (itemToAdd) { 
+	this.appendItem = function (itemToAdd) {
 		this.children.push(itemToAdd); // add to children list
 		this.dom.base.appendChild(itemToAdd.dom.base); // append there dom content to the widgets
 	};
 
-	this.removeItem = function (itemToRemove) {
+	this.removeItem = function (itemToRemoveDomBase) {
 		for(var i=0; i < this.children.length; i++){
-			if(this.children[i].dom.base === itemToRemove){
+			if(this.children[i].dom.base === itemToRemoveDomBase){
         		this.dom.base.removeChild(this.children[i].dom.base);
         		this.children = this.children.filter(e => e !== this.children[i]);
         		return true;
@@ -463,6 +473,56 @@ function VariableHTMLObject(){
 	};
 }
 
+function PositionalObject(){
+	this.type = TYPE.POSITIONALOBJECT; // every item must have a type variable
+	this.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+		//text  : ""
+	};
+	this.json = { // set these (optional keys that only apply to this type of variable) 
+		//text : "", 
+	};
+	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
+		// console.log("Updating "+ this.type + " with text: "+ this.json.text);
+	};
+	this.toJSON = function() {
+		var toJSON =  {
+			type : TYPE.POSITIONALOBJECT, // every item must have a type variable
+			dom : {  //specific to a variable but the api will be the same on all items
+				base : "",
+				//text  : ""
+			},
+			json : { // set these (optional keys that only apply to this type of variable) 
+				//text : "", 
+			}
+		}
+		toJSON.dom.base = dom2json(this.dom.base);
+		//toJSON.dom.text = dom2json(this.dom.text);
+		//toJSON.json.text = this.json.text;
+		return toJSON;
+	};
+	this.fromJSON = function(jsonData) { // load into this object
+		// reconstruct from json
+
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+		console.log(base);
+		//var text = json2dom(domObjects.text);
+		//base.appendChild(text);
+
+		var domElem = {
+			base : base,
+			//text  : text
+		}
+
+		this.dom = domElem;
+		this.type = jsonData.type;
+		//this.json.text = jsonData.json.text;
+
+		return this;
+	};
+}
+
 /*
 	Helper functions for converting to and from json and dom elements
 */
@@ -480,7 +540,7 @@ function json2dom(jsonData){
 function dom2json(domElement){
 	return {
 		tag : domElement.nodeName,
-		content : domElement.childNodes[0].nodeType == 3 ? domElement.childNodes[0].textContent : "", //makes sure we only get content from that node and not child nodes
+		content : domElement.childNodes.length > 0 ? (domElement.childNodes[0].nodeType == 3 ? domElement.childNodes[0].textContent : "") : "", //makes sure we only get content from that node and not child nodes
 		className : domElement.className,
 		id : domElement.id ? domElement.id : "", // stops undefined from showing up in the raw json
 		draggable : domElement.draggable

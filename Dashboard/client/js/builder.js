@@ -46,32 +46,44 @@ function testServiceForJSONKeys() {
 
 function addToDashFromBuilder(){
   var wipwidget = document.getElementById(ID.WIPWIDGET);
+
+  //reset the builder widget
+  var currentState = wipwidget.parentNode;
+  currentState.removeChild(wipwidget); // remove the widget we built from the builder
+
+  var finishedWidget = finalizeWidget(currentWidget);
+  if(finishedWidget){
+    addToDashboard(finishedWidget);
+  } else {
+    console.log("The finishedWidget is undefined");
+  }  
+  
+
+  addWidgetToBuilder(); // add a blank builder back to the builder
+  
+}
+
+function finalizeWidget(widget){
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
   var urlType = document.getElementById(ID.URLTYPEJSON);
 
   if (serviceURL) {
-      currentWidget.json.serviceURL = serviceURL; // set the service URL
-      currentWidget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
+      widget.json.serviceURL = serviceURL; // set the service URL
+      widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
       
-      for(var i=0; i<currentWidget.children.length; i++){ // make sure children are not targetable or draggable
-        currentWidget.children[i].dom.base.className = CSS.UNTARGETABLECHILDREN;
-        currentWidget.children[i].dom.base.draggable = false;
+      for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
+        widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
+        widget.children[i].dom.base.draggable = false;
       }
 
-      currentWidget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
+      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
 
-      currentWidget.dom.title.id = ""; // remove title id so we dont break when building another widget
-
-      //reset the builder widget
-      var currentState = wipwidget.parentNode;
-      currentState.removeChild(wipwidget); // remove the widget we built from the builder
-
-      addToDashboard(currentWidget);
-
-      addWidgetToBuilder(); // add a blank builder back tot he builder
+      widget.dom.title.id = ""; // remove title id so we dont break when building another widget
+      return widget;
   } else {
-    console.log('ServiceURL cannot be empty!');
+    console.log("serviceURL cannot be empty!");
   }
+
 }
 
 function toggleBuilder() {
@@ -142,6 +154,15 @@ function toggleBuilder() {
     bigLabel.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(bigLabel.dom.base);
+
+    // // add a positional item - doesnt really work
+
+    // var posItem = createPositionalItem(JSON.parse(POSITIONAL_DISPLAY_JSON));
+    // posItem.dom.base.ondragstart = itemTemplateDragStart;
+    // posItem.dom.base.ondragover = globalDragOver;
+    // posItem.dom.base.ondrop = builderDrop;
+
+    // itemContainer.appendChild(posItem.dom.base);
   }
 
   // create slot for variable to be dropped onto
@@ -188,13 +209,13 @@ function saveWidgetOnServer(){
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.onload = function() {
       if (xhr.status === 200) {
-        console.log("Saved " + fnToSave + " successfully!");
+        console.log("Saved " + fileName + " successfully!");
       } else {
         console.log("XHR failed with code: " + xhr.status);
       }
     };
 
-    xhr.send(JSON.stringify(currentWidget.toJSON()));
+    xhr.send(JSON.stringify(finalizeWidget(currentWidget.toJSON())));
     }
 }
 
@@ -202,9 +223,9 @@ function previewWidgetWindow(isClosed){
   var popUpContainer = document.getElementById(ID.TESTPOPUPCONTAINER);
   var popUp = document.getElementById(ID.TESTPOPUP);
   if(isClosed){ // if its closed, open it
+
     currentPreviewWidget = createWidget(currentWidget.toJSON()); // exact copy of the current state
-    currentPreviewWidget.dom.base.id="";
-    updateWidget(currentPreviewWidget);
+    updateWidget(finalizeWidget(currentPreviewWidget));
 
     // open pop up of widget
     popUpContainer.style.display = "block";

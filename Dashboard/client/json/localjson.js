@@ -192,3 +192,18 @@ var BIG_LABEL_DISPLAY_JSON = '{\
 		"text": "Big Label"\
 	}\
 }';
+
+var POSITIONAL_DISPLAY_JSON = '{\
+	"type": "POSITIONALOBJECT",\
+	"dom": {\
+		"base": {\
+			"tag": "DIV",\
+			"content": "",\
+			"className": "item spacer-1-4",\
+			"id": "positional_display",\
+			"draggable": true\
+		}\
+	},\
+	"json": {\
+	}\
+}';

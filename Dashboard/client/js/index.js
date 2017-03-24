@@ -26,17 +26,26 @@ function init() {
 
   // debug css layouts
   //[].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
+
+  jsonToLayout(JSON.parse(layoutTest));
 }
 
 function addToDashboard(newWidgetObject, slotID) {
-
+  var replace = false;
+  if(slotID){
+    if(!isSlotFree(ID.WIDGETGRID, slotID)){
+      if(!confirm("A widget is already in that slot, are you sure you want to replace it? (Cancelling will place the widget in the next free slot)")){
+        slotID = findFreeSlot(ID.WIDGETGRID);
+      } else {
+        replace = true;
+      }
+    }
+  }
   var slotFree = slotID ? slotID : findFreeSlot(ID.WIDGETGRID);
   if (slotFree) {
-    console.log("Slot "+ slotFree + " is free!");
-    var emptySlot = document.getElementById(slotFree);
 
-    // assign new unique id
-    newWidgetObject.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's, will need a function to get the next available ID
+    console.log("Slot "+ slotFree + " is free!");
+    var dropSlot = document.getElementById(slotFree);
 
     // add drag and drop handlers
     newWidgetObject.dom.base.draggable = true;
@@ -44,10 +53,20 @@ function addToDashboard(newWidgetObject, slotID) {
     newWidgetObject.dom.base.ondragover = globalDragOver;
     newWidgetObject.dom.base.ondrop = dashboardDrop;
 
+    // get the container
+    var slotParent = dropSlot.parentNode;
+
+    if (replace) {
+      removeWidgetById(slotFree); // remove old widget
+    } else {
+      slotParent.removeChild(dropSlot); // remove the empty slot
+    }
+
+    // assign new unique id
+    newWidgetObject.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's, will need a function to get the next available ID
+
     // switch into empty slot
-    var slotParent = emptySlot.parentNode;
     slotParent.appendChild(newWidgetObject.dom.base); // add it to the dashbaord
-    slotParent.removeChild(emptySlot); // remove the empty slot
     
     console.log("------------------------------------");
     console.log("---Adding new widget to Dashboard---");
@@ -71,6 +90,55 @@ function addToDashboard(newWidgetObject, slotID) {
   }
 }
 
+function layoutToJSON(){
+  var pureJson = [];
+
+  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      var widget = columns[j].children[0].children[0];
+      
+      if(isSlotFree(ID.WIDGETGRID, widget.id)){
+        pureJson.push({
+          type : "HIDDEN"
+        });
+      } else {
+        pureJson.push(getWidgetById(widget.id).toJSON());
+      }
+    }
+  }
+  return JSON.stringify(pureJson);
+}
+
+function jsonToLayout(jsonArray){
+  for(var i=0; i< jsonArray.length; i++){
+    var type = jsonArray[i].type;
+    if(type == "WIDGET"){
+      var widget = createWidget(jsonArray[i]);
+      addToDashboard(widget, '' + (i+1)); // add to dash in that slot
+    }
+  }
+}
+
+function getWidgetById(domID){
+  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
+  for(var widget of arrayOfWidgets){
+    if(widget.dom.base.id == domID){
+      return widget;
+    }
+  }
+}
+
+function removeWidgetById(domId){
+  arrayOfWidgets = arrayOfWidgets.filter(e => e.dom.base.id !== domId);
+
+  var widgetToRemove = document.getElementById(domId);
+  if(widgetToRemove.parentNode){ // if element has parent remove it ( remove from page )
+    widgetToRemove.parentNode.removeChild(widgetToRemove);
+  }
+}
+
 function findFreeSlot(gridID){
   var tableRows = document.getElementById(gridID).children[0].children;
   for(var i=0; i<tableRows.length; i++){
@@ -79,6 +147,20 @@ function findFreeSlot(gridID){
       var widget = columns[j].children[0].children[0];
       if (widget.className.includes(CSS.HIDDEN)) {
         return widget.id;
+      }
+    }
+  }
+  return;  
+}
+
+function isSlotFree(gridID, elementID){
+  var tableRows = document.getElementById(gridID).children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      var widget = columns[j].children[0].children[0];
+      if(widget.id == elementID){
+        return widget.className.includes(CSS.HIDDEN)
       }
     }
   }
@@ -102,6 +184,7 @@ function updateWidget(widgetObject){
       || widgetObject.children[i].type == TYPE.VARIABLEHTML
       || widgetObject.children[i].type == TYPE.VARIABLEDATA ){
       jsonKeys.push(widgetObject.children[i].json.jsonKey);
+      widgetObject.children[i].dom.value.textContent = "Loading..."
     }
   }
 

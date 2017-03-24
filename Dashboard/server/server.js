@@ -79,12 +79,11 @@ function sendMultipleWidgets(req, res){
 
   if(!pageNumber) return;
 
-  var widgetArray = [];
   var promises = [];
   fs.readdir(widgetFolder, (err, files) => {
     
     for(var i=0; i<files.length; i++){
-      promises.push(getData(widgetFolder + files[i], {encoding: 'utf-8'})); //.then((content) => widgetArray.push({name : files[i], data : content})
+      promises.push(getData(widgetFolder + files[i], {encoding: 'utf-8'}));
     }
 
     Promise.all(promises)
@@ -92,7 +91,8 @@ function sendMultipleWidgets(req, res){
         if(data.length !== 0){
           var lowerBound = (pageNumber - 1) * 9; // find the lower bound i.e page 1, the lower bound is 0
           var selection = data.slice(lowerBound, lowerBound + 9);
-          res.json(selection);
+          //res.json(selection).sendStatus();
+          res.status(data[lowerBound + 10] == undefined ? 301 : 200).json(selection)
         } else {
           res.sendStatus(404);
         }
@@ -110,7 +110,10 @@ function getData(fileName, type) {
   return new Promise(function(resolve, reject){
     fs.readFile(fileName, type, (err, data) => {
         if (err) { reject(err); }
-        resolve(JSON.parse(data));
+        resolve({ 
+          name : fileName,
+          data : JSON.parse(data)
+        });
     })
   });
 }

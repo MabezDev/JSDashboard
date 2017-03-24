@@ -7,7 +7,6 @@
 var arrayOfWidgets = [];
 
 
-
 function init() {
   // on load set up components
 
@@ -16,7 +15,7 @@ function init() {
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){
-      columns[j].appendChild(createWidget(undefined,++count).dom.base); // all blank widgets
+      columns[j].children[0].appendChild(createWidget(undefined,++count).dom.base); // all blank widgets
     }
   }
 
@@ -25,7 +24,7 @@ function init() {
     updateWidgets();
   }, 180000); // every 3mins
 
-  
+  [].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
 }
 
 function addToDashboard(newWidgetObject) {
@@ -77,7 +76,7 @@ function findFreeSlot(gridID){
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
     for(var j=0; j<columns.length; j++){
-      var widget = columns[j].children[0];
+      var widget = columns[j].children[0].children[0];
       if (widget.className.includes(CSS.HIDDEN)) {
         return widget.id;
       }

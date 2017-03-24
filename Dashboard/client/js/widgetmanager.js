@@ -4,8 +4,14 @@ var outOfData = false;
 
 function toggleSavedWidgetLoader(){
 	var panel = document.getElementById(ID.SAVED);
-  	panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
-
+  //panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
+  //panel.className = panel.className == "saved_display_on" ? "saved_display_off" : "saved_display_on";
+  if(panel.style.left == "auto"){
+    panel.style.left = "-999em";
+  } else {
+    panel.style.left = "auto";
+  }
+  
 }
 
 function listSaved() {
@@ -35,7 +41,6 @@ function listSaved() {
 }
 
 function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
-  var displayGrid = document.getElementById(ID.SAVED_GRID);
   var xhr = new XMLHttpRequest();
   var url = '/api/account/widgets/stored/list/content?p=' + pageNumber;
 
@@ -44,24 +49,11 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
   xhr.open('GET', url);
   xhr.onload = function() {
     if (xhr.status === 200) {
-      var widgets = JSON.parse(this.responseText);
-      outOfData = widgets.length < 9;
-      displayWidgetStore = [];
-
-      var count = 0;
-      var tableRows = displayGrid.children[0].children;
-      for(var i=0; i<tableRows.length; i++){
-        var columns = tableRows[i].children;
-        for(var j=0; j<columns.length; j++){
-          columns[j].innerHTML = "";
-          if(widgets[count]){
-            var widgetFromServer = createWidget(widgets[count]);
-            displayWidgetStore.push(widgetFromServer);
-            columns[j].appendChild(widgetFromServer.dom.base);
-            count++;
-          }
-        }
-      }
+      outOfData = false;
+      fillDisplay(JSON.parse(this.responseText));
+    } else if(xhr.status == 301){
+      outOfData = true;
+      fillDisplay(JSON.parse(this.responseText));
 
     } else {
       console.log(xhr.status);
@@ -69,6 +61,43 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
   };
   xhr.send();
 }
+
+function fillDisplay(widgets){
+  var displayGrid = document.getElementById(ID.SAVED_GRID);
+  //displayGrid.ondrop = dashboardDrop;
+
+  var count = 0;
+  var tableRows = displayGrid.children[0].children;
+  for(var i=0; i<tableRows.length; i++){
+    var columns = tableRows[i].children;
+    for(var j=0; j<columns.length; j++){
+      columns[j].children[0].innerHTML = "";
+      if(widgets[count]){
+        var widgetFromServer = createWidget(widgets[count].data);
+        displayWidgetStore.push(widgetFromServer);
+
+        // add drag and drop handlers
+        widgetFromServer.dom.base.id = widgets[count].name;
+
+        widgetFromServer.dom.base.ondragstart = widgetDragStart;
+        widgetFromServer.dom.base.ondragover = globalDragOver;
+        widgetFromServer.dom.base.ondrop = dashboardDrop;
+        //widgetFromServer.dom.base.ondragend = dragEndHandler; - TODO cannot drag on to main dashboard like I would like, drops arn't event being triggered
+        widgetFromServer.dom.base.ondrag = hideManager;
+
+        columns[j].children[0].appendChild(widgetFromServer.dom.base);
+        count++;
+      }
+    }
+  }
+}
+
+function hideManager(event){
+  //console.log(event);
+  var panel = document.getElementById(ID.SAVED);
+  panel.style.left = "-999em";
+}
+
 
 function loadSavedWidget(event){
   console.log("Loading widget : " + event.target.textContent);
@@ -98,6 +127,7 @@ function loadSavedWidget(event){
 
 function movePage(next){
   if(next){
+    console.log(outOfData);
     if(!outOfData) loadWidgetsIntoManager(++pageNumber);
   } else { // previous page
     if(pageNumber > 1) loadWidgetsIntoManager(--pageNumber);

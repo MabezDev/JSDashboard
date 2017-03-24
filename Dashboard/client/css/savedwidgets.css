@@ -3,12 +3,15 @@
 #saved_widgets {
 	width:100%;
     height:100%;
-    opacity:.95;
+    /*opacity:.95;*/
+    z-index: auto;
     top:0;
     left:0;
-    display:none;
+    /*/display:none;*/
     position:fixed;
     background-color:#313131;
+
+    left: -999em;
 }
 
 #saved_container {
@@ -16,4 +19,18 @@
     height: 80%;
     margin: 0 auto;
     background-color: white;
+}
+
+#saved_display_on {
+    /*z-index: auto;
+    opacity: .95;*/
+    left: auto;
+}
+
+
+#saved_display_off {
+    left: -999em;
+    /*z-index: -1;
+    opacity: 0;
+    background: rgba(49,49,49,0.0);*/
 }

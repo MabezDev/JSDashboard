@@ -24,13 +24,13 @@ function init() {
     updateWidgets();
   }, 180000); // every 3mins
 
-  [].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
+  // debug css layouts
+  //[].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
 }
 
-function addToDashboard(newWidgetObject) {
-  console.log('Looking for free spot in grid...');
+function addToDashboard(newWidgetObject, slotID) {
 
-  var slotFree = findFreeSlot(ID.WIDGETGRID);
+  var slotFree = slotID ? slotID : findFreeSlot(ID.WIDGETGRID);
   if (slotFree) {
     console.log("Slot "+ slotFree + " is free!");
     var emptySlot = document.getElementById(slotFree);

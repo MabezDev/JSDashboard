@@ -31,6 +31,7 @@ var ID = {
   TESTCONTROL: 'widget_test_control',
 
   SAVED_GRID : 'widget_grid_saved_widgets',
+  WIDGETPAGENUMBER : 'page_number',
 
   //saved widget id's
   SAVED : 'saved_widgets',

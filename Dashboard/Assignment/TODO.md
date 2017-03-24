@@ -12,7 +12,7 @@ TODO
 	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh
 	- Make it look good! (WIP)
 	- Use iframe to link to github read me to show users how to use the dash
-	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler)
+	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler) - done - nice to add a transition effect though
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here

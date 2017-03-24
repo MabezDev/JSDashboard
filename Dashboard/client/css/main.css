@@ -124,9 +124,18 @@ p {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 0px;
-    /*margin-bottom: 10px;*/
     margin-bottom: 0px;
-    /*pointer-events: auto;*/
+}
+
+.display_text {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.inline_text {
+    display: inline-block;
 }
 
 button {

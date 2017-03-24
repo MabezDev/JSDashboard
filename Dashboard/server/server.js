@@ -92,7 +92,7 @@ function sendMultipleWidgets(req, res){
           var lowerBound = (pageNumber - 1) * 9; // find the lower bound i.e page 1, the lower bound is 0
           var selection = data.slice(lowerBound, lowerBound + 9);
           //res.json(selection).sendStatus();
-          res.status(data[lowerBound + 10] == undefined ? 301 : 200).json(selection)
+          res.status((data[lowerBound + 9] == undefined) || (selection < 9) ? 301 : 200).json(selection)
         } else {
           res.sendStatus(404);
         }

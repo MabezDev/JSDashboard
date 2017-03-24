@@ -10,6 +10,7 @@ function toggleSavedWidgetLoader(){
     panel.style.left = "-999em";
   } else {
     panel.style.left = "auto";
+    loadWidgetsIntoManager(pageNumber);
   }
   
 }
@@ -79,7 +80,7 @@ function fillDisplay(widgets){
         // add drag and drop handlers
         widgetFromServer.dom.base.id = widgets[count].name;
 
-        widgetFromServer.dom.base.ondragstart = widgetDragStart;
+        widgetFromServer.dom.base.ondragstart = widgetManagerDragStart;
         widgetFromServer.dom.base.ondragover = globalDragOver;
         widgetFromServer.dom.base.ondrop = dashboardDrop;
         //widgetFromServer.dom.base.ondragend = dragEndHandler; - TODO cannot drag on to main dashboard like I would like, drops arn't event being triggered
@@ -88,6 +89,15 @@ function fillDisplay(widgets){
         columns[j].children[0].appendChild(widgetFromServer.dom.base);
         count++;
       }
+    }
+  }
+}
+
+function addWidgetToDashboardFromManager(domID, targetSlotID){
+  for(var widget of displayWidgetStore){
+    if(widget.dom.base.id == domID){
+      addToDashboard(widget, targetSlotID);
+      break;
     }
   }
 }
@@ -126,14 +136,12 @@ function loadSavedWidget(event){
 }
 
 function movePage(next){
+  var pageNumberElement = document.getElementById(ID.WIDGETPAGENUMBER);
   if(next){
     console.log(outOfData);
     if(!outOfData) loadWidgetsIntoManager(++pageNumber);
   } else { // previous page
     if(pageNumber > 1) loadWidgetsIntoManager(--pageNumber);
   }
-}
-
-window.onload = function(){
-  loadWidgetsIntoManager(pageNumber);
+  pageNumberElement.textContent = pageNumber;
 }

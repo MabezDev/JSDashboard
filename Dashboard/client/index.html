@@ -23,7 +23,7 @@
             <h1 id="title">Mashboard</h1>
             <nav id="navigation">
                 <button class="large-btn" onclick="toggleBuilder()">Open Builder</button>
-                <button class="large-btn" onclick="toggleSavedWidgetLoader()">Open Saved Widgets</button>
+                <button class="large-btn" onclick="toggleSavedWidgetLoader()">Widget Manager</button>
                 <button class="large-btn" onclick="">How To Use</button>
             </nav>
         </header>
@@ -124,15 +124,8 @@
             </div>
         </div>
 
-        <div id="saved_widgets" class="saved_display_off">
+        <div id="saved_widgets" class="saved_display_off transition">
             <div id="saved_container">
-                <div id="saved_control">
-                    <button onclick="listSaved()">List saved Widgets</button>
-                    <select id="saved_widgets_output" multiple="multiple"></select>
-                    <button onclick="toggleSavedWidgetLoader()">Hide</button>
-                    <a href="#" onclick="movePage(false)"><</a>
-                    <a href="#" onclick="movePage(true)">></a>
-                </div>
                 <table id="widget_grid_saved_widgets" class="widget_grid">
                     <tr >
                         <td class="col"><div class="widget_container"></div></td>
@@ -150,6 +143,16 @@
                         <td class="col"><div class="widget_container"></div></td>
                     </tr>
                 </table>
+                <div class="saved_control">
+                    <!-- <button onclick="listSaved()">List saved Widgets</button>
+                    <select id="saved_widgets_output" multiple="multiple"></select> -->
+                    <a href="#" onclick="movePage(false)"><</a>
+                    <p class="inline_text" id="page_number">1</p>
+                    <a href="#" onclick="movePage(true)">></a>
+                </div>
+                <div class="saved_control">
+                    <button class="large-btn" onclick="toggleSavedWidgetLoader()">Hide</button>
+                </div>
             </div>
         </div>
 

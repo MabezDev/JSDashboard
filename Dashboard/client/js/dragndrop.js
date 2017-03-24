@@ -44,6 +44,12 @@ function dashboardDrop(event) {
       }
 
       break;
+    case 'widget_manager_drag' : 
+      console.log("Dropping a widget from the manager to the dash");
+      addWidgetToDashboardFromManager(data, event.target.id);
+
+
+      break;
   }
 
 }
@@ -180,6 +186,16 @@ function builderDrop(event) {
 function widgetDragStart(event) {
   var data = JSON.stringify({
     type: 'widget_drag',
+    data: event.target.id
+  });
+  event.dataTransfer.setData('data', data);
+  event.dataTransfer.dropEffect = 'move';
+}
+// widget drag start
+
+function widgetManagerDragStart(event) {
+  var data = JSON.stringify({
+    type: 'widget_manager_drag',
     data: event.target.id
   });
   event.dataTransfer.setData('data', data);

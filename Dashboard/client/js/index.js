@@ -27,7 +27,7 @@ function init() {
   // debug css layouts
   //[].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
 
-  jsonToLayout(JSON.parse(layoutTest));
+  //jsonToLayout(JSON.parse(layoutTest));
 }
 
 function addToDashboard(newWidgetObject, slotID) {
@@ -83,7 +83,9 @@ function addToDashboard(newWidgetObject, slotID) {
 
     arrayOfWidgets.push(newWidgetObject); // add to array of widgets (global in index.js) for updating etc
 
-    updateWidgets();
+    //updateWidgets();
+
+    updateWidget(newWidgetObject); // service for the first time
 
   } else {
     console.log('Widget grid full! Delete an old widget!');

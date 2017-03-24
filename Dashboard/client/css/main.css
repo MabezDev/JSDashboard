@@ -82,9 +82,8 @@
 .widget_grid{
     width: 100%;
     height: 100%;
-    margin-left: -10px; 
-    margin-right: -10px;
-    border-spacing: 20px 0; 
+    margin: -20px; 
+    border-spacing: 40px 20px; 
 }
 
 .widget_container {

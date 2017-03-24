@@ -6,10 +6,10 @@ function toggleSavedWidgetLoader(){
 	var panel = document.getElementById(ID.SAVED);
   //panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   //panel.className = panel.className == "saved_display_on" ? "saved_display_off" : "saved_display_on";
-  if(panel.style.left == "auto"){
+  if(panel.style.left == "0px"){
     panel.style.left = "-999em";
   } else {
-    panel.style.left = "auto";
+    panel.style.left = "0px";
     loadWidgetsIntoManager(pageNumber);
   }
   

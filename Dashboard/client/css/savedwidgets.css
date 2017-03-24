@@ -15,24 +15,25 @@
 
 #saved_container {
 	width: 80%;
-    height: 80%;
+    height: 60%;
     margin: 0 auto;
-    background-color: white;
+    margin-top: 40px;
+    background-color: #313131;
 }
 
-#saved_display_on {
+/*#saved_display_on {
     /*z-index: auto;
     opacity: .95;*/
-    left: auto;
+    /*left: auto;*/
 }
 
 
-#saved_display_off {
+/*#saved_display_off {
     left: -999em;
-    /*z-index: -1;
+    z-index: -1;
     opacity: 0;
-    background: rgba(49,49,49,0.0);*/
-}
+    background: rgba(49,49,49,0.0);
+}*/
 
 .transition{
   -webkit-transition: all 2s ease-in-out;

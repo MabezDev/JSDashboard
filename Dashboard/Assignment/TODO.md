@@ -3,24 +3,30 @@ TODO
 [Major]
 	- Implement last updated time to widget, with dom display
 	- Implement a trashcan to remove widgets and items in the builder - [SEMI] - functionality for the builder is there but looks like crap
-	- Display Saved widgets in a preview gallery type deal
+	- Display Saved widgets in a preview gallery type deal - [DONE]
 	- Implement a way to save widgets to the server - [DONE] - need to either check if the filename exists or just save a random name if we can get the view running nicely
 	- add img item
-	- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
 	- set Update intervals - [SEMI] - global interval set not widget specific
 	- add clock to top bar
-	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh
 	- Make it look good! (WIP)
 	- Use iframe to link to github read me to show users how to use the dash
-	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler) - done - nice to add a transition effect though
+	- Remove naming on save, instead replace with random name generator, then tell users its saved and they can find it in the widget manager
+		- Add option to name it?
+		- No chance of searching with this options unless we give each widget a name field, that we can optionally set
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here
 		- if we send exactly 9 widgets but there are no more, we will be able to change page but not laod data - widgetmanager.js
+		- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
 
 
 [Minor]
 	- Implement the account creation etc if we have time
+	- Add manual update button on each widget
+	
+	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler) - done - nice to add a transition effect though
+
+	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh - Might add a new line spacer
 
 
 - Possible colour Scheme - http://paletton.com/#uid=13p0u0kllllpdb4nhgdjpqthtvB

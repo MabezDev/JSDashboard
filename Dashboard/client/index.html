@@ -67,12 +67,13 @@
                                 
                             </div>
                             <div id="data_config">
-                                <form class="data_config_item">
-                                    <input id="service_url" type="url" name="service_url" value="URL Here" onFocus="this.select()">
-                                    <input class="radio" id="type_json" type='radio' name='option'> <p class="radio_text">JSON</p>
+                                <form class="data_config_item" onkeypress="return event.keyCode != 13;">
+                                    <input id="service_url" type="url" name="service_url" placeholder="URL Here" onFocus="this.select()" oninput="checkURL(this)" required="true">
+                                    <input class="radio" id="type_json" type='radio' name='option' checked="true"> <p class="radio_text">JSON</p>
                                     <input class="radio" id="type_rss" type='radio' name='option'> <p class="radio_text">RSS</p>
-                                    <button class="large-btn" onclick="testServiceForJSONKeys();return false;">Test Service</button>
                                 </form>
+                                <p id="urlErrorBox"></p>
+                                <button class="large-btn data_config_item" onclick="testServiceForJSONKeys();return false;">Test Service</button>
                                 <div id="service_output_container" class="data_config_item">
                                     <p>Output from service: </p>
                                     <select id="service_output" multiple="multiple"></select>
@@ -125,23 +126,23 @@
             </div>
         </div>
 
-        <div id="saved_widgets" class="transition">
+        <div id="saved_widgets" class="">
             <div id="saved_container">
                 <table id="widget_grid_saved_widgets" class="widget_grid">
                     <tr >
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
                     </tr>
                     <tr >
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
                     </tr>
                     <tr >
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
-                        <td class="col"><div class="widget_container"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
+                        <td class="col"><div class="widget_container_manager"></div></td>
                     </tr>
                 </table>
                 <div class="saved_control">

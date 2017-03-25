@@ -47,7 +47,7 @@ function dashboardDrop(event) {
     case 'widget_manager_drag' : 
       console.log("Dropping a widget from the manager to the dash");
       addWidgetToDashboardFromManager(data, event.target.id);
-
+      toggleSavedWidgetLoader();
 
       break;
   }
@@ -152,7 +152,7 @@ function builderDrop(event) {
               
           }
 
-
+          currentItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           currentItem.dom.base.ondragstart = variableDragStart;
           currentItem.dom.base.ondragover = globalDragOver;
 

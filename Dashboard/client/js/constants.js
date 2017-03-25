@@ -26,6 +26,10 @@ var ID = {
   SERVICEURL: 'service_url',
   URLTYPEJSON: 'type_json',
   BUILDERTRASHCAN: 'builder_trashcan',
+  SERVICECONTAINER : 'service_output_container',
+  URLERROR : 'urlErrorBox',
+  
+  // preview id's
   TESTPOPUP: 'widget_test_popup',
   TESTPOPUPCONTAINER: 'widget_test_container',
   TESTCONTROL: 'widget_test_control',
@@ -42,7 +46,8 @@ var CSS = {
   HIDDEN: 'hidden',
   WIDGET: 'widget',
   UNTARGETABLECHILDREN: 'widget_child_elements',
-  ITEMCONTAINER : 'item_container'
+  ITEMCONTAINER : 'item_container',
+  DISPLAY_SPACING : "display_spacing"
 };
 
 var TYPE = {

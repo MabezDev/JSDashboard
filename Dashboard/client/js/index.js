@@ -66,7 +66,7 @@ function addToDashboard(newWidgetObject, slotID) {
     newWidgetObject.dom.base.id = slotFree; // wont alwasy work as files will be loaded in with the same ID's, will need a function to get the next available ID
 
     // switch into empty slot
-    slotParent.appendChild(newWidgetObject.dom.base); // add it to the dashbaord
+    slotParent.appendChild(newWidgetObject.dom.base);
     
     console.log("------------------------------------");
     console.log("---Adding new widget to Dashboard---");
@@ -74,11 +74,11 @@ function addToDashboard(newWidgetObject, slotID) {
     console.log("Object form: ")
     console.log(newWidgetObject);
     console.log("------------------------------------");
-    console.log("------------------------------------");
-    console.log("JSON String form: ");
-    console.log(JSON.stringify(newWidgetObject.toJSON()));
-    console.log("------------------------------------");
-    console.log("------------------------------------");
+    // console.log("------------------------------------");
+    // console.log("JSON String form: "); // so we can easily save while testing
+    // console.log(JSON.stringify(newWidgetObject.toJSON()));
+    // console.log("------------------------------------");
+    // console.log("------------------------------------");
     
 
     arrayOfWidgets.push(newWidgetObject); // add to array of widgets (global in index.js) for updating etc
@@ -90,6 +90,34 @@ function addToDashboard(newWidgetObject, slotID) {
   } else {
     console.log('Widget grid full! Delete an old widget!');
   }
+}
+
+function finalizeWidget(widget){
+  var serviceURL = document.getElementById(ID.SERVICEURL).value;
+  var urlType = document.getElementById(ID.URLTYPEJSON);
+
+  if (serviceURL) {
+      widget.json.serviceURL = serviceURL; // set the service URL
+      widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
+      
+      for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
+        widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
+        widget.children[i].dom.base.draggable = false;
+        if(widget.children[i].type == TYPE.POSITIONALOBJECT){
+          widget.children[i].dom.base.className += " " + CSS.HIDDEN;
+          widget.children[i].dom.base.textContent = "";
+        }
+      }
+
+      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
+
+      widget.dom.title.id = ""; // remove title id so we dont break when building another widget
+      widget.dom.base.id = ""; // remove id so we dont break when building another widget
+      return widget;
+  } else {
+    console.log("serviceURL cannot be empty!");
+  }
+
 }
 
 function layoutToJSON(){

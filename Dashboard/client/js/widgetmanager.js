@@ -6,55 +6,95 @@ function toggleSavedWidgetLoader(){
 	var panel = document.getElementById(ID.SAVED);
   //panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   //panel.className = panel.className == "saved_display_on" ? "saved_display_off" : "saved_display_on";
-  if(panel.style.left == "0px"){
-    panel.style.left = "-999em";
+  console.log(panel.style.right);
+  if(panel.style.right == "0px"){
+    panel.style.right = "-100vw";
   } else {
-    panel.style.left = "0px";
+    panel.style.right = "0px";
     loadWidgetsIntoManager(pageNumber);
   }
   
 }
 
-function listSaved() {
-	var output = document.getElementById(ID.FILEOUTPUT);
-  var xhr = new XMLHttpRequest();
-  var url = '/api/account/widgets/stored/list';
-
-  xhr.open('GET', url);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      var fileNames = JSON.parse(this.responseText);
-
-      output.innerHTML = "";
-
-      for (var i = 0; i < fileNames.length; i++) {
-        var option = document.createElement('option');
-        option.textContent = fileNames[i];
-        option.ondblclick = loadSavedWidget;
-
-        output.append(option);
-      }
-    } else {
-      console.log(xhr.status);
-    }
-  };
-  xhr.send();
+function getLoader(){
+  var div = document.createElement('div');
+  div.className = 'loader';
+  return div;
 }
+
+// function listSaved() {
+// 	var output = document.getElementById(ID.FILEOUTPUT);
+//   var xhr = new XMLHttpRequest();
+//   var url = '/api/account/widgets/stored/list';
+
+//   xhr.open('GET', url);
+//   xhr.onload = function() {
+//     if (xhr.status === 200) {
+//       var fileNames = JSON.parse(this.responseText);
+
+//       output.innerHTML = "";
+
+//       for (var i = 0; i < fileNames.length; i++) {
+//         var option = document.createElement('option');
+//         option.textContent = fileNames[i];
+//         option.ondblclick = loadSavedWidget;
+
+//         output.append(option);
+//       }
+//     } else {
+//       console.log(xhr.status);
+//     }
+//   };
+//   xhr.send();
+// }
 
 function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
   var xhr = new XMLHttpRequest();
   var url = '/api/account/widgets/stored/list/content?p=' + pageNumber;
 
   console.log("Loading page number "+ pageNumber);
+  var displayGrid = document.getElementById(ID.SAVED_GRID);
+  var loader = getLoader();
+  displayGrid.appendChild(loader);
+
+  resetGrid(ID.SAVED_GRID);
 
   xhr.open('GET', url);
   xhr.onload = function() {
-    if (xhr.status === 200) {
-      outOfData = false;
-      fillDisplay(JSON.parse(this.responseText));
-    } else if(xhr.status == 301){
-      outOfData = true;
-      fillDisplay(JSON.parse(this.responseText));
+    if (xhr.status === 200 || xhr.status == 301) {
+
+      outOfData = xhr.status != 200;
+      var widgets = JSON.parse(this.responseText);
+      var count = 0;
+
+      setTimeout(function(){ 
+
+      var tableRows = displayGrid.children[0].children;
+      for(var i=0; i<tableRows.length; i++){
+        var columns = tableRows[i].children;
+        for(var j=0; j<columns.length; j++){
+          columns[j].children[0].innerHTML = "";
+          if(widgets[count]){
+            var widgetFromServer = createWidget(widgets[count].data);
+            displayWidgetStore.push(widgetFromServer);
+
+            // add drag and drop handlers
+            widgetFromServer.dom.base.id = widgets[count].name;
+
+            widgetFromServer.dom.base.ondragstart = widgetManagerDragStart;
+            widgetFromServer.dom.base.ondragover = globalDragOver;
+            widgetFromServer.dom.base.ondrop = dashboardDrop;
+            //widgetFromServer.dom.base.ondragend = dragEndHandler; - TODO cannot drag on to main dashboard like I would like, drops arn't event being triggered
+            widgetFromServer.dom.base.ondrag = hideManager;
+
+            columns[j].children[0].appendChild(widgetFromServer.dom.base);
+            count++;
+          }
+        }
+      }
+
+      displayGrid.removeChild(loader);
+       }, 800);
 
     } else {
       console.log(xhr.status);
@@ -63,34 +103,16 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
   xhr.send();
 }
 
-function fillDisplay(widgets){
-  var displayGrid = document.getElementById(ID.SAVED_GRID);
-  //displayGrid.ondrop = dashboardDrop;
+function resetGrid(gridID){
+  var displayGrid = document.getElementById(gridID);
 
-  var count = 0;
   var tableRows = displayGrid.children[0].children;
-  for(var i=0; i<tableRows.length; i++){
-    var columns = tableRows[i].children;
-    for(var j=0; j<columns.length; j++){
-      columns[j].children[0].innerHTML = "";
-      if(widgets[count]){
-        var widgetFromServer = createWidget(widgets[count].data);
-        displayWidgetStore.push(widgetFromServer);
-
-        // add drag and drop handlers
-        widgetFromServer.dom.base.id = widgets[count].name;
-
-        widgetFromServer.dom.base.ondragstart = widgetManagerDragStart;
-        widgetFromServer.dom.base.ondragover = globalDragOver;
-        widgetFromServer.dom.base.ondrop = dashboardDrop;
-        //widgetFromServer.dom.base.ondragend = dragEndHandler; - TODO cannot drag on to main dashboard like I would like, drops arn't event being triggered
-        widgetFromServer.dom.base.ondrag = hideManager;
-
-        columns[j].children[0].appendChild(widgetFromServer.dom.base);
-        count++;
+      for(var i=0; i<tableRows.length; i++){
+        var columns = tableRows[i].children;
+        for(var j=0; j<columns.length; j++){
+          columns[j].children[0].innerHTML = "";
+        }
       }
-    }
-  }
 }
 
 function addWidgetToDashboardFromManager(domID, targetSlotID){
@@ -105,7 +127,7 @@ function addWidgetToDashboardFromManager(domID, targetSlotID){
 function hideManager(event){
   //console.log(event);
   var panel = document.getElementById(ID.SAVED);
-  panel.style.left = "-999em";
+  panel.style.right = "-100vw";
 }
 
 

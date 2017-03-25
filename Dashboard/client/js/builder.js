@@ -5,8 +5,21 @@ var currentWidget = undefined;
 // and the preview item
 var currentPreviewWidget = undefined;
 
-function testServiceForJSONKeys() {
-  var serviceUrl = document.getElementById(ID.SERVICEURL).value;
+function testServiceForJSONKeys(button) {
+  var inputUrlBox = document.getElementById(ID.SERVICEURL);
+
+  var errorBox = document.getElementById(ID.URLERROR);
+  if(!inputUrlBox.checkValidity() || !inputUrlBox.value){
+    errorBox.textContent = "Invalid URL";  
+    return; // check if valid URL
+  } else {
+    errorBox.textContent = "";
+  }
+
+  var serviceContainer = document.getElementById(ID.SERVICECONTAINER);
+  serviceContainer.style.display = "none";
+
+  var serviceUrl = inputUrlBox.value;
   var listElement = document.getElementById(ID.SERVICELIST);
   var xhr = new XMLHttpRequest();
   var urlType = document.getElementById(ID.URLTYPEJSON);
@@ -16,6 +29,7 @@ function testServiceForJSONKeys() {
   xhr.open('GET', url);
   xhr.onload = function() {
     if (xhr.status === 200) {
+      console.log(this.responseText);
       var jsonObj = JSON.parse(this.responseText);
       var dotNotation = listPaths(jsonObj);
 
@@ -32,8 +46,11 @@ function testServiceForJSONKeys() {
 
         listElement.append(option);
       }
-    } else {
-      console.log(xhr.status);
+      serviceContainer.style.display = "block";
+    } else if(xhr.status == 404){
+      errorBox.textContent = "Unable to test the service, is the url correct?";
+    } else if(xhr.status == 400){
+      errorBox.textContent = "Check your data type selection.";
     }
   };
 
@@ -43,6 +60,15 @@ function testServiceForJSONKeys() {
   currentWidget.json.serviceURL = serviceUrl;
   currentWidget.json.urlType = (urlType.checked ? URL.JSON : URL.RSS);
 }
+
+function checkURL(input) {  
+    if(input.validity.typeMismatch){  
+        input.setCustomValidity("Dude '" + input.value + "' is not a valid email. Enter something nice!!");  
+    }  
+    else {  
+        input.setCustomValidity("");  
+    }                 
+}  
 
 function addToDashFromBuilder(){
   var wipwidget = document.getElementById(ID.WIPWIDGET);
@@ -61,30 +87,6 @@ function addToDashFromBuilder(){
 
   addWidgetToBuilder(); // add a blank builder back to the builder
   
-}
-
-function finalizeWidget(widget){
-  var serviceURL = document.getElementById(ID.SERVICEURL).value;
-  var urlType = document.getElementById(ID.URLTYPEJSON);
-
-  if (serviceURL) {
-      widget.json.serviceURL = serviceURL; // set the service URL
-      widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
-      
-      for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
-        widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
-        widget.children[i].dom.base.draggable = false;
-      }
-
-      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
-
-      widget.dom.title.id = ""; // remove title id so we dont break when building another widget
-      widget.dom.base.id = ""; // remove id so we dont break when building another widget
-      return widget;
-  } else {
-    console.log("serviceURL cannot be empty!");
-  }
-
 }
 
 function toggleBuilder() {
@@ -156,14 +158,14 @@ function toggleBuilder() {
 
     itemContainer.appendChild(bigLabel.dom.base);
 
-    // // add a positional item - doesnt really work
+    // add a positional item - doesnt really work
 
-    // var posItem = createPositionalItem(JSON.parse(POSITIONAL_DISPLAY_JSON));
-    // posItem.dom.base.ondragstart = itemTemplateDragStart;
-    // posItem.dom.base.ondragover = globalDragOver;
-    // posItem.dom.base.ondrop = builderDrop;
+    var posItem = createPositionalItem(JSON.parse(POSITIONAL_DISPLAY_JSON));
+    posItem.dom.base.ondragstart = itemTemplateDragStart;
+    posItem.dom.base.ondragover = globalDragOver;
+    posItem.dom.base.ondrop = builderDrop;
 
-    // itemContainer.appendChild(posItem.dom.base);
+    itemContainer.appendChild(posItem.dom.base);
   }
 
   // create slot for variable to be dropped onto

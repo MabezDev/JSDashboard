@@ -165,19 +165,20 @@ function serviceWidget(req, res) {
       if (error) {
         console.log(error);
       }
-      if (body) {
-        var serviceData = JSON.parse(body);
-        var values = parseData(serviceData, updateRequest);
-        console.log(values);
-        res.send(JSON.stringify(values));
+      if(isJSON(body)){
+          var serviceData = JSON.parse(body);
+          var values = parseData(serviceData, updateRequest);
+          console.log(values);
+          res.send(JSON.stringify(values));
       } else {
-        res.sendStatus(404);
+        res.sendStatus(400); // bad request
       }
     });
   } else if(type == "RSS"){
     parser.parseURL(updateRequest.serviceURL, function(err, parsed) {
       if (err) {
-        console.log(err);
+        res.sendStatus(400); // bad request
+        return;
       }
       if(parsed){
         var serviceData = parsed;
@@ -185,7 +186,7 @@ function serviceWidget(req, res) {
         console.log(values);
         res.send(JSON.stringify(values));
       } else {
-        res.sendStatus(404);
+        res.sendStatus(404); // data not found
       }
     });
   } else {
@@ -217,14 +218,25 @@ function customTest(req, res) {
 
   if(type == "JSON"){
     request(urlService, function(error, response, body) {
+      if(error){
+        console.log(error);
+      }
       if (body) {
-        res.send(body);
+        if(isJSON(body)){
+          res.send(body);
+        } else {
+          res.sendStatus(400); // bad request
+        }
       } else {
         res.sendStatus(404); // could not connect to service
       }
     });
   } else if(type == "RSS"){
     parser.parseURL(urlService, function(err, parsed) {
+      if (err) {
+        res.sendStatus(400); // bad request
+        return;
+      }
       if(parsed){
         res.send(parsed);
       } else {
@@ -235,6 +247,15 @@ function customTest(req, res) {
     console.log("No type specified!");
   }
 
+}
+
+function isJSON(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 

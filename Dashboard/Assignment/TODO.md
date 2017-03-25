@@ -13,10 +13,14 @@ TODO
 	- Remove naming on save, instead replace with random name generator, then tell users its saved and they can find it in the widget manager
 		- Add option to name it?
 		- No chance of searching with this options unless we give each widget a name field, that we can optionally set
+	- if a widget extends a certain height cut it off, ONLY in the widget manager - [Important] - its cutting off the options
+	- implement interface to loading and saving layouts (functionality complete, see index.js)
+	- cycler item - cycle throw multple data's
+	- add edit this widget button in widget manager, pull into widget builder for editing
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here
-		- if we send exactly 9 widgets but there are no more, we will be able to change page but not laod data - widgetmanager.js
+		- if we send exactly 9 widgets but there are no more, we will be able to change page but not laod data - widgetmanager.js - [Fixed]
 		- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
 
 

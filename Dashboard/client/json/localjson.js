@@ -37,7 +37,7 @@ var VARIABLE_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "item",\
+					"className": "item display_spacing",\
 					"id": "variable_display",\
 					"draggable": true\
 				},\
@@ -68,7 +68,7 @@ var VARIABLE_UNIT_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "item",\
+					"className": "item display_spacing",\
 					"id": "variable_unit_display",\
 					"draggable": true\
 				},\
@@ -107,7 +107,7 @@ var VARIABLE_DATA_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "item",\
+					"className": "item display_spacing",\
 					"id": "variable_data_display",\
 					"draggable": true\
 				},\
@@ -131,7 +131,7 @@ var VARIABLE_HTML_DISPLAY_JSON = '{\
 				"base": {\
 					"tag": "DIV",\
 					"content": "",\
-					"className": "item",\
+					"className": "item display_spacing",\
 					"id": "variable_html_display",\
 					"draggable": true\
 				},\
@@ -154,7 +154,7 @@ var LABEL_DISPLAY_JSON = '{\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
-			"className": "item",\
+			"className": "item display_spacing",\
 			"id": "label_display",\
 			"draggable": true\
 		},\
@@ -178,7 +178,7 @@ var BIG_LABEL_DISPLAY_JSON = '{\
 		"base": {\
 			"tag": "DIV",\
 			"content": "",\
-			"className": "item",\
+			"className": "item display_spacing",\
 			"id": "big_label_display",\
 			"draggable": true\
 		},\
@@ -200,8 +200,8 @@ var POSITIONAL_DISPLAY_JSON = '{\
 	"dom": {\
 		"base": {\
 			"tag": "DIV",\
-			"content": "",\
-			"className": "item spacer-1-4",\
+			"content": "New Line",\
+			"className": "item spacer-1 display_spacing display_text",\
 			"id": "positional_display",\
 			"draggable": true\
 		}\

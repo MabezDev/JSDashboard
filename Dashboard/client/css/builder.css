@@ -21,7 +21,6 @@
 
 .item {
     cursor:grab;
-    /*display: inline-table;*/
     padding: 5px;
 }
 
@@ -39,13 +38,16 @@
     display: inline-table;
 }
 
-.spacer-1-2 {
-    width: 50%;
+.spacer-1 {
+    width: 100%;
     height: 20px;
+    padding: 0;
     background-color: #184351;
+    border-radius: 4px;
+    text-align: center;
 }
 
-.spacer-1-3 {
+/*.spacer-1-3 {
     width: 33%;
     height: 20px;
     background-color: #184351;
@@ -55,7 +57,7 @@
     width: 25%;
     height: 20px;
     background-color: #184351;
-}
+}*/
 
 #widget_builder {
     width:100%;
@@ -140,7 +142,7 @@
 
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 20px;
+    /*padding: 20px;*/
     font-size: 14pt;
 }
 
@@ -184,7 +186,7 @@
 
 .data_config_item {
     display: inline-block;
-    padding-top: 20px;
+    margin-top: 20px;
 }
 
 #service_output { /*TODO: should by dynamic not a set pixel width and height */
@@ -193,35 +195,31 @@
 }
 
 
- /*These are ids for when the items are in the display, this arranges them nicely then doesnt effect it as the id is removed*/
-
-#variable_display{
-    display: inline;
-    margin: 0.7%;
+.display_spacing {
+    display: inline-block;
+    margin: 2%;
+    /*margin-top: 8%;*/
 }
 
-#label_display {
-    display: inline;
-    margin: 0.7%;
-}
+#urlErrorBox{
+    color: #cc0000;
+    font-size: 12pt;
+    margin-top: 10px;
 
-#big_label_display{
-    display: inline;
-    margin: 0.7%;
-}
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 
-#variable_unit_display {
-    display: inline;
-    margin: 0.7%;
-}
-
-#variable_data_display {
-    display: inline;
-    margin: 0.7%;
 }
 
 .radio_text {
    display: inline-block;
+}
+
+#service_output_container {
+    display: none;
 }
 
 select {

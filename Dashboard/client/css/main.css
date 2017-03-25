@@ -54,15 +54,18 @@
 }
 
 .widget {
-    width: 100%;
+    width: 96%; /* Account for the margin and padding */
     height: 100%;
     background-color: #377184;
     border-radius: 15px;
-    padding : 10px;
+    padding : 5px;
+    margin : 5px;
+    /*padding-right: 10px;*/
     border-style: solid;
     border-width: 3px;
     border-color: #324247;
-    flex: 1;
+    /*flex: 1;*/
+    flex: 0 1 auto;
 }
 
 
@@ -82,7 +85,9 @@
 .widget_grid{
     width: 100%;
     height: 100%;
-    margin: -20px; 
+    margin: -20px;
+    margin-left: -10px; 
+    margin-right: -10px; 
     border-spacing: 40px 20px; 
 }
 
@@ -90,9 +95,11 @@
     min-height: 26vh;
     height: 100%;
     width: 100%;
-
     display: inline-flex;
     flex-direction: column;
+    
+    /*overflow: hidden;
+    max-height: 30vh;*/
 }
 
 .col {

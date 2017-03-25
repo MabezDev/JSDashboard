@@ -45,7 +45,7 @@
     /*overflow: hidden;*/
     /*overflow: hidden;*/
     /*overflow: auto;*/
-    overflow-y: hidden;
+    overflow-y: auto;
     max-height: 26vh;
 }
 

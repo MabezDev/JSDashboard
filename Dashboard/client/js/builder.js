@@ -91,7 +91,8 @@ function addToDashFromBuilder(){
 
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
-  panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
+  // panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
+  panel.style.top = panel.style.top == '0px' ? '100vh' : '0px';
 
   // make sure a builder widget is in place
   addWidgetToBuilder();

@@ -6,7 +6,6 @@ function toggleSavedWidgetLoader(){
 	var panel = document.getElementById(ID.SAVED);
   //panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   //panel.className = panel.className == "saved_display_on" ? "saved_display_off" : "saved_display_on";
-  console.log(panel.style.right);
   if(panel.style.right == "0px"){
     panel.style.right = "-100vw";
   } else {

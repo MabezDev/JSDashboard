@@ -19,7 +19,7 @@ function init() {
     }
   }
 
-  updateWidgets();
+  updateWidgets(); // intially, if loaded from layout
   setInterval(() => {
     updateWidgets();
   }, 180000); // every 3mins

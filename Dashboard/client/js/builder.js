@@ -1,8 +1,7 @@
 
-// Holds the wip widget and the item to be added next
+// Holds the wip widget, the item to be added next and the preview item
 var currentItem = undefined;
 var currentWidget = undefined;
-// and the preview item
 var currentPreviewWidget = undefined;
 
 function testServiceForJSONKeys(button) {
@@ -60,15 +59,6 @@ function testServiceForJSONKeys(button) {
   currentWidget.json.serviceURL = serviceUrl;
   currentWidget.json.urlType = (urlType.checked ? URL.JSON : URL.RSS);
 }
-
-function checkURL(input) {  
-    if(input.validity.typeMismatch){  
-        input.setCustomValidity("Dude '" + input.value + "' is not a valid email. Enter something nice!!");  
-    }  
-    else {  
-        input.setCustomValidity("");  
-    }                 
-}  
 
 function addToDashFromBuilder(){
   var wipwidget = document.getElementById(ID.WIPWIDGET);

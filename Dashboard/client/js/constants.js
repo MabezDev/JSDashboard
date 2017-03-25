@@ -36,6 +36,7 @@ var ID = {
 
   SAVED_GRID : 'widget_grid_saved_widgets',
   WIDGETPAGENUMBER : 'page_number',
+  RESHOWMANAGER : 'auto_show_manager',
 
   //saved widget id's
   SAVED : 'saved_widgets',

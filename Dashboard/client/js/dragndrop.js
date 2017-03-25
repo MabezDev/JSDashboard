@@ -47,7 +47,9 @@ function dashboardDrop(event) {
     case 'widget_manager_drag' : 
       console.log("Dropping a widget from the manager to the dash");
       addWidgetToDashboardFromManager(data, event.target.id);
-      toggleSavedWidgetLoader();
+      if(document.getElementById(ID.RESHOWMANAGER).checked){
+        toggleSavedWidgetLoader();
+      }
 
       break;
   }

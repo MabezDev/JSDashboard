@@ -11,8 +11,7 @@ function toggleSavedWidgetLoader(){
   } else {
     panel.style.right = "0px";
     loadWidgetsIntoManager(pageNumber);
-  }
-  
+  } 
 }
 
 function getLoader(){

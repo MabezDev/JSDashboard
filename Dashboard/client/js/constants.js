@@ -46,9 +46,10 @@ var ID = {
 var CSS = {
   HIDDEN: 'hidden',
   WIDGET: 'widget',
-  UNTARGETABLECHILDREN: 'widget_child_elements',
+  UNTARGETABLECHILDREN: 'untargetable',
   ITEMCONTAINER : 'item_container',
-  DISPLAY_SPACING : "display_spacing"
+  DISPLAY_SPACING : "display_spacing",
+  TARGETABLECHILDREN : 'targetable'
 };
 
 var TYPE = {

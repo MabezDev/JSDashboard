@@ -16,12 +16,13 @@ TODO
 	- if a widget extends a certain height cut it off, ONLY in the widget manager - [Important] - its cutting off the options
 	- implement interface to loading and saving layouts (functionality complete, see index.js)
 	- cycler item - cycle throw multple data's
+	- to make a cycler we will need a container type first that can store sub widgets (base it off the widget just change css)
 	- add edit this widget button in widget manager, pull into widget builder for editing
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here
 		- if we send exactly 9 widgets but there are no more, we will be able to change page but not laod data - widgetmanager.js - [Fixed]
-		- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [BROKEN] - NEEDS FIXING!
+		- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [SEMI-FIXED] - works but the background is lost when drag and dropped
 
 
 [Minor]
@@ -31,6 +32,13 @@ TODO
 	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler) - done - nice to add a transition effect though
 
 	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh - Might add a new line spacer
+
+- [Adding a Display item]
+	- Create model in factory.js
+	- Create the JSON for it and store it in /json/localjson.js
+	- Add it as a display item in ToggleBuilder() - builder.js
+	- Check no special treatment is required in dragndrop, if it is required, see builderDrop()
+	- Finally checky any finalization changes need to be made, i.e extra css added / removed
 
 
 - Possible colour Scheme - http://paletton.com/#uid=13p0u0kllllpdb4nhgdjpqthtvB

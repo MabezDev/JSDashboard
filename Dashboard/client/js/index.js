@@ -106,6 +106,8 @@ function finalizeWidget(widget){
         if(widget.children[i].type == TYPE.POSITIONALOBJECT){
           widget.children[i].dom.base.className += " " + CSS.HIDDEN;
           widget.children[i].dom.base.textContent = "";
+        } else if(widget.children[i].type == TYPE.VARIABLEHTML){
+          widget.children[i].dom.value.className += " " + CSS.TARGETABLECHILDREN
         }
       }
 

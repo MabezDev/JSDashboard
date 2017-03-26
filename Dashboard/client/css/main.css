@@ -78,8 +78,12 @@
     font-size: 21pt;
 }
 
-.widget_child_elements { /* Used to fix drag and dropping in HTML5, must be applied to all sub elemnts opf the elemnt you want to drag*/
+.untargetable { /* Used to fix drag and dropping in HTML5, must be applied to all sub elemnts opf the elemnt you want to drag*/
   pointer-events: none;
+}
+
+.targetable { /* Used to fix drag and dropping in HTML5, must be applied to all sub elemnts opf the elemnt you want to drag*/
+  pointer-events: auto;
 }
 
 .widget_grid{

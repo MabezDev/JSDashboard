@@ -19,6 +19,11 @@
     margin-bottom: 0;
 }
 
+.variable a {
+    text-decoration: none;
+    color: #BBBBBB;
+}
+
 .item {
     cursor:grab;
     padding: 5px;

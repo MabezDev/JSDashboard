@@ -2,7 +2,7 @@
 	This file stores the json data to create template Items for the builder
 */
 
-var layoutTest = '[{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"WIDGET","dom":{"base":{"tag":"DIV","content":"","className":"widget","id":"3","draggable":true},"title":{"tag":"H3","content":"/r/Overwatch","className":"widget_title widget_title widget_child_elements","id":"","draggable":false}},"json":{"serviceURL":"https://www.reddit.com/r/overwatch/.rss","title":"/r/Overwatch","urlType":"RSS"},"children":[{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"widget_child_elements","id":"","draggable":false},"key":{"tag":"P","content":"Top : ","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"[ALL] Overwatch Patch Notes – March 21, 2017","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"feed.entries.1.title","key":"Top : ","value":""}}]},{"type":"HIDDEN"},{"type":"WIDGET","dom":{"base":{"tag":"DIV","content":"","className":"widget","id":"5","draggable":true},"title":{"tag":"H3","content":"/r/Overwatch","className":"widget_title widget_title widget_child_elements","id":"","draggable":false}},"json":{"serviceURL":"https://www.reddit.com/r/overwatch/.rss","title":"/r/Overwatch","urlType":"RSS"},"children":[{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"widget_child_elements","id":"","draggable":false},"key":{"tag":"P","content":"Top : ","className":"widget_child_elements variable","id":"","draggable":false},"value":{"tag":"P","content":"[ALL] Overwatch Patch Notes – March 21, 2017","className":"widget_child_elements variable","id":"","draggable":false}},"json":{"jsonKey":"feed.entries.1.title","key":"Top : ","value":""}}]},{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"HIDDEN"}]';
+var layoutTest = '[{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"WIDGET","dom":{"base":{"tag":"DIV","content":"","className":"widget","id":"3","draggable":true},"title":{"tag":"H3","content":"/r/Overwatch","className":"widget_title widget_title untargetable","id":"","draggable":false}},"json":{"serviceURL":"https://www.reddit.com/r/overwatch/.rss","title":"/r/Overwatch","urlType":"RSS"},"children":[{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"untargetable","id":"","draggable":false},"key":{"tag":"P","content":"Top : ","className":"untargetable variable","id":"","draggable":false},"value":{"tag":"P","content":"[ALL] Overwatch Patch Notes – March 21, 2017","className":"untargetable variable","id":"","draggable":false}},"json":{"jsonKey":"feed.entries.1.title","key":"Top : ","value":""}}]},{"type":"HIDDEN"},{"type":"WIDGET","dom":{"base":{"tag":"DIV","content":"","className":"widget","id":"5","draggable":true},"title":{"tag":"H3","content":"/r/Overwatch","className":"widget_title widget_title untargetable","id":"","draggable":false}},"json":{"serviceURL":"https://www.reddit.com/r/overwatch/.rss","title":"/r/Overwatch","urlType":"RSS"},"children":[{"type":"VARIABLE","dom":{"base":{"tag":"DIV","content":"","className":"untargetable","id":"","draggable":false},"key":{"tag":"P","content":"Top : ","className":"untargetable variable","id":"","draggable":false},"value":{"tag":"P","content":"[ALL] Overwatch Patch Notes – March 21, 2017","className":"untargetable variable","id":"","draggable":false}},"json":{"jsonKey":"feed.entries.1.title","key":"Top : ","value":""}}]},{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"HIDDEN"}]';
 
 
 var BUILDER_WIDGET_JSON = '{\
@@ -44,14 +44,14 @@ var VARIABLE_DISPLAY_JSON = '{\
 				"key": {\
 					"tag": "P",\
 					"content": "Key",\
-					"className": "widget_child_elements variable",\
+					"className": "untargetable variable",\
 					"id": "",\
 					"draggable": false\
 				},\
 				"value": {\
 					"tag": "P",\
 					"content": "Value",\
-					"className": "widget_child_elements variable",\
+					"className": "untargetable variable",\
 					"id": "",\
 					"draggable": false\
 				}\
@@ -82,7 +82,7 @@ var VARIABLE_UNIT_DISPLAY_JSON = '{\
 				"value": {\
 					"tag": "P",\
 					"content": "Value",\
-					"className": "widget_child_elements variable",\
+					"className": "untargetable variable",\
 					"id": "",\
 					"draggable": false\
 				},\
@@ -114,7 +114,7 @@ var VARIABLE_DATA_DISPLAY_JSON = '{\
 				"value": {\
 					"tag": "P",\
 					"content": "Value",\
-					"className": "widget_child_elements variable",\
+					"className": "untargetable variable",\
 					"id": "",\
 					"draggable": false\
 				}\
@@ -136,9 +136,9 @@ var VARIABLE_HTML_DISPLAY_JSON = '{\
 					"draggable": true\
 				},\
 				"value": {\
-					"tag": "P",\
+					"tag": "DIV",\
 					"content": "HTML Content",\
-					"className": "widget_child_elements variable",\
+					"className": "untargetable variable display_text",\
 					"id": "",\
 					"draggable": false\
 				}\
@@ -161,7 +161,7 @@ var LABEL_DISPLAY_JSON = '{\
 		"text": {\
 			"tag": "P",\
 			"content": "Label",\
-			"className": "widget_child_elements variable",\
+			"className": "untargetable variable",\
 			"id": "",\
 			"draggable": false\
 		}\
@@ -185,7 +185,7 @@ var BIG_LABEL_DISPLAY_JSON = '{\
 		"text": {\
 			"tag": "P",\
 			"content": "Big Label",\
-			"className": "widget_child_elements variable big_text",\
+			"className": "untargetable variable big_text",\
 			"id": "",\
 			"draggable": false\
 		}\

@@ -63,58 +63,28 @@ function builderDrop(event) {
   var dataTransfer = JSON.parse(event.dataTransfer.getData('data'));
   var source = dataTransfer.source;
 
-  console.log('Source : '+ source + ' || Destination : '+ destinationID);
+  // console.log('Source : '+ source + ' || Destination : '+ destinationID);
 
-  switch (destinationID) {
-    case ID.WIPWIDGET:
-      
-      if (source == 'variable_drag') {
-        // add variable to widget
-        console.log('Adding a variable to widget.');
+  switch (source) {
+    case 'variable_drag':
+      if(destinationID == ID.WIPWIDGET){ // add variable to widget
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
-        console.log(currentItem);
         currentWidget.appendItem(currentItem);
+      } else if(destinationID == ID.BUILDERTRASHCAN){
+        if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget its in the varibale builder
+          var parent = currentItemDragging.parentNode;
+          parent.removeChild(currentItemDragging);
+        } 
       }
       break;
-    case ID.VARIABLE_DISPLAY:
-      
-      if (source == 'data_drag') {
-        console.log('Adding a data source to variable.');
-        currentItem.dom.value.textContent = dataTransfer.data;
-        currentItem.json.jsonKey = dataTransfer.data;
-      }
+    case 'data_drag':
+      currentItem.dom.value.textContent = dataTransfer.data; // just to show the user it has worked
+      currentItem.json.jsonKey = dataTransfer.data;
       break;
-    case ID.VARIABLE_UNIT_DISPLAY:
-      
-      if (source == 'data_drag') {
-        currentItem.dom.value.textContent = dataTransfer.data;
-        currentItem.json.jsonKey = dataTransfer.data;
+    case 'item_template_drag': //adding a blank variable to the builder to be built
         
-      }
-      break;
-    case ID.VARIABLE_DATA_DISPLAY:
-      
-      if (source == 'data_drag') {
-        currentItem.dom.value.textContent = dataTransfer.data;
-        currentItem.json.jsonKey = dataTransfer.data;
-        
-      }
-      break;
-    case ID.VARIABLE_HTML_DISPLAY:
-      
-      if (source == 'data_drag') {
-        currentItem.dom.value.textContent = dataTransfer.data;
-        currentItem.json.jsonKey = dataTransfer.data;
-        
-      }
-      break;
-    case ID.VARIABLESLOT:
-
-      if (source == 'item_template_drag') {
-        // adding a blank variable to the builder to be built
-        console.log('Adding a variable_template to the variable builder.');
+      if(destinationID == ID.VARIABLESLOT){
         var variableBuilder = document.getElementById(ID.VARIABLESLOT);
-
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
 
@@ -157,29 +127,18 @@ function builderDrop(event) {
           currentItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           currentItem.dom.base.ondragstart = variableDragStart;
           currentItem.dom.base.ondragover = globalDragOver;
-
           variableBuilder.appendChild(currentItem.dom.base);
-        } else {
-          // ask to replace current widget they are working on
-        }
 
-      }
-      break;
-    case ID.BUILDERTRASHCAN:
-      
-      if (source == 'variable_drag') {
-        if(!currentWidget.removeItem(currentItemDragging)){
-          // if its not in the widget its in the varibale builder
-          var parent = currentItemDragging.parentNode;
-          parent.removeChild(currentItemDragging);
-        } 
+        } else {
+          console.log("Slot full");
+        }
       }
       break;
   }
 }
 
 /*
-	IMPORTANT - Every variable and every elemnt inside varibale must contain the 'widget_child_elements' class in there classList
+	IMPORTANT - Every variable and every elemnt inside varibale must contain the 'untargetable' class in there classList
 	else the drag and drop api will be broken (due to the poor implementation in HTML5)
 */
 

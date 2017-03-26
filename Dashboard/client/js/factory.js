@@ -84,7 +84,7 @@ function WidgetObject() {
 	};
 	this.children = [];
 	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		console.log("Updating "+ this.type + " with serviceURL: "+ this.json.serviceURL);
+		//console.log("Updating "+ this.type + " with serviceURL: "+ this.json.serviceURL);
 		// var now = new Date();
 		// if(this.json.time !== 0 && this.json.time){
 		// 	var timeSince = (now.getTime() - this.json.time);
@@ -155,6 +155,9 @@ function WidgetObject() {
 				this.appendItem(variable);
 			} else if(children[i].type == TYPE.VARIABLEDATA) {
 				var variable = createVariable(children[i], TYPE.VARIABLEDATA);
+				this.appendItem(variable);
+			} else if(children[i].type == TYPE.VARIABLEHTML) {
+				var variable = createVariable(children[i], TYPE.VARIABLEHTML);
 				this.appendItem(variable);
 			} else if(children[i].type == TYPE.LABEL){
 				var label = createLabel(children[i], TYPE.LABEL);
@@ -476,29 +479,22 @@ function VariableHTMLObject(){
 function PositionalObject(){
 	this.type = TYPE.POSITIONALOBJECT; // every item must have a type variable
 	this.dom = {  //specific to a variable but the api will be the same on all items
-		base : "",
-		//text  : ""
+		base : ""
 	};
-	this.json = { // set these (optional keys that only apply to this type of variable) 
-		//text : "", 
+	this.json = {
 	};
-	this.update = function(){ // then the update function pushes datachnages in the json them into the dom elements
-		// console.log("Updating "+ this.type + " with text: "+ this.json.text);
+	this.update = function(){ 
 	};
 	this.toJSON = function() {
 		var toJSON =  {
 			type : TYPE.POSITIONALOBJECT, // every item must have a type variable
 			dom : {  //specific to a variable but the api will be the same on all items
-				base : "",
-				//text  : ""
+				base : ""
 			},
 			json : { // set these (optional keys that only apply to this type of variable) 
-				//text : "", 
 			}
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
-		//toJSON.dom.text = dom2json(this.dom.text);
-		//toJSON.json.text = this.json.text;
 		return toJSON;
 	};
 	this.fromJSON = function(jsonData) { // load into this object
@@ -506,18 +502,12 @@ function PositionalObject(){
 
 		var domObjects = jsonData.dom;
 		var base = json2dom(domObjects.base);
-		console.log(base);
-		//var text = json2dom(domObjects.text);
-		//base.appendChild(text);
 
 		var domElem = {
 			base : base,
-			//text  : text
 		}
-
 		this.dom = domElem;
 		this.type = jsonData.type;
-		//this.json.text = jsonData.json.text;
 
 		return this;
 	};

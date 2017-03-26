@@ -16,6 +16,8 @@
     <script src="js/widgetmanager.js"></script>
     <!-- stores json templates for widget items -->
     <script src="json/localjson.js"></script>
+
+    <base target="_blank">
 </head>
 
     <body>
@@ -62,7 +64,7 @@
                         <td>
                         
                         <div id="variable_builder_container">
-                            <h3 class="builder_title">Variable Builder</h3>
+                            <h2 class="builder_title">Variable Builder</h2>
                             <div id="variable_slot_builder" >
                                 
                             </div>
@@ -84,7 +86,7 @@
 
                         <td>
                         <div id="configure_container">
-                            <h3 class="builder_title">Item palette</h3>
+                            <h2 class="builder_title">Item palette</h2>
                             <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
                                 <!-- variable that can be used to create custom widgets are generated here --> 
                             </div>
@@ -148,9 +150,9 @@
                 <div class="saved_control">
                     <!-- <button onclick="listSaved()">List saved Widgets</button>
                     <select id="saved_widgets_output" multiple="multiple"></select> -->
-                    <a href="#" onclick="movePage(false)"><</a>
+                    <a href="#" onclick="movePage(false)" target="_self"><</a>
                     <p class="inline_text" id="page_number">1</p>
-                    <a href="#" onclick="movePage(true)">></a>
+                    <a href="#" onclick="movePage(true)" target="_self">></a>
                 </div>
                 <div class="saved_control">
                     <button class="large-btn" onclick="toggleSavedWidgetLoader()">Hide</button>
@@ -160,6 +162,17 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Doesnt work for commn sites, can't even view github readme with it. Probs replace with uneditable text area for how to or looking to markdown to html and load that in the iframe -->
+        <!-- <div id="web_viewer"> 
+            <iframe id="web_frame" src="https://github.com/MabezDev/MabezWatchOS/blob/master/README.md">
+              <p>Your browser does not support iframes.</p>
+            </iframe>
+            <div>
+                
+            </div>
+        </div> -->
 
         
         

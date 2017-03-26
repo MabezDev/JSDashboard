@@ -40,7 +40,11 @@ var ID = {
 
   //saved widget id's
   SAVED : 'saved_widgets',
-  FILEOUTPUT : 'saved_widgets_output'
+  FILEOUTPUT : 'saved_widgets_output',
+
+  // webview/iframe
+  WEBVIEWCONTAINER : 'web_viewer',
+  WEBVIEW : 'web_frame',
 };
 
 var CSS = {

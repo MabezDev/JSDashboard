@@ -101,18 +101,19 @@ function finalizeWidget(widget){
       widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
       
       for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
-        widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
+        widget.children[i].dom.value.classList.add(CSS.UNTARGETABLECHILDREN);
         widget.children[i].dom.base.draggable = false;
         if(widget.children[i].type == TYPE.POSITIONALOBJECT){
-          widget.children[i].dom.base.className += " " + CSS.HIDDEN;
+          widget.children[i].dom.value.classList.add(CSS.HIDDEN);
           widget.children[i].dom.base.textContent = "";
         } else if(widget.children[i].type == TYPE.VARIABLEHTML){
-          widget.children[i].dom.value.className += " " + CSS.TARGETABLECHILDREN
+          widget.children[i].dom.value.classList.remove(CSS.UNTARGETABLECHILDREN);
+          widget.children[i].dom.value.classList.add(CSS.TARGETABLECHILDREN);
         }
       }
 
-      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN; // stop the double click handler
-
+      
+      widget.dom.title.classList.add(CSS.UNTARGETABLECHILDREN);// stop the double click handler
       widget.dom.title.id = ""; // remove title id so we dont break when building another widget
       widget.dom.base.id = ""; // remove id so we dont break when building another widget
       return widget;

@@ -9,14 +9,14 @@ TODO
 	- set Update intervals - [SEMI] - global interval set not widget specific
 	- add clock to top bar
 	- Make it look good! (WIP)
-	- Use iframe to link to github read me to show users how to use the dash
+	- Use iframe to link to github read me to show users how to use the dash, use for any external lins actually (html content)
 	- Remove naming on save, instead replace with random name generator, then tell users its saved and they can find it in the widget manager
 		- Add option to name it?
 		- No chance of searching with this options unless we give each widget a name field, that we can optionally set
 	- if a widget extends a certain height cut it off, ONLY in the widget manager - [Important] - its cutting off the options
 	- implement interface to loading and saving layouts (functionality complete, see index.js)
 	- cycler item - cycle throw multple data's
-	- to make a cycler we will need a container type first that can store sub widgets (base it off the widget just change css)
+	- to make a cycler we will need a container type first that can store sub widgets (base it off the widget just change css) - possible container colour #4d6b75
 	- add edit this widget button in widget manager, pull into widget builder for editing
 
 	Bugs

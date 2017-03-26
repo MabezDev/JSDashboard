@@ -7,8 +7,9 @@
 
 .variable {
     padding : 5px;
-    background-color: #184351;
-    border-radius: 4px;
+    /*background-color: #184351;*/
+    background-color: rgb(38, 117, 129);
+    border-radius: 3px;
     display: inline-block;
     cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
     /*border-style: solid;*/
@@ -68,10 +69,8 @@
     width:100%;
     height:100%;
     opacity:.98;
-    /*top:0;*/
     top: 100vh;
     left:0;
-    /*display:none;*/
     position:fixed;
     background-color:#313131;
 
@@ -82,11 +81,12 @@
 
 .builder_title {
     padding : 5px;
-    background-color: #42aaf4;
-    border-radius: 4px;
+    /*background-color: #42aaf4;*/
+    /*border-radius: 4px;*/
     display: inline-block;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
+    margin-left: 10px;
 
 }
 
@@ -115,7 +115,7 @@
     min-width: : 300px;
     width: 400px;
     background-color: #296c82;
-    border-radius: 15px;
+    border-radius: 3px;
 }
 
 #configure_container {
@@ -123,7 +123,7 @@
     min-height: 70vh;
     min-width: : 70vw; /* min-width: aint foing anything for some reason, min-height it working as expected */
     background-color: #24677c;
-    border-radius: 15px;
+    border-radius: 3px;
 }
 
 #item_palette_container {

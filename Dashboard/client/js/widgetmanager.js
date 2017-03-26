@@ -92,7 +92,7 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
       }
 
       displayGrid.removeChild(loader);
-       }, 800);
+       }, 400);
 
     } else {
       console.log(xhr.status);

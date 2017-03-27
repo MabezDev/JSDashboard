@@ -8,7 +8,7 @@
 .variable {
     padding : 5px;
     /*background-color: #184351;*/
-    background-color: rgb(38, 117, 129);
+    /*background-color: rgb(38, 117, 129);*/
     border-radius: 3px;
     display: inline-block;
     cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
@@ -18,6 +18,7 @@
 
 .variable p {
     margin-bottom: 0;
+    word-wrap: break-word;
 }
 
 .variable a {
@@ -114,16 +115,26 @@
     min-height: 70vh;
     min-width: : 300px;
     width: 400px;
-    background-color: #296c82;
+    /*background-color: #296c82;*/
+    background-color: rgb(81, 174, 189);
     border-radius: 3px;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: #324247;
 }
 
 #configure_container {
     display: block;
     min-height: 70vh;
     min-width: : 70vw; /* min-width: aint foing anything for some reason, min-height it working as expected */
-    background-color: #24677c;
+    /*background-color: #24677c;*/
+    background-color: rgb(81, 174, 189);
     border-radius: 3px;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: #324247;
 }
 
 #item_palette_container {
@@ -152,7 +163,6 @@
 
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    /*padding: 20px;*/
     font-size: 14pt;
 }
 
@@ -165,13 +175,13 @@
 #widget_test_container {
     width:100%;
     height:100%;
-    opacity:.98;
     top:0;
     left:0;
-    display:none;
     position:fixed;
     background-color:#313131;
+    display:none;
 }
+
 
 #widget_test_popup{
     width: 400px;

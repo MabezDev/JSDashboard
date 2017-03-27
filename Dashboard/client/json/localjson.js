@@ -7,6 +7,7 @@ var layoutTest = '[{"type":"HIDDEN"},{"type":"HIDDEN"},{"type":"WIDGET","dom":{"
 
 var BUILDER_WIDGET_JSON = '{\
 	"type": "WIDGET",\
+	"name": "",\
 	"dom": {\
 		"base": {\
 			"tag": "DIV",\

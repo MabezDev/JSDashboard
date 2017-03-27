@@ -53,7 +53,9 @@ var CSS = {
   UNTARGETABLECHILDREN: 'untargetable',
   ITEMCONTAINER : 'item_container',
   DISPLAY_SPACING : "display_spacing",
-  TARGETABLECHILDREN : 'targetable'
+  TARGETABLECHILDREN : 'targetable',
+  FADEIN : 'fade_in',
+  FADEOUT : 'fade_out',
 };
 
 var TYPE = {

@@ -28,6 +28,10 @@ function init() {
   //[].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
 
   //jsonToLayout(JSON.parse(layoutTest));
+
+  document.getElementById('widget_test_container').addEventListener('transitionend', function() {
+    document.getElementById('widget_test_container').classList.remove('box-transition');
+  }, false);
 }
 
 function addToDashboard(newWidgetObject, slotID) {
@@ -93,6 +97,7 @@ function addToDashboard(newWidgetObject, slotID) {
 }
 
 function finalizeWidget(widget){
+  console.log(widget);
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
   var urlType = document.getElementById(ID.URLTYPEJSON);
 
@@ -101,21 +106,23 @@ function finalizeWidget(widget){
       widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
       
       for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
-        widget.children[i].dom.value.classList.add(CSS.UNTARGETABLECHILDREN);
+        // console.log(widget.children[i].dom.value);
+        widget.children[i].dom.value.className += " " + CSS.UNTARGETABLECHILDREN;
         widget.children[i].dom.base.draggable = false;
         if(widget.children[i].type == TYPE.POSITIONALOBJECT){
-          widget.children[i].dom.value.classList.add(CSS.HIDDEN);
+          widget.children[i].dom.value.className += " " + CSS.HIDDEN;
           widget.children[i].dom.base.textContent = "";
         } else if(widget.children[i].type == TYPE.VARIABLEHTML){
-          widget.children[i].dom.value.classList.remove(CSS.UNTARGETABLECHILDREN);
-          widget.children[i].dom.value.classList.add(CSS.TARGETABLECHILDREN);
+          widget.children[i].dom.value.className.replace(CSS.UNTARGETABLECHILDREN, "");
+          widget.children[i].dom.value.className += " " + CSS.TARGETABLECHILDREN;
         }
       }
 
       
-      widget.dom.title.classList.add(CSS.UNTARGETABLECHILDREN);// stop the double click handler
+      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN;// stop the double click handler
       widget.dom.title.id = ""; // remove title id so we dont break when building another widget
       widget.dom.base.id = ""; // remove id so we dont break when building another widget
+
       return widget;
   } else {
     console.log("serviceURL cannot be empty!");
@@ -208,8 +215,10 @@ function updateWidgets() {
 }
 
 function updateWidget(widgetObject){
-  var jsonKeys = [],
-  serviceURL = widgetObject.json.serviceURL;
+  if(!widgetObject) return;
+
+  var jsonKeys = [];
+  var serviceURL = widgetObject.json.serviceURL;
 
   for(var i=0; i < widgetObject.children.length; i++){
     if(widgetObject.children[i].type == TYPE.VARIABLE 
@@ -217,7 +226,7 @@ function updateWidget(widgetObject){
       || widgetObject.children[i].type == TYPE.VARIABLEHTML
       || widgetObject.children[i].type == TYPE.VARIABLEDATA ){
       jsonKeys.push(widgetObject.children[i].json.jsonKey);
-      widgetObject.children[i].dom.value.textContent = "Loading..."
+      widgetObject.children[i].dom.value.textContent = "Loading...";
     }
   }
 

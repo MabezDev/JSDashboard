@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 
-
 <html>
 
 <head>
     <title>Dashboard</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/builder.css">
-    <link rel="stylesheet" type="text/css" href="css/savedwidgets.css">
+    <link rel="stylesheet" type="text/css" href="css/widgetmanager.css">
     <script src="js/index.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/dragndrop.js"></script>
@@ -102,18 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
                         </td>
-
-                        <!-- <td>
-                        <div id="builder_control">
-                            <button onclick="toggleBuilder()">Close</button>
-                            <button onclick="addToDashFromBuilder()">+</button>
-                            <div id="builder_trashcan">
-
-                            </div>
-                        </div>
-                        </td> -->
                     </tr>
                 </table>
                 <div id="widget_test_container">
@@ -121,7 +112,7 @@
                     
                     </div>
                     <div id="widget_test_control">
-                        <button class="large-btn" onclick="previewWidgetWindow(false);return false;">Close</button> 
+                        <button class="large-btn" onclick="previewWidgetWindow(false)">Close</button> 
                     </div>    
                 </div>
                 
@@ -130,6 +121,9 @@
 
         <div id="saved_widgets" class="">
             <div id="saved_container">
+                <div class="saved_control">
+                    <input type="text" name="search" placeholder="Search">
+                </div>
                 <table id="widget_grid_saved_widgets" class="widget_grid">
                     <tr >
                         <td class="col"><div class="widget_container_manager"></div></td>

@@ -71,6 +71,7 @@ function createLabel(jsonData){
 
 function WidgetObject() {
 	this.type = TYPE.WIDGET;
+	this.name = "";
 	this.dom = {  //specific to a variable but the api will be the same on all items
 		base : "",
 		title  : "",
@@ -102,6 +103,7 @@ function WidgetObject() {
 	this.toJSON = function() {
 		var toJSON =  {
 			type : this.type,
+			name : "",
 			dom : {  //specific to a variable but the api will be the same on all items
 				base : "",
 				title  : "",
@@ -127,6 +129,7 @@ function WidgetObject() {
 		toJSON.json.title = this.json.title;
 		toJSON.children = children;
 		toJSON.json.urlType = this.json.urlType;
+		toJSON.name = this.name;
 		return toJSON;
 	};
 	this.fromJSON = function(jsonData) { // load into this object
@@ -140,9 +143,11 @@ function WidgetObject() {
 		this.dom.base = base;
 		this.dom.title = title;
 		this.type = jsonData.type;
+		this.name = jsonData.name;
 		this.json.title = jsonData.json.title;
 		this.json.serviceURL = jsonData.json.serviceURL;
 		this.json.urlType = jsonData.json.urlType;
+
 		
 		var children = jsonData.children;
 		for(var i=0; i<children.length;i++){

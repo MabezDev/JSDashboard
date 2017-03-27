@@ -11,6 +11,7 @@ var errorhandler = require('errorhandler')
 var app = express();
 //var Feed = require('rss-to-json'); //var FeedMe = require('feedme');
 var parser = require('rss-parser');
+var crypto = require("crypto");
 
 var webpages = '../client/';
 var widgetFolder = 'widgets/';
@@ -41,11 +42,13 @@ app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
 app.post('/api/account/widgets/stored/save', saveWidgetJSON); //save a widget
 app.get('/api/account/widgets/stored/list/content', sendMultipleWidgets); //save a widget
 
-function saveWidgetJSON(req, res){
-  var filename = req.query.file;
+function saveWidgetJSON(req, res){ 
+  // var filename = req.query.file;
   var widgetContent = req.body;
-  if(!filename || filename == "" || !widgetContent) return;
+  if(!widgetContent) return; // chnage so if no filename set it to random one
   widgetContent = JSON.stringify(widgetContent);
+
+  var filename = crypto.randomBytes(20).toString('hex'); // create random name
 
   fs.writeFile('widgets/' + filename, widgetContent, {encoding: 'utf-8'}, function(err){
     if (!err){

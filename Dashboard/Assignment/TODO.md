@@ -18,11 +18,14 @@ TODO
 	- cycler item - cycle throw multple data's
 	- to make a cycler we will need a container type first that can store sub widgets (base it off the widget just change css) - possible container colour #4d6b75
 	- add edit this widget button in widget manager, pull into widget builder for editing
+	- MAJOR instead of cycler, give dash board ability to swap widgets with an interval
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here
 		- if we send exactly 9 widgets but there are no more, we will be able to change page but not laod data - widgetmanager.js - [Fixed]
 		- add html item (display a small amouint of html as a variable (set innerHTML to content)) - [SEMI-FIXED] - works but the background is lost when drag and dropped
+		- resizing the screen shows the mnaager and builder, move them further out of screen to avoid this
+		- changing the key on a variable once its in the widget throws an error
 
 
 [Minor]

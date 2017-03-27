@@ -193,11 +193,13 @@ function addWidgetToBuilder(){
 
 function saveWidgetOnServer(){
 
-  var fileName = prompt('Enter the fileName you wish to use: ', '');
+  var fileName = prompt('Save widget with name? (Makes it searchable in the widget manager) : ', '');
   if(fileName){
 
     var xhr = new XMLHttpRequest();
-    var url = '/api/account/widgets/stored/save?file='+fileName;
+    // var url = '/api/account/widgets/stored/save?file='+fileName;
+    var url = '/api/account/widgets/stored/save';
+    currentWidget.name = fileName;
 
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -208,29 +210,57 @@ function saveWidgetOnServer(){
         console.log("XHR failed with code: " + xhr.status);
       }
     };
-
     xhr.send(JSON.stringify(finalizeWidget(currentWidget.toJSON())));
     }
 }
 
 function previewWidgetWindow(isClosed){
+  console.log(isClosed);
   var popUpContainer = document.getElementById(ID.TESTPOPUPCONTAINER);
   var popUp = document.getElementById(ID.TESTPOPUP);
   if(isClosed){ // if its closed, open it
 
     currentPreviewWidget = createWidget(currentWidget.toJSON()); // exact copy of the current state
+    console.log(currentPreviewWidget);
     updateWidget(finalizeWidget(currentPreviewWidget));
-
-    // open pop up of widget
-    popUpContainer.style.display = "block";
+    fadeIn(popUpContainer, 600);// fade in pop up of widget
+    
     popUp.appendChild(currentPreviewWidget.dom.base);
   } else { // close it and clean up objects
-    // open pop up of widget
-    popUpContainer.style.display = "none";
+    fadeOut(popUpContainer, 600);
     popUp.removeChild(currentPreviewWidget.dom.base);
     currentPreviewWidget = undefined;
   }
+  
 }
+
+function fadeIn(elem, speed){
+  if (!elem.style.opacity) {
+        elem.style.opacity = 0;
+  }
+  elem.style.display = "block"; // set to block
+  var inInterval = setInterval(function() {
+      elem.style.opacity = Number(elem.style.opacity)+0.02;
+      if (elem.style.opacity >= 1){
+        clearInterval(inInterval);
+      }
+  }, speed/50 );
+}
+
+function fadeOut(elem, speed ) {
+    if (!elem.style.opacity) {
+        elem.style.opacity = 1;
+    }
+    var outInterval = setInterval(function() {
+        elem.style.opacity -= 0.02;
+        if (elem.style.opacity <= 0) {
+          clearInterval(outInterval);
+          elem.style.display = 'none';
+        }
+    }, speed/50 );
+}
+
+
 
 
 

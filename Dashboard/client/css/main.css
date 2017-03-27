@@ -9,7 +9,7 @@
     border-radius: 2px;
     padding: 8px;
     font-family: Arial, Helvetica, sans-serif;
-    box-shadow: 2px 2px 1px #000;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -22,12 +22,6 @@
 #title::first-letter {
     font-size: 120%;
     color: #FF4A27;
-
-    text-shadow:
-    -1px -1px 0 #324247,
-    1px -1px 0 #324247,
-    -1px 1px 0 #324247,
-    1px 1px 0 #324247;
 }
 
 #navigation {
@@ -47,39 +41,24 @@
 .widget_title {
     padding : 3px;
     font-size: 18pt;
-    /*background-color: #FF4A27;
-    border-radius: 2px;*/
     display: inline-block;
-
     cursor: pointer; /*only gets displayed when targetable (when creating the variables\)*/
     margin-top: 1px;
     margin-bottom: 15px;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-
-    /*border-style: solid;
-    border-width: 2px;
-    border-color: #324247;*/
 }
 
 .widget {
     width: 96%; /* Account for the margin and padding */
     height: 100%;
-    /*background-color: #377184;*/
-    /*background-color: rgba(23,207,236,0.5);*/
     background-color: rgb(81, 174, 189);
     border-radius: 2px;
     padding : 5px;
-    /*margin : 5px;*/
-    /*padding-right: 10px;*/
     border-style: solid;
     border-width: 3px;
     border-color: #324247;
-    /*flex: 1;*/
     flex: 0 1 auto;
-
-    /*box-shadow: 5px 3px 2px #000;*/
-
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -188,7 +167,7 @@ button {
     /*background-color: #CC5916;*/
     background-color: #FF4A27;
     border-radius: 5px;
-    box-shadow: 0 0 2px #000;
+    /*box-shadow: 0 0 2px #000;*/
 }
 
 button:hover {

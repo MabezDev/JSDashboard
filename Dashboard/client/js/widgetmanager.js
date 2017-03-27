@@ -87,6 +87,10 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
 
             columns[j].children[0].appendChild(widgetFromServer.dom.base);
             count++;
+
+            if(widgetFromServer.dom.base.scrollHeight > widgetFromServer.dom.base.clientHeight){
+              columns[j].children[0].className += " " + 'widget_container_manager_overflown';
+            }
           }
         }
       }

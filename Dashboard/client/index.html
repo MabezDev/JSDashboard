@@ -16,8 +16,7 @@
     <script src="js/constants.js"></script>
     <script src="js/factory.js"></script>
     <script src="js/widgetmanager.js"></script>
-    <!-- stores json templates for widget items -->
-    <script src="json/localjson.js"></script>
+    <script src="json/localjson.js"></script> <!-- stores json templates for widget items -->
 
     <base target="_blank">
 </head>
@@ -28,7 +27,7 @@
             <nav id="navigation">
                 <button class="large-btn" onclick="toggleBuilder()">Open Builder</button>
                 <button class="large-btn" onclick="toggleSavedWidgetLoader()">Widget Manager</button>
-                <button class="large-btn" onclick="">Save/Load Dashboard</button>
+                <button class="large-btn" onclick="">Configure Dashboard</button>
                 <button class="large-btn" onclick="">How To Use</button>
             </nav>
         </header>
@@ -122,7 +121,7 @@
         <div id="saved_widgets" class="">
             <div id="saved_container">
                 <div class="saved_control">
-                    <input type="text" name="search" placeholder="Search">
+                    <input type="text" name="search" placeholder="Search"  oninput="searchWidgets(this)">
                 </div>
                 <table id="widget_grid_saved_widgets" class="widget_grid">
                     <tr >

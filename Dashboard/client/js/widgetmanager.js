@@ -20,6 +20,72 @@ function getLoader(){
   return div;
 }
 
+function searchWidgets(domSearchBox){
+  var searchTerm = domSearchBox.value;
+  var searchResults = [];
+  
+  if(!searchTerm || searchTerm.value === ""){
+    loadWidgetsIntoManager(pageNumber);
+    return;
+  }
+
+  var xhr = new XMLHttpRequest();
+  var url = '/api/account/widgets/stored/list/content?search=' + searchTerm;
+
+  var displayGrid = document.getElementById(ID.SAVED_GRID);
+  var loader = getLoader();
+  displayGrid.appendChild(loader);
+
+  resetGrid(ID.SAVED_GRID);
+
+  xhr.open('GET', url); // TODO change this and loadIntoManager to use a generic function using Promises
+  xhr.onload = function() {
+    if (xhr.status === 200 || xhr.status == 301) {
+
+      // outOfData = xhr.status != 200;
+      var widgets = JSON.parse(this.responseText);
+      var count = 0;
+
+      setTimeout(function(){ 
+
+      var tableRows = displayGrid.children[0].children;
+      for(var i=0; i<tableRows.length; i++){
+        var columns = tableRows[i].children;
+        for(var j=0; j<columns.length; j++){
+          columns[j].children[0].innerHTML = "";
+          if(widgets[count]){
+            var widgetFromServer = createWidget(widgets[count].data);
+            displayWidgetStore.push(widgetFromServer);
+
+            // add drag and drop handlers
+            widgetFromServer.dom.base.id = widgets[count].name;
+
+            widgetFromServer.dom.base.ondragstart = widgetManagerDragStart;
+            widgetFromServer.dom.base.ondragover = globalDragOver;
+            widgetFromServer.dom.base.ondrop = dashboardDrop;
+            //widgetFromServer.dom.base.ondragend = dragEndHandler; - TODO cannot drag on to main dashboard like I would like, drops arn't event being triggered
+            widgetFromServer.dom.base.ondrag = hideManager;
+
+            columns[j].children[0].appendChild(widgetFromServer.dom.base);
+            count++;
+
+            if(widgetFromServer.dom.base.scrollHeight > widgetFromServer.dom.base.clientHeight){
+              columns[j].children[0].className += " " + 'widget_container_manager_overflown';
+            }
+          }
+        }
+      }
+
+      displayGrid.removeChild(loader);
+       }, 400);
+
+    } else {
+      console.log(xhr.status);
+    }
+  };
+  xhr.send();
+}
+
 // function listSaved() {
 // 	var output = document.getElementById(ID.FILEOUTPUT);
 //   var xhr = new XMLHttpRequest();

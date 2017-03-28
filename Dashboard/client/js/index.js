@@ -106,11 +106,13 @@ function finalizeWidget(widget){
       widget.json.urlType = urlType.checked ? URL.JSON : URL.RSS; 
       
       for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
-        // console.log(widget.children[i].dom.value);
-        widget.children[i].dom.value.className += " " + CSS.UNTARGETABLECHILDREN;
+
+        if(widget.children[i].dom.value)
+          widget.children[i].dom.value.className += " " + CSS.UNTARGETABLECHILDREN;
+
         widget.children[i].dom.base.draggable = false;
         if(widget.children[i].type == TYPE.POSITIONALOBJECT){
-          widget.children[i].dom.value.className += " " + CSS.HIDDEN;
+          widget.children[i].dom.base.className += " " + CSS.HIDDEN;
           widget.children[i].dom.base.textContent = "";
         } else if(widget.children[i].type == TYPE.VARIABLEHTML){
           widget.children[i].dom.value.className.replace(CSS.UNTARGETABLECHILDREN, "");

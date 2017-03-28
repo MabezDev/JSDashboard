@@ -79,8 +79,7 @@ function listWidgets(req, res){
 
 function sendMultipleWidgets(req, res){
   var pageNumber = req.query.p;
-
-  if(!pageNumber) return;
+  var searchTerm = req.query.search;
 
   var promises = [];
   fs.readdir(widgetFolder, (err, files) => {
@@ -92,10 +91,23 @@ function sendMultipleWidgets(req, res){
     Promise.all(promises)
       .then((data) => {
         if(data.length !== 0){
-          var lowerBound = (pageNumber - 1) * 9; // find the lower bound i.e page 1, the lower bound is 0
-          var selection = data.slice(lowerBound, lowerBound + 9);
-          //res.json(selection).sendStatus();
-          res.status((data[lowerBound + 9] == undefined) || (selection < 9) ? 301 : 200).json(selection)
+          if(pageNumber){ 
+            var lowerBound = (pageNumber - 1) * 9; // find the lower bound i.e page 1, the lower bound is 0
+            var selection = data.slice(lowerBound, lowerBound + 9);
+            //res.json(selection).sendStatus();
+            res.status((data[lowerBound + 9] == undefined) || (selection < 9) ? 301 : 200).json(selection)
+          } else if(searchTerm){
+            var searchResults = [];
+            for(var widgetRaw of data){
+              if(widgetRaw.data.name.includes(searchTerm)){
+                searchResults.push(widgetRaw);
+              }
+            }
+            res.json(searchResults);
+          } else {
+            console.log("Tried to send every single widget this should not happen.");
+            //res.json(data);
+          }
         } else {
           res.sendStatus(404);
         }

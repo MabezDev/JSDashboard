@@ -6,6 +6,24 @@ function toggleConfigure(){
   getLayoutList();
 }
 
+function getLayoutFromServer(name){
+  if(!name) return;
+  console.log('Requesting layout with id : '+ name);
+  var xhr = new XMLHttpRequest();
+  var url = '/api/account/layouts/stored/get?name=' + name;
+
+  xhr.open('GET', url);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var repsonse = JSON.parse(this.responseText); // raw data
+      jsonToLayout(JSON.parse(repsonse.data.layout));
+    } else {
+      console.log(xhr.status);
+    }
+  };
+  xhr.send();
+}
+
 function getLayoutList(){
 	var xhr = new XMLHttpRequest();
   var url = '/api/account/layouts/stored/list';
@@ -20,7 +38,24 @@ function getLayoutList(){
 
       for(var layoutMeta of layoutMetas){
         var item = document.createElement('li');
-        item.textContent = 'Name: ' + layoutMeta.name + ' , description : ' + layoutMeta.description;
+        var contentDiv = document.createElement('div');
+        var nameEl = document.createElement('h4');
+        var link = document.createElement('a');
+        var descriptionEl = document.createElement('p');
+
+        link.textContent = layoutMeta.name;
+        link.href = layoutMeta.id;
+        link.onclick = function (event) {
+          getLayoutFromServer(event.target.pathname.replace('/','')); // remove prefixed slash
+          return false; // requied to stop flowwing the link
+        }
+        nameEl.appendChild(link);
+        descriptionEl.textContent = layoutMeta.description;
+        contentDiv.appendChild(nameEl);
+        contentDiv.appendChild(descriptionEl);
+        item.appendChild(contentDiv);
+
+
         layoutList.appendChild(item);
       }
 
@@ -43,7 +78,7 @@ function saveLayout(){
 	var layout = {
 		name : name,
 		description : description,
-		data : layoutData
+		layout : layoutData
 	};
 
 	// now save to server

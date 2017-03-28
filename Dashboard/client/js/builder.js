@@ -83,7 +83,7 @@ function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
   // panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   panel.style.top = panel.style.top == '0px' ? '200vh' : '0px';
-  document.getElementById(ID.SERVICEURL).focus();
+  document.getElementById(ID.SERVICEURL).focus(); //.scrollIntoView(); add?
   // make sure a builder widget is in place
   addWidgetToBuilder();
 

@@ -18,7 +18,8 @@ TODO
 	- cycler item - cycle throw multple data's
 	- to make a cycler we will need a container type first that can store sub widgets (base it off the widget just change css) - possible container colour #4d6b75
 	- add edit this widget button in widget manager, pull into widget builder for editing
-	- MAJOR instead of cycler, give dash board ability to swap widgets with an interval
+	- instead of cycler, give dash board ability to swap widgets with an interval
+	- must validate all text boxes to do with name to not include things that will break filnames i.e / . etc
 
 	Bugs
 		- fix validation of serviceURL, it keeps taking the default value of URL here

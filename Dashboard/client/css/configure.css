@@ -19,7 +19,7 @@
     height: 90%;
     margin: 0 auto;
     /*background-color: #313131;*/
-    background-color: white;
+    background-color: grey;
 
 }
 
@@ -40,4 +40,8 @@
 .configure_input{
 	display: block;
 	margin : 60px auto;
+}
+
+ul > li {
+	list-style: none;
 }

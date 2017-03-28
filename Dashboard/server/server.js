@@ -4,6 +4,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var path = require('path');
 var request = require('request');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -46,6 +47,20 @@ app.get('/api/account/widgets/stored/list/content', listWidgetsWithContent);
 
 app.post('/api/account/layouts/stored/save', saveLayout);
 app.get('/api/account/layouts/stored/list', listLayouts);
+app.get('/api/account/layouts/stored/get', getLayout);
+
+function getLayout(req, res){
+  var name = req.query.name;
+  if(!name) return;
+
+  Promise.resolve(getData(layoutFolder + name,{encoding: 'utf-8'})).then((data) => {
+    res.json(data);
+  }).catch(() => {
+    res.sendStatus(404);
+  });
+
+}
+
 
 function saveLayout(req, res){ 
   // var filename = req.query.file;
@@ -80,6 +95,7 @@ function listLayouts(req, res){
           var list = [];
           for(layout of data){
             list.push({
+              id : layout.name,
               name : layout.data.name,
               description : layout.data.description
             });
@@ -162,7 +178,7 @@ function getData(fileName, type) {
     fs.readFile(fileName, type, (err, data) => {
         if (err) { reject(err); }
         resolve({ 
-          name : fileName,
+          name : path.basename(fileName),
           data : JSON.parse(data)
         });
     })

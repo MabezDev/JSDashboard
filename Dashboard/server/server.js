@@ -15,6 +15,7 @@ var crypto = require("crypto");
 
 var webpages = '../client/';
 var widgetFolder = 'widgets/';
+var layoutFolder = 'layouts/';
 
 // static files
 app.use('/', express.static(webpages, {
@@ -37,12 +38,63 @@ app.post('/api/data/custom/service', serviceWidget); // custom json to be ran fr
 
 //app.post('/api/account/create', createAccount);
 //app.post('/api/account/login', login);
-app.get('/api/account/widgets/stored/get', getWidgetJSON); // gets a widget, takes parameter of filename (or id if we have time to set up database)
-app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
-app.post('/api/account/widgets/stored/save', saveWidgetJSON); //save a widget
-app.get('/api/account/widgets/stored/list/content', sendMultipleWidgets); //save a widget
 
-function saveWidgetJSON(req, res){ 
+// app.get('/api/account/widgets/stored/get', getWidget); // gets a widget, takes parameter of filename (or id if we have time to set up database)
+// app.get('/api/account/widgets/stored/list', listWidgets); //lists all widgets
+app.post('/api/account/widgets/stored/save', saveWidget);
+app.get('/api/account/widgets/stored/list/content', listWidgetsWithContent); 
+
+app.post('/api/account/layouts/stored/save', saveLayout);
+app.get('/api/account/layouts/stored/list', listLayouts);
+
+function saveLayout(req, res){ 
+  // var filename = req.query.file;
+  var layoutContent = req.body;
+  if(!layoutContent) return; // chnage so if no filename set it to random one
+  layoutContent = JSON.stringify(layoutContent);
+
+  var filename = crypto.randomBytes(20).toString('hex'); // create random name
+
+  fs.writeFile('layouts/' + filename, layoutContent, {encoding: 'utf-8'}, function(err){
+    if (!err){
+      res.sendStatus(200);
+    }else{
+      console.log(err);
+      res.sendStatus(404);
+    }
+    console.log(filename + " layout saved successfully!");
+  });
+}
+
+function listLayouts(req, res){
+  var promises = [];
+  fs.readdir(layoutFolder, (err, files) => {
+    
+    for(var i=0; i<files.length; i++){
+      promises.push(getData(layoutFolder + files[i], {encoding: 'utf-8'}));
+    }
+
+    Promise.all(promises)
+      .then((data) => {
+        if(data.length !== 0){
+          var list = [];
+          for(layout of data){
+            list.push({
+              name : layout.data.name,
+              description : layout.data.description
+            });
+          }
+          res.json(list);
+        } else {
+          res.sendStatus(404);
+        }
+
+      })
+      .catch((e) => console.log(e));
+  });
+}
+
+function saveWidget(req, res){ 
   // var filename = req.query.file;
   var widgetContent = req.body;
   if(!widgetContent) return; // chnage so if no filename set it to random one
@@ -57,27 +109,11 @@ function saveWidgetJSON(req, res){
       console.log(err);
       res.sendStatus(404);
     }
-    console.log(filename + " saved successfully!");
+    console.log(filename + " widget saved successfully!");
   });
 }
 
-function listWidgets(req, res){
-  filenameArray = [];
-  fs.readdir(widgetFolder, (err, files) => {
-    files.forEach(file => {
-      filenameArray.push(file);
-    });
-
-    if(filenameArray.length !== 0){
-      res.json(filenameArray);
-    } else {
-      res.sendStatus(404);
-    }
-
-  });
-}
-
-function sendMultipleWidgets(req, res){
+function listWidgetsWithContent(req, res){
   var pageNumber = req.query.p;
   var searchTerm = req.query.search;
 
@@ -134,20 +170,20 @@ function getData(fileName, type) {
 }
 
 
-function getWidgetJSON(req, res){
-  var filename = req.query.file;
+// function getWidget(req, res){
+//   var filename = req.query.file;
 
-  if(!filename) return;
+//   if(!filename) return;
 
-  fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
-    if (!err){
-      res.send(JSON.parse(data));
-    }else{
-      console.log(err);
-      res.sendStatus(404);
-    }
-  });
-}
+//   fs.readFile('widgets/' + filename, {encoding: 'utf-8'}, function(err,data){
+//     if (!err){
+//       res.send(JSON.parse(data));
+//     }else{
+//       console.log(err);
+//       res.sendStatus(404);
+//     }
+//   });
+// }
 
 
 // example JSON object sent ot a /api/data/custom
@@ -263,6 +299,22 @@ function customTest(req, res) {
   }
 
 }
+
+// function listWidgets(req, res){
+//   filenameArray = [];
+//   fs.readdir(widgetFolder, (err, files) => {
+//     files.forEach(file => {
+//       filenameArray.push(file);
+//     });
+
+//     if(filenameArray.length !== 0){
+//       res.json(filenameArray);
+//     } else {
+//       res.sendStatus(404);
+//     }
+
+//   });
+// }
 
 function isJSON(str) {
     try {

@@ -217,7 +217,7 @@ function saveWidgetOnServer(domButton){
       }
     };
     xhr.send(JSON.stringify(finalizeWidget(currentWidget.toJSON())));
-    }
+  }
 }
 
 function previewWidgetWindow(isClosed){

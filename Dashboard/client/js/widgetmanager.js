@@ -200,36 +200,35 @@ function hideManager(event){
 }
 
 
-function loadSavedWidget(event){
-  console.log("Loading widget : " + event.target.textContent);
+// function loadSavedWidget(event){
+//   console.log("Loading widget : " + event.target.textContent);
 
-  var fnToLoad = event.target.textContent;
+//   var fnToLoad = event.target.textContent;
 
-  var xhr = new XMLHttpRequest();
-  var url = '/api/account/widgets/stored/get?file='+fnToLoad;
+//   var xhr = new XMLHttpRequest();
+//   var url = '/api/account/widgets/stored/get?file='+fnToLoad;
 
-  xhr.open('GET', url);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      var widgetJson = JSON.parse(this.responseText);
-      var newWidget = createWidget(widgetJson);
-      console.log("Imported widget object: ");
-      console.log(newWidget);
+//   xhr.open('GET', url);
+//   xhr.onload = function() {
+//     if (xhr.status === 200) {
+//       var widgetJson = JSON.parse(this.responseText);
+//       var newWidget = createWidget(widgetJson);
+//       console.log("Imported widget object: ");
+//       console.log(newWidget);
 
-      addToDashboard(newWidget);
+//       addToDashboard(newWidget);
 
-    } else {
-      console.log(xhr.status);
-    }
-  };
+//     } else {
+//       console.log(xhr.status);
+//     }
+//   };
 
-  xhr.send();
-}
+//   xhr.send();
+// }
 
 function movePage(next){
   var pageNumberElement = document.getElementById(ID.WIDGETPAGENUMBER);
   if(next){
-    console.log(outOfData);
     if(!outOfData) loadWidgetsIntoManager(++pageNumber);
   } else { // previous page
     if(pageNumber > 1) loadWidgetsIntoManager(--pageNumber);

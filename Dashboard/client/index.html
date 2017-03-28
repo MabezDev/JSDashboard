@@ -161,14 +161,18 @@
         <div id="configure_dashboard_container">
             <div id="configure_dashboard">
                 <div id="save_current">
+                    <h3>Save this layout</h3>
                     <form id="save_form">
-                        <input type="text" name="name" class="configure_input" placeholder="Name">
-                        <input type="text" name="description" class="configure_input" placeholder="Description">
-                        <button class="medium-btn" onclick="return false;" class="configure_input">Save Layout</button>
+                        <input type="text" name="name" class="configure_input" placeholder="Name" required>
+                        <input type="text" name="description" class="configure_input" placeholder="Description" required>
+                        <button class="medium-btn" onclick="return saveLayout();return false;" class="configure_input">Save Layout</button>
                     </form>
                 </div>
                 <div id="load_layout">
-                    testload
+                    <h3>Saved Layouts</h3>
+                    <ul id="layout_list">
+                        
+                    </ul>
                 </div>
                 <div class="saved_control">
                     <button class="large-btn" onclick="toggleConfigure()">Hide</button>

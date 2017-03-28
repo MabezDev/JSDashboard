@@ -3,6 +3,64 @@
 function toggleConfigure(){
 	var container = document.getElementById(ID.CONFIGURECONTAINER);
 	container.style.left = container.style.left == '0px' ? '-200vw' : '0px';
+  getLayoutList();
+}
+
+function getLayoutList(){
+	var xhr = new XMLHttpRequest();
+  var url = '/api/account/layouts/stored/list';
+
+  xhr.open('GET', url);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var layoutMetas = JSON.parse(this.responseText); // raw data
+
+      // now populate list  - ID.LOADLIST
+      var layoutList = document.getElementById(ID.LOADLIST);
+
+      for(var layoutMeta of layoutMetas){
+        var item = document.createElement('li');
+        item.textContent = 'Name: ' + layoutMeta.name + ' , description : ' + layoutMeta.description;
+        layoutList.appendChild(item);
+      }
+
+    } else {
+      console.log(xhr.status);
+    }
+  };
+  xhr.send();
+}
+
+function saveLayout(){
+	var formData = new FormData(document.getElementById(ID.SAVEFORM));
+	var name = formData.get('name');
+	var description = formData.get('description');
+	
+	if(!name || !description) return;
+
+	var layoutData = layoutToJSON();
+
+	var layout = {
+		name : name,
+		description : description,
+		data : layoutData
+	};
+
+	// now save to server
+
+	var xhr = new XMLHttpRequest();
+    var url = '/api/account/layouts/stored/save';
+
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        console.log("Layout with name : " + name + " saved successfully!");
+      } else {
+        console.log("XHR failed with code: " + xhr.status);
+      }
+    };
+    xhr.send(JSON.stringify(layout));
 }
 
 function layoutToJSON(){

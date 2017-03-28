@@ -45,6 +45,9 @@ var ID = {
   // configure id's
   CONFIGURECONTAINER : 'configure_dashboard_container',
   CONFIGUREDASHBOARD : 'configure_dashboard',
+
+  LOADLIST : 'layout_list',
+  SAVEFORM : 'save_form',
 };
 
 var CSS = {

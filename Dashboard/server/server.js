@@ -53,9 +53,12 @@ function getLayout(req, res){
   var name = req.query.name;
   if(!name) return;
 
-  Promise.resolve(getData(layoutFolder + name,{encoding: 'utf-8'})).then((data) => {
+  Promise.resolve(getData(layoutFolder + name,{encoding: 'utf-8'}))
+  .then((data) => {
+    console.log('Found layout with id : ' + data.name)
     res.json(data);
-  }).catch(() => {
+  }).catch((e) => {
+    console.log(e)
     res.sendStatus(404);
   });
 
@@ -104,7 +107,6 @@ function listLayouts(req, res){
         } else {
           res.sendStatus(404);
         }
-
       })
       .catch((e) => console.log(e));
   });
@@ -151,7 +153,7 @@ function listWidgetsWithContent(req, res){
           } else if(searchTerm){
             var searchResults = [];
             for(var widgetRaw of data){
-              if(widgetRaw.data.name.includes(searchTerm)){
+              if(widgetRaw.data.name.toLowerCase().includes(searchTerm)){
                 searchResults.push(widgetRaw);
               }
             }
@@ -176,7 +178,7 @@ function listWidgetsWithContent(req, res){
 function getData(fileName, type) {
   return new Promise(function(resolve, reject){
     fs.readFile(fileName, type, (err, data) => {
-        if (err) { reject(err); }
+        if (err) { reject(err); console.log(err); }
         resolve({ 
           name : path.basename(fileName),
           data : JSON.parse(data)

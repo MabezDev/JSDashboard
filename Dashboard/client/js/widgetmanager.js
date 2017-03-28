@@ -131,7 +131,6 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
       outOfData = xhr.status != 200;
       var widgets = JSON.parse(this.responseText);
       var count = 0;
-
       setTimeout(function(){ 
 
       var tableRows = displayGrid.children[0].children;
@@ -165,6 +164,9 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
       displayGrid.removeChild(loader);
        }, 400);
 
+    } else if(xhr.status == 404){
+      console.log('No widgets found on server!');
+      displayGrid.removeChild(loader);
     } else {
       console.log(xhr.status);
     }
@@ -174,12 +176,13 @@ function loadWidgetsIntoManager(pageNumber){ //9 items on each 'page'
 
 function resetGrid(gridID){
   var displayGrid = document.getElementById(gridID);
-
+  var count = 0;
   var tableRows = displayGrid.children[0].children;
       for(var i=0; i<tableRows.length; i++){
         var columns = tableRows[i].children;
         for(var j=0; j<columns.length; j++){
           columns[j].children[0].innerHTML = "";
+          columns[j].children[0].appendChild(createWidget(undefined, '' + (++count)).dom.base); // insert blank
         }
       }
 }
@@ -196,7 +199,7 @@ function addWidgetToDashboardFromManager(domID, targetSlotID){
 function hideManager(event){
   //console.log(event);
   var panel = document.getElementById(ID.SAVED);
-  panel.style.right = "-100vw";
+  panel.style.right = "-200vw";
 }
 
 

@@ -28,7 +28,6 @@ function testServiceForJSONKeys(button) {
   xhr.open('GET', url);
   xhr.onload = function() {
     if (xhr.status === 200) {
-      console.log(this.responseText);
       var jsonObj = JSON.parse(this.responseText);
       var dotNotation = listPaths(jsonObj);
 
@@ -221,17 +220,20 @@ function saveWidgetOnServer(domButton){
 }
 
 function previewWidgetWindow(isClosed){
-  console.log(isClosed);
   var popUpContainer = document.getElementById(ID.TESTPOPUPCONTAINER);
   var popUp = document.getElementById(ID.TESTPOPUP);
   if(isClosed){ // if its closed, open it
 
     currentPreviewWidget = createWidget(currentWidget.toJSON()); // exact copy of the current state
-    console.log(currentPreviewWidget);
-    updateWidget(finalizeWidget(currentPreviewWidget));
-    fadeIn(popUpContainer, 600);// fade in pop up of widget
-    
-    popUp.appendChild(currentPreviewWidget.dom.base);
+    var finalized = finalizeWidget(currentPreviewWidget);
+    if(finalized) { 
+      updateWidget(finalized);
+      fadeIn(popUpContainer, 600);// fade in pop up of widget
+      popUp.appendChild(currentPreviewWidget.dom.base);
+    } else {
+      console.log('Tried to preview a widget without a valid service URL!');
+      document.getElementById(ID.URLERROR).textContent = "Unable to test the service, is the url correct?";
+    }
   } else { // close it and clean up objects
     fadeOut(popUpContainer, 600);
     popUp.removeChild(currentPreviewWidget.dom.base);

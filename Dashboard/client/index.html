@@ -27,9 +27,9 @@
         <header id="header">
             <h1 id="title">Mashboard</h1>
             <nav id="navigation">
+                <button class="large-btn" onclick="toggleConfigure()">Configure Dashboard</button>
                 <button class="large-btn" onclick="toggleBuilder()">Open Builder</button>
                 <button class="large-btn" onclick="toggleSavedWidgetLoader()">Widget Manager</button>
-                <button class="large-btn" onclick="toggleConfigure()">Configure Dashboard</button>
                 <!-- <button class="large-btn" onclick="">How To Use</button> -->
             </nav>
         </header>
@@ -165,7 +165,7 @@
                     <form id="save_form">
                         <input type="text" name="name" class="configure_input" placeholder="Name" required>
                         <input type="text" name="description" class="configure_input" placeholder="Description" required>
-                        <button class="medium-btn" onclick="return saveLayout();return false;" class="configure_input">Save Layout</button>
+                        <button class="medium-btn" onclick="return saveLayout()" class="configure_input">Save Layout</button>
                     </form>
                 </div>
                 <div id="load_layout">

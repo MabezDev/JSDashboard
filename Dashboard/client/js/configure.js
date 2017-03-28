@@ -2,8 +2,12 @@
 
 function toggleConfigure(){
 	var container = document.getElementById(ID.CONFIGURECONTAINER);
-	container.style.left = container.style.left == '0px' ? '-200vw' : '0px';
-  getLayoutList();
+  if(container.style.left == "0px"){
+    container.style.left = "-200vw";
+  } else {
+    container.style.left = "0px";
+    getLayoutList();
+  } 
 }
 
 function getLayoutFromServer(name){
@@ -11,6 +15,18 @@ function getLayoutFromServer(name){
   console.log('Requesting layout with id : '+ name);
   var xhr = new XMLHttpRequest();
   var url = '/api/account/layouts/stored/get?name=' + name;
+
+  var isEmpty = true; 
+  for(var i = 1; i < 9; i++){
+    if(!isSlotFree(ID.WIDGETGRID, i + '')){
+      isEmpty = false;
+      break;
+    }
+  }
+  if(!isEmpty){
+    if(!confirm("Loading a new Dashboard will discard the current one. Do you wish to continue?")) return;
+    resetGrid(ID.WIDGETGRID);
+  }
 
   xhr.open('GET', url);
   xhr.onload = function() {
@@ -33,8 +49,12 @@ function getLayoutList(){
     if (xhr.status === 200) {
       var layoutMetas = JSON.parse(this.responseText); // raw data
 
+      if(layoutMetas.length == 0){
+        console.log('No layouts found!'); //TODO make this a message saying to go build some widgets/layouts!
+      }
       // now populate list  - ID.LOADLIST
       var layoutList = document.getElementById(ID.LOADLIST);
+      layoutList.innerHTML = "";
 
       for(var layoutMeta of layoutMetas){
         var item = document.createElement('li');
@@ -70,10 +90,9 @@ function saveLayout(){
 	var formData = new FormData(document.getElementById(ID.SAVEFORM));
 	var name = formData.get('name');
 	var description = formData.get('description');
-	
-	if(!name || !description) return;
-
 	var layoutData = layoutToJSON();
+
+	if(!name || !description || !layoutData) return false; // return false to stop link following
 
 	var layout = {
 		name : name,
@@ -91,15 +110,19 @@ function saveLayout(){
     xhr.onload = function() {
       if (xhr.status === 200) {
         console.log("Layout with name : " + name + " saved successfully!");
+        getLayoutList(); //refresh list to show new one added
       } else {
         console.log("XHR failed with code: " + xhr.status);
       }
     };
     xhr.send(JSON.stringify(layout));
+
+  return false; // stops link following
 }
 
 function layoutToJSON(){
   var pureJson = [];
+  var filledCount = 0;
   var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
   for(var i=0; i<tableRows.length; i++){
     var columns = tableRows[i].children;
@@ -112,10 +135,15 @@ function layoutToJSON(){
         });
       } else {
         pureJson.push(getWidgetById(widget.id).toJSON());
+        filledCount++;
       }
     }
   }
-  return JSON.stringify(pureJson);
+  if(filledCount > 0)
+    return JSON.stringify(pureJson);
+  else {
+    return; // can't save an empty dashboard
+  }
 }
 
 function jsonToLayout(jsonArray){

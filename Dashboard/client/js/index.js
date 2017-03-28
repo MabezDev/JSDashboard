@@ -93,7 +93,6 @@ function addToDashboard(newWidgetObject, slotID) {
 }
 
 function finalizeWidget(widget){
-  console.log(widget);
   var serviceURL = document.getElementById(ID.SERVICEURL).value;
   var urlType = document.getElementById(ID.URLTYPEJSON);
 
@@ -103,19 +102,18 @@ function finalizeWidget(widget){
       
       for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
 
-        if(widget.children[i].dom.value)
-          widget.children[i].dom.value.className += " " + CSS.UNTARGETABLECHILDREN;
-
+        
+        widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
         widget.children[i].dom.base.draggable = false;
+
         if(widget.children[i].type == TYPE.POSITIONALOBJECT){
-          widget.children[i].dom.base.className += " " + CSS.HIDDEN;
-          widget.children[i].dom.base.textContent = "";
+          widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
+          widget.children[i].dom.base.textContent = '';
         } else if(widget.children[i].type == TYPE.VARIABLEHTML){
-          widget.children[i].dom.value.className.replace(CSS.UNTARGETABLECHILDREN, "");
-          widget.children[i].dom.value.className += " " + CSS.TARGETABLECHILDREN;
+          widget.children[i].dom.value.className.replace(CSS.UNTARGETABLECHILDREN, '');
+          widget.children[i].dom.value.className += ' ' + CSS.TARGETABLECHILDREN;
         }
       }
-
       
       widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN;// stop the double click handler
       widget.dom.title.id = ""; // remove title id so we dont break when building another widget

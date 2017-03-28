@@ -45,7 +45,7 @@ var VARIABLE_DISPLAY_JSON = '{\
 				"key": {\
 					"tag": "P",\
 					"content": "Key",\
-					"className": "untargetable variable",\
+					"className": "variable",\
 					"id": "",\
 					"draggable": false\
 				},\

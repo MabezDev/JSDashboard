@@ -10,12 +10,14 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/builder.css">
     <link rel="stylesheet" type="text/css" href="css/widgetmanager.css">
+    <link rel="stylesheet" type="text/css" href="css/configure.css">
     <script src="js/index.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/dragndrop.js"></script>
     <script src="js/constants.js"></script>
     <script src="js/factory.js"></script>
     <script src="js/widgetmanager.js"></script>
+    <script src="js/configure.js"></script>
     <script src="json/localjson.js"></script> <!-- stores json templates for widget items -->
 
     <base target="_blank">
@@ -27,8 +29,8 @@
             <nav id="navigation">
                 <button class="large-btn" onclick="toggleBuilder()">Open Builder</button>
                 <button class="large-btn" onclick="toggleSavedWidgetLoader()">Widget Manager</button>
-                <button class="large-btn" onclick="">Configure Dashboard</button>
-                <button class="large-btn" onclick="">How To Use</button>
+                <button class="large-btn" onclick="toggleConfigure()">Configure Dashboard</button>
+                <!-- <button class="large-btn" onclick="">How To Use</button> -->
             </nav>
         </header>
 
@@ -97,7 +99,7 @@
                             <div id="builder_control">
                                 <button class="medium-btn" onclick="addToDashFromBuilder()">Add to Dashboard</button>
                                 <button class="medium-btn" onclick="previewWidgetWindow(true)">Preview Widget</button>
-                                <button class="medium-btn" onclick="saveWidgetOnServer()">Save Widget</button>
+                                <button class="medium-btn" onclick="saveWidgetOnServer(this)">Save Widget</button>
                                 <div id="quit_builder">
                                     <button class="small-btn" onclick="toggleBuilder()">Hide</button>
                                 </div>
@@ -121,7 +123,7 @@
         <div id="saved_widgets" class="">
             <div id="saved_container">
                 <div class="saved_control">
-                    <input type="text" name="search" placeholder="Search"  oninput="searchWidgets(this)">
+                    <input id="saved_search" type="text" name="search" placeholder="Search" onFocus="this.select()" oninput="searchWidgets(this)">
                 </div>
                 <table id="widget_grid_saved_widgets" class="widget_grid">
                     <tr >
@@ -152,6 +154,24 @@
                 </div>
                 <div class="saved_control">
                     <input class="radio" id="auto_show_manager" type='checkbox' name='option'> <p class="radio_text">Open Manager after widget placement</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="configure_dashboard_container">
+            <div id="configure_dashboard">
+                <div id="save_current">
+                    <form id="save_form">
+                        <input type="text" name="name" class="configure_input" placeholder="Name">
+                        <input type="text" name="description" class="configure_input" placeholder="Description">
+                        <button class="medium-btn" onclick="return false;" class="configure_input">Save Layout</button>
+                    </form>
+                </div>
+                <div id="load_layout">
+                    testload
+                </div>
+                <div class="saved_control">
+                    <button class="large-btn" onclick="toggleConfigure()">Hide</button>
                 </div>
             </div>
         </div>

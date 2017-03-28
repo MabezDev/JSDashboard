@@ -8,7 +8,7 @@
     position:fixed;
     background-color:#313131;
 
-    right: -100vw; /* -100vw = - the width of the screen */
+    right: -200vw; /* -200vw = - double the width of the screen */
 
     -webkit-transition: right 0.3s ease-out;
     -moz-transition: right 0.3s ease-out;

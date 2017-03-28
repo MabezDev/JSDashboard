@@ -7,10 +7,11 @@ function toggleSavedWidgetLoader(){
   //panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   //panel.className = panel.className == "saved_display_on" ? "saved_display_off" : "saved_display_on";
   if(panel.style.right == "0px"){
-    panel.style.right = "-100vw";
+    panel.style.right = "-200vw";
   } else {
     panel.style.right = "0px";
     loadWidgetsIntoManager(pageNumber);
+    document.getElementById('saved_search').focus();
   } 
 }
 

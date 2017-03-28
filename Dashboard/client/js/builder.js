@@ -82,8 +82,8 @@ function addToDashFromBuilder(){
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
   // panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
-  panel.style.top = panel.style.top == '0px' ? '100vh' : '0px';
-
+  panel.style.top = panel.style.top == '0px' ? '200vh' : '0px';
+  document.getElementById(ID.SERVICEURL).focus();
   // make sure a builder widget is in place
   addWidgetToBuilder();
 
@@ -182,7 +182,7 @@ function addWidgetToBuilder(){
 
   if (!widget) { // if there isn't a widget already being built, add a blank one
     var widget = createWidget(JSON.parse(BUILDER_WIDGET_JSON));
-    widget.dom.title.ondblclick = titleDoubleClickHandler; // set click handler on title
+    widget.dom.title.onclick = titleDoubleClickHandler; // set click handler on title
     widget.dom.base.ondrop = builderDrop;
     widget.dom.base.ondragover = globalDragOver;
     currentState.append(widget.dom.base);
@@ -191,7 +191,7 @@ function addWidgetToBuilder(){
   }
 }
 
-function saveWidgetOnServer(){
+function saveWidgetOnServer(domButton){
 
   var fileName = prompt('Save widget with name? (Makes it searchable in the widget manager) : ', '');
   if(fileName){
@@ -206,6 +206,12 @@ function saveWidgetOnServer(){
     xhr.onload = function() {
       if (xhr.status === 200) {
         console.log("Saved " + fileName + " successfully!");
+        domButton.textContent = "Saved!";
+        domButton.disabled = true;
+        setTimeout(() => {
+          domButton.textContent = "Save";
+          domButton.disabled = false;
+        }, 2000);
       } else {
         console.log("XHR failed with code: " + xhr.status);
       }

@@ -66,11 +66,20 @@
     background-color: #184351;
 }*/
 
+.builder_title {
+    padding : 5px;
+    display: inline-block;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 10px;
+
+}
+
 #widget_builder {
     width:100%;
     height:100%;
     opacity:.98;
-    top: 100vh;
+    top: 200vh;
     left:0;
     position:fixed;
     background-color:#313131;
@@ -78,17 +87,6 @@
     -webkit-transition: top 0.3s ease-out;
     -moz-transition: top 0.3s ease-out;
     transition: top 0.3s ease-out;
-}
-
-.builder_title {
-    padding : 5px;
-    /*background-color: #42aaf4;*/
-    /*border-radius: 4px;*/
-    display: inline-block;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 10px;
-
 }
 
 #builder_container {

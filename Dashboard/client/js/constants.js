@@ -42,9 +42,9 @@ var ID = {
   SAVED : 'saved_widgets',
   FILEOUTPUT : 'saved_widgets_output',
 
-  // webview/iframe
-  WEBVIEWCONTAINER : 'web_viewer',
-  WEBVIEW : 'web_frame',
+  // configure id's
+  CONFIGURECONTAINER : 'configure_dashboard_container',
+  CONFIGUREDASHBOARD : 'configure_dashboard',
 };
 
 var CSS = {

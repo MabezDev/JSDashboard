@@ -12,6 +12,8 @@ function dashboardDrop(event) {
   var type = dataTransfer.type;
   var data = dataTransfer.data;
 
+  if(!event.target.id) return;
+
   var destination = document.getElementById(event.target.id);
 
   console.log('Type: ' + type);
@@ -91,22 +93,22 @@ function builderDrop(event) {
           switch(dataTransfer.data){
             case ID.BIG_LABEL_DISPLAY :
               currentItem = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
-              currentItem.dom.base.ondblclick = labelDoubleClickHandler;
+              currentItem.dom.base.onclick = labelDoubleClickHandler;
               break;
             case ID.LABEL_DISPLAY :
               currentItem = createLabel(JSON.parse(LABEL_DISPLAY_JSON));
-              currentItem.dom.base.ondblclick = labelDoubleClickHandler;
+              currentItem.dom.base.onclick = labelDoubleClickHandler;
               break;
             case ID.VARIABLE_DISPLAY :
               var json = JSON.parse(VARIABLE_DISPLAY_JSON);
               currentItem = createVariable(json, json.type);
-              currentItem.dom.base.ondblclick = variableDoubleClickHandler;
+              currentItem.dom.base.onclick = variableDoubleClickHandler;
               break;
             case ID.VARIABLE_UNIT_DISPLAY :
               var json = JSON.parse(VARIABLE_UNIT_DISPLAY_JSON);
               currentItem = createVariable(json, json.type);
-              currentItem.dom.key.ondblclick = variableDoubleClickHandler;
-              currentItem.dom.unit.ondblclick = variableUnitDoubleClickHandler;
+              currentItem.dom.key.onclick = variableDoubleClickHandler;
+              currentItem.dom.unit.onclick = variableUnitDoubleClickHandler;
               break;
             case ID.VARIABLE_DATA_DISPLAY :
               var json = JSON.parse(VARIABLE_DATA_DISPLAY_JSON);

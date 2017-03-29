@@ -148,7 +148,7 @@ function toggleBuilder() {
 
     itemContainer.appendChild(bigLabel.dom.base);
 
-    // add a positional item - doesnt really work
+    // add a positional item (Now onlky a new line, as percentage spans didn't really work)
 
     var posItem = createPositionalItem(JSON.parse(POSITIONAL_DISPLAY_JSON));
     posItem.dom.base.ondragstart = itemTemplateDragStart;
@@ -156,6 +156,15 @@ function toggleBuilder() {
     posItem.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(posItem.dom.base);
+
+    // add a section item 
+
+    var sectionItem = createPositionalItem(JSON.parse(SECTION_DISPLAY_JSON));
+    sectionItem.dom.base.ondragstart = itemTemplateDragStart;
+    sectionItem.dom.base.ondragover = globalDragOver;
+    sectionItem.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(sectionItem.dom.base);
   }
 
   // create slot for variable to be dropped onto
@@ -170,9 +179,6 @@ function toggleBuilder() {
     variableSlot.textContent = 'Drop here to start';
     variableContainer.appendChild(variableSlot);
   }
-
-
-
 }
 
 function addWidgetToBuilder(){
@@ -215,7 +221,9 @@ function saveWidgetOnServer(domButton){
         console.log("XHR failed with code: " + xhr.status);
       }
     };
-    xhr.send(JSON.stringify(finalizeWidget(currentWidget.toJSON())));
+
+    var rawCopy = createWidget(currentWidget.toJSON());
+    xhr.send(JSON.stringify(finalizeWidget(rawCopy).toJSON()));
   }
 }
 

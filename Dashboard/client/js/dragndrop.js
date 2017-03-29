@@ -65,12 +65,19 @@ function builderDrop(event) {
   var dataTransfer = JSON.parse(event.dataTransfer.getData('data'));
   var source = dataTransfer.source;
 
+  var variableBuilder = document.getElementById(ID.VARIABLESLOT);
+
   // console.log('Source : '+ source + ' || Destination : '+ destinationID);
 
   switch (source) {
     case 'variable_drag':
       if(destinationID == ID.WIPWIDGET){ // add variable to widget
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
+        if(currentItem.type = TYPE.SECTION){
+          // add service url and type to section
+          currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
+          currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
+        }
         currentWidget.appendItem(currentItem);
       } else if(destinationID == ID.BUILDERTRASHCAN){
         if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget its in the varibale builder
@@ -80,8 +87,7 @@ function builderDrop(event) {
       }
       break;
     case 'data_drag':
-      currentItem.dom.value.textContent = dataTransfer.data; // just to show the user it has worked
-      currentItem.json.jsonKey = dataTransfer.data;
+      addKeyToItem(destinationID, document.elementFromPoint(event.clientX, event.clientY), dataTransfer.data);
       break;
     case 'item_template_drag': //adding a blank variable to the builder to be built
         
@@ -89,53 +95,94 @@ function builderDrop(event) {
         var variableBuilder = document.getElementById(ID.VARIABLESLOT);
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
+          //TODO most of this could be replaced with the createItem function in factory.js - can event set up a objet with id's as keys to set the handlers
 
-          switch(dataTransfer.data){
-            case ID.BIG_LABEL_DISPLAY :
-              currentItem = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
-              currentItem.dom.base.onclick = labelDoubleClickHandler;
-              break;
-            case ID.LABEL_DISPLAY :
-              currentItem = createLabel(JSON.parse(LABEL_DISPLAY_JSON));
-              currentItem.dom.base.onclick = labelDoubleClickHandler;
-              break;
-            case ID.VARIABLE_DISPLAY :
-              var json = JSON.parse(VARIABLE_DISPLAY_JSON);
-              currentItem = createVariable(json, json.type);
-              currentItem.dom.base.onclick = variableDoubleClickHandler;
-              break;
-            case ID.VARIABLE_UNIT_DISPLAY :
-              var json = JSON.parse(VARIABLE_UNIT_DISPLAY_JSON);
-              currentItem = createVariable(json, json.type);
-              currentItem.dom.key.onclick = variableDoubleClickHandler;
-              currentItem.dom.unit.onclick = variableUnitDoubleClickHandler;
-              break;
-            case ID.VARIABLE_DATA_DISPLAY :
-              var json = JSON.parse(VARIABLE_DATA_DISPLAY_JSON);
-              currentItem = createVariable(json, json.type);
-              break;
-            case ID.VARIABLE_HTML_DISPLAY :
-              var json = JSON.parse(VARIABLE_HTML_DISPLAY_JSON);
-              currentItem = createVariable(json, json.type);
-              break;
-            case ID.POSITIONAL_DISPLAY :
-              var json = JSON.parse(POSITIONAL_DISPLAY_JSON);
-              currentItem = createPositionalItem(json);
-              break;
-
-              
-          }
-
+          currentItem = createItem(dataTransfer.data);
+          addItemHandlers(dataTransfer.data,currentItem);
           currentItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           currentItem.dom.base.ondragstart = variableDragStart;
           currentItem.dom.base.ondragover = globalDragOver;
+
           variableBuilder.appendChild(currentItem.dom.base);
 
         } else {
           console.log("Slot full");
         }
+      } else if(destinationID == TYPE.SECTION){
+        if(currentItem && currentItem.type == TYPE.SECTION){
+          console.log('Adding ' + dataTransfer.data + ' to section.');
+          var newItem = createItem(dataTransfer.data);
+          addItemHandlers(dataTransfer.data,newItem);
+          currentItem.appendItem(newItem);
+        }
       }
       break;
+  }
+}
+
+function addItemHandlers(id, item){
+  switch(id){
+    // case ID.BIG_LABEL_DISPLAY :
+    //   currentItem = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
+    //   currentItem.dom.base.onclick = labelDoubleClickHandler;
+    //   break;
+    case TYPE.LABEL:
+      item.dom.text.onclick = getTextInput;
+      break;
+    case TYPE.VARIABLE :
+      item.dom.key.onclick = getTextInput;
+      break;
+    case TYPE.VARIABLEUNIT :
+      item.dom.key.onclick = getTextInput;
+      item.dom.unit.onclick = getTextInput;
+      break;
+    case TYPE.VARIABLEDATA:
+      
+      break;
+    case TYPE.VARIABLEHTML:
+      
+      break;
+    case TYPE.POSITIONALOBJECT :
+      
+      break;
+    case TYPE.SECTION:
+      
+      break;
+    default:
+      console.log('Unexpected id ' + id + ' in addDisplayItemHandlers');
+  }
+}
+
+function addKeyToItem(id, item, key){
+  if(!item || !id || !key) return;
+  switch(id){
+    // case ID.BIG_LABEL_DISPLAY :
+    //   currentItem = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON)); // currentItem is a global in builder.js
+    //   currentItem.dom.base.onclick = labelDoubleClickHandler;
+    //   break;
+    case TYPE.LABEL:
+      item.textContent = key;
+      break;
+    case TYPE.VARIABLE :
+      item.children[1].textContent = key;
+      break;
+    case TYPE.VARIABLEUNIT :
+      item.children[1].textContent = key;
+      break;
+    case TYPE.VARIABLEDATA:
+      item.children[0].textContent = key;
+      break;
+    case TYPE.VARIABLEHTML:
+      item.children[0].textContent = key;
+      break;
+    case TYPE.POSITIONALOBJECT :
+      
+      break;
+    case TYPE.SECTION:
+      
+      break;
+    default:
+      console.log('Unexpected id ' + id + ' in addKeyToItem');
   }
 }
 
@@ -210,6 +257,7 @@ function globalDragOver(event) { // allow drops onto the variable builder
 // double click handler
 
 function variableDoubleClickHandler(event) {
+  console.log(event);
   var keyInput = prompt('Enter a key for the data: ', 'key');
   if(keyInput){
     currentItem.dom.key.textContent = keyInput;
@@ -238,6 +286,13 @@ function labelDoubleClickHandler(event) {
   if(keyInput){
     currentItem.dom.text.textContent = keyInput;
     currentItem.json.text = keyInput;
+  }
+}
+
+function getTextInput(event){
+  var input = prompt('Enter label text: ', 'Text');
+  if(input){
+    event.target.textContent = input;
   }
 }
 

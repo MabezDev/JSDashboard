@@ -6,14 +6,15 @@ var ID = {
   WIPWIDGET: 'wip_widget',
   WIPWIDGETTITLE: 'wip_widget_title',
   
-  // display id's
-  VARIABLE_DISPLAY: 'variable_display',
-  LABEL_DISPLAY: 'label_display',
-  BIG_LABEL_DISPLAY: 'big_label_display',
-  VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
-  VARIABLE_DATA_DISPLAY: 'variable_data_display',
-  VARIABLE_HTML_DISPLAY: 'variable_html_display',
-  POSITIONAL_DISPLAY: 'positional_display',
+  // display id's - not used anymore
+  // VARIABLE_DISPLAY: 'variable_display',
+  // LABEL_DISPLAY: 'label_display',
+  // BIG_LABEL_DISPLAY: 'big_label_display',
+  // VARIABLE_UNIT_DISPLAY: 'variable_unit_display',
+  // VARIABLE_DATA_DISPLAY: 'variable_data_display',
+  // VARIABLE_HTML_DISPLAY: 'variable_html_display',
+  // POSITIONAL_DISPLAY: 'positional_display',
+  // SECTION_DISPLAY: 'section_display',
   
   // builder id's
   BUILDER: 'widget_builder',
@@ -68,7 +69,8 @@ var TYPE = {
   VARIABLEUNIT : "VARIABLEWITHUNIT",
   VARIABLEDATA : "VARIABLEDATA",
   VARIABLEHTML : "VARIABLEHTML",
-  POSITIONALOBJECT : "POSITIONALOBJECT"
+  POSITIONALOBJECT : "POSITIONALOBJECT",
+  SECTION : "SECTION",
 };
 
 var URL = {

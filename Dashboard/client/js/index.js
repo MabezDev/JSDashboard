@@ -106,19 +106,27 @@ function finalizeWidget(widget){
         widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
         widget.children[i].dom.base.draggable = false;
 
-        if(widget.children[i].type == TYPE.POSITIONALOBJECT){
+        if(widget.children[i].type == TYPE.SECTION){
+          finalizeWidget(widget.children[i]);
+        } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
           widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
           widget.children[i].dom.base.textContent = '';
         } else if(widget.children[i].type == TYPE.VARIABLEHTML){
           widget.children[i].dom.value.className.replace(CSS.UNTARGETABLECHILDREN, '');
           widget.children[i].dom.value.className += ' ' + CSS.TARGETABLECHILDREN;
+          widget.children[i].json.jsonKey = widget.children[i].dom.value.textContent;
+        } else if( widget.children[i].type == TYPE.VARIABLE 
+                || widget.children[i].type == TYPE.VARIABLEUNIT 
+                || widget.children[i].type == TYPE.VARIABLEDATA ){
+          widget.children[i].json.jsonKey = '' + widget.children[i].dom.value.textContent;
         }
       }
-      
-      widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN;// stop the double click handler
-      widget.dom.title.id = ""; // remove title id so we dont break when building another widget
+      if(widget.dom.title){
+        widget.dom.title.className += " " + CSS.UNTARGETABLECHILDREN;// stop the double click handler
+        widget.dom.title.id = ""; // remove title id so we dont break when building another widget
+      }
       widget.dom.base.id = ""; // remove id so we dont break when building another widget
-
+      // console.log(widget.children);
       return widget;
   } else {
     console.log("serviceURL cannot be empty!");
@@ -186,7 +194,10 @@ function updateWidget(widgetObject){
   var serviceURL = widgetObject.json.serviceURL;
 
   for(var i=0; i < widgetObject.children.length; i++){
-    if(widgetObject.children[i].type == TYPE.VARIABLE 
+    if(widgetObject.children[i].type == TYPE.SECTION){
+      console.log('Updating a section!');
+      updateWidget(widgetObject.children[i]);
+    } else if(widgetObject.children[i].type == TYPE.VARIABLE 
       || widgetObject.children[i].type == TYPE.VARIABLEUNIT 
       || widgetObject.children[i].type == TYPE.VARIABLEHTML
       || widgetObject.children[i].type == TYPE.VARIABLEDATA ){

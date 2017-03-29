@@ -30,7 +30,25 @@ var BUILDER_WIDGET_JSON = '{\
 		"urlType" : ""\
 	},\
 	"children": []\
-	}';
+}';
+
+var SECTION_DISPLAY_JSON = '{\
+	"type": "SECTION",\
+	"dom": {\
+		"base": {\
+			"tag": "DIV",\
+			"content": "Section",\
+			"className": "widget",\
+			"id": "SECTION",\
+			"draggable": true\
+		}\
+	},\
+	"json": {\
+		"serviceURL": "",\
+		"urlType" : ""\
+	},\
+	"children": []\
+}';
 
 var VARIABLE_DISPLAY_JSON = '{\
 			"type": "VARIABLE",\
@@ -39,7 +57,7 @@ var VARIABLE_DISPLAY_JSON = '{\
 					"tag": "DIV",\
 					"content": "",\
 					"className": "item display_spacing",\
-					"id": "variable_display",\
+					"id": "VARIABLE",\
 					"draggable": true\
 				},\
 				"key": {\
@@ -70,7 +88,7 @@ var VARIABLE_UNIT_DISPLAY_JSON = '{\
 					"tag": "DIV",\
 					"content": "",\
 					"className": "item display_spacing",\
-					"id": "variable_unit_display",\
+					"id": "VARIABLEWITHUNIT",\
 					"draggable": true\
 				},\
 				"key": {\
@@ -109,7 +127,7 @@ var VARIABLE_DATA_DISPLAY_JSON = '{\
 					"tag": "DIV",\
 					"content": "",\
 					"className": "item display_spacing",\
-					"id": "variable_data_display",\
+					"id": "VARIABLEDATA",\
 					"draggable": true\
 				},\
 				"value": {\
@@ -133,7 +151,7 @@ var VARIABLE_HTML_DISPLAY_JSON = '{\
 					"tag": "DIV",\
 					"content": "",\
 					"className": "item display_spacing",\
-					"id": "variable_html_display",\
+					"id": "VARIABLEHTML",\
 					"draggable": true\
 				},\
 				"value": {\
@@ -156,13 +174,13 @@ var LABEL_DISPLAY_JSON = '{\
 			"tag": "DIV",\
 			"content": "",\
 			"className": "item display_spacing",\
-			"id": "label_display",\
+			"id": "LABEL",\
 			"draggable": true\
 		},\
 		"text": {\
 			"tag": "P",\
 			"content": "Label",\
-			"className": "untargetable variable",\
+			"className": "variable",\
 			"id": "",\
 			"draggable": false\
 		}\
@@ -186,7 +204,7 @@ var BIG_LABEL_DISPLAY_JSON = '{\
 		"text": {\
 			"tag": "P",\
 			"content": "Big Label",\
-			"className": "untargetable variable big_text",\
+			"className": "variable big_text",\
 			"id": "",\
 			"draggable": false\
 		}\
@@ -203,7 +221,7 @@ var POSITIONAL_DISPLAY_JSON = '{\
 			"tag": "DIV",\
 			"content": "New Line",\
 			"className": "item spacer-1 display_spacing display_text",\
-			"id": "positional_display",\
+			"id": "POSITIONALOBJECT",\
 			"draggable": true\
 		}\
 	},\

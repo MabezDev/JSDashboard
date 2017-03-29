@@ -38,7 +38,7 @@ var SECTION_DISPLAY_JSON = '{\
 		"base": {\
 			"tag": "DIV",\
 			"content": "Section",\
-			"className": "widget",\
+			"className": "section item display_spacing display_text",\
 			"id": "SECTION",\
 			"draggable": true\
 		}\
@@ -219,7 +219,7 @@ var POSITIONAL_DISPLAY_JSON = '{\
 	"dom": {\
 		"base": {\
 			"tag": "DIV",\
-			"content": "New Line",\
+			"content": "New Line (goes transparent)",\
 			"className": "item spacer-1 display_spacing display_text",\
 			"id": "POSITIONALOBJECT",\
 			"draggable": true\

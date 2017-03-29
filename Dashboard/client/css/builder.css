@@ -26,9 +26,22 @@
     color: #BBBBBB;
 }
 
+.section {
+    width: 96%; /* Account for the margin and padding */
+    /*height: 100%;*/
+    background-color: rgb(81, 174, 189);
+    border-radius: 2px;
+    /*padding : 5px;*/
+    border-style: solid;
+    border-width: 3px;
+    border-color: #324247;
+    /*flex: 0 1 auto;*/
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .item {
     cursor:grab;
-    padding: 5px;
+    padding: 3px;
 }
 
 .big_text {
@@ -201,6 +214,7 @@
 
 #data_config {
     text-align: center;
+    padding: 10px;
 }
 
 .data_config_item {

@@ -98,8 +98,7 @@ function WidgetObject() {
 			name : "",
 			dom : {  //specific to a variable but the api will be the same on all items
 				base : "",
-				title  : "",
-				//time : 0
+				title  : ""
 			},
 			json : { // set these (optional keys that only apply to this type of variable)
 				serviceURL : "", 
@@ -110,7 +109,6 @@ function WidgetObject() {
 		}
 		toJSON.dom.base = dom2json(this.dom.base);
 		toJSON.dom.title = dom2json(this.dom.title);
-		//toJSON.dom.time = dom2json(this.dom.time);
 		var children = [];
 		var jsonVars = this.children; // As we store a reference to the child as object we just call there toJSON function
 		for(var i=0; i<jsonVars.length; i++){

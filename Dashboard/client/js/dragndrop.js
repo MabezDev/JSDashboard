@@ -80,9 +80,11 @@ function builderDrop(event) {
         }
         currentWidget.appendItem(currentItem);
       } else if(destinationID == ID.BUILDERTRASHCAN){
-        if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget its in the varibale builder
-          var parent = currentItemDragging.parentNode;
-          parent.removeChild(currentItemDragging);
+        if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget 
+          if(currentItem.type == TYPE.SECTION && !currentItem.removeItem(currentItemDragging)){ // and not in a section item
+            var parent = currentItemDragging.parentNode; // its in the varibale builder
+            parent.removeChild(currentItemDragging);
+          }
         } 
       }
       break;
@@ -112,6 +114,7 @@ function builderDrop(event) {
         if(currentItem && currentItem.type == TYPE.SECTION){
           console.log('Adding ' + dataTransfer.data + ' to section.');
           var newItem = createItem(dataTransfer.data);
+          newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           addItemHandlers(dataTransfer.data,newItem);
           currentItem.appendItem(newItem);
         }
@@ -146,7 +149,7 @@ function addItemHandlers(id, item){
       
       break;
     case TYPE.SECTION:
-      
+      item.dom.base.textContent = '';
       break;
     default:
       console.log('Unexpected id ' + id + ' in addDisplayItemHandlers');

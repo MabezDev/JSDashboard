@@ -84,9 +84,9 @@
     position:fixed;
     background-color:#313131;
 
-    -webkit-transition: top 0.3s ease-out;
-    -moz-transition: top 0.3s ease-out;
-    transition: top 0.3s ease-out;
+    -webkit-transition: top 0.3s ease-in;
+    -moz-transition: top 0.3s ease-in;
+    transition: top 0.3s ease-in;
 }
 
 #builder_container {

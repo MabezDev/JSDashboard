@@ -33,6 +33,7 @@ function getLayoutFromServer(name){
     if (xhr.status === 200) {
       var repsonse = JSON.parse(this.responseText); // raw data
       jsonToLayout(JSON.parse(repsonse.data.layout));
+      toggleConfigure(); // close the configure panel
     } else {
       console.log(xhr.status);
     }
@@ -70,9 +71,12 @@ function getLayoutList(){
           return false; // requied to stop flowwing the link
         }
         nameEl.appendChild(link);
+        nameEl.className = 'layout_title';
         descriptionEl.textContent = layoutMeta.description;
+        descriptionEl.className = 'layout_description';
         contentDiv.appendChild(nameEl);
         contentDiv.appendChild(descriptionEl);
+        contentDiv.className = 'layout_description_container';
         item.appendChild(contentDiv);
 
 

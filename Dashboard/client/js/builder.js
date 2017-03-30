@@ -66,7 +66,7 @@ function addToDashFromBuilder(){
   var currentState = wipwidget.parentNode;
   currentState.removeChild(wipwidget); // remove the widget we built from the builder
 
-  var finishedWidget = finalizeWidget(currentWidget);
+  var finishedWidget = finalizeWidget(createWidget(currentWidget.toJSON()));
   if(finishedWidget){
     addToDashboard(finishedWidget);
   } else {
@@ -81,12 +81,7 @@ function addToDashFromBuilder(){
 function editWidgetInBuilder(widgetObject){
   currentWidget = widgetObject;
   
-  arrayOfWidgets = arrayOfWidgets.filter(e => e !== currentWidget);
-
-  if(currentWidget.dom.base.parentNode){ // remove from dashboard
-    currentWidget.dom.base.parentNode.appendChild(createWidget(undefined,currentWidget.dom.base.id).dom.base);
-    currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
-  }
+  arrayOfWidgets = arrayOfWidgets.filter(e => e !== widgetObject);
 
   var currentState = document.getElementById(ID.CURRENTSTATECONTAINER);
   var widget = document.getElementById(ID.WIPWIDGET);
@@ -94,7 +89,15 @@ function editWidgetInBuilder(widgetObject){
     currentState.removeChild(widget);
   }
 
-  unfinalizeWidget(currentWidget);
+  currentWidget = unfinalizeWidget(currentWidget);
+  //addItemsFromWidget(currentWidget);
+
+  if(currentWidget.dom.base.parentNode){ // remove from dashboard
+    currentWidget.dom.base.parentNode.appendChild(createWidget(undefined,currentWidget.dom.base.id).dom.base);
+    currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
+  }
+
+  
 
   currentState.appendChild(currentWidget.dom.base);
 
@@ -109,6 +112,16 @@ function editWidgetInBuilder(widgetObject){
 
   toggleBuilder(); // open the builder
 }
+
+// function addItemsFromWidget(widget){
+//   for(var child of widget.children){
+//     if(child.type == TYPE.CYCLE){
+//         addItemsFromWidget(child);
+//     }
+//     addItemHandlers(child.type, child);
+//     currentItems.push(child);
+//   }
+// }
 
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);

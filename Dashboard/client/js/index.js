@@ -142,20 +142,17 @@ function finalizeWidget(widget){
   return widget;
 }
 
-function unfinalizeWidget(widget){
-
+function unfinalizeWidget(widgetOriginal){
+  var widget = widgetOriginal;
   widget.dom.base.title =  widget.json.serviceURL; //reset serviceURL title 
   
   for(var i=0; i<widget.children.length; i++){ // make sure children are not targetable or draggable
-
-    widget.children[i].dom.base.className.replace(CSS.UNTARGETABLECHILDREN, '');
+    widget.children[i].dom.base.className = 'targetable';
     widget.children[i].dom.base.draggable = true;
 
     if(widget.children[i].type == TYPE.SECTION || widget.children[i].type == TYPE.CYCLE){
       unfinalizeWidget(widget.children[i]);
-      if(widget.children[i].type == TYPE.CYCLE){
-        widget.children[i].dom.base.className.replace(CSS.CYCLE, CSS.SECTION);
-      }
+      widget.children[i].dom.base.className = 'section item display_text';
     } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
       widget.children[i] = createItem(TYPE.POSITIONALOBJECT);
     } else if(widget.children[i].type == TYPE.VARIABLEHTML){
@@ -167,15 +164,11 @@ function unfinalizeWidget(widget){
     }
   }
   if(widget.dom.title){
-    widget.dom.title.className.replace(CSS.UNTARGETABLECHILDREN, '');
+    widget.dom.title.className = 'widget_title';
     widget.dom.title.id = "wip_widget_title";
   }
   if(widget.type == TYPE.WIDGET){
     widget.dom.base.id = "wip_widget";
-  } else if(widget.type == TYPE.SECTION){
-    widget.dom.base.id = "SECTION";
-  } else if(widget.type == TYPE.CYCLE){
-    widget.dom.base.id = "CYCLE";
   }
   return widget;
 }

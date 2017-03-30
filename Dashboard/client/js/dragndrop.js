@@ -69,6 +69,7 @@ function builderDrop(event) {
 
   console.log('Source : '+ source + ' || Destination : '+ destinationID);
   var currentItem = findItemByDomReference(document.elementFromPoint(event.clientX, event.clientY));
+  console.log(currentItem);
 
   switch (source) {
     case 'variable_drag':
@@ -145,7 +146,6 @@ function builderDrop(event) {
           addItemHandlers(dataTransfer.data,newItem);
           currentItem.appendItem(newItem);
           currentItems.push(newItem);
-
           
           currentItem.dom.base.classList.add('section_helper');
         }

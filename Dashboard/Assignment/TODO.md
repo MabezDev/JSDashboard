@@ -19,9 +19,11 @@ TODO
 	- make trash can look good!
 	- add red border arround serction/widget if it has no service URL set
 	- stop interval on cycler after removal
+	- add saved timeout on layout saver like widget saver
 
 	Bugs
 		- setting cycle time removes all dom children?
+		- can't remove things if we choose to edit from dashboard
 
 
 [Minor]

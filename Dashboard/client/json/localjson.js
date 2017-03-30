@@ -50,6 +50,27 @@ var SECTION_DISPLAY_JSON = '{\
 	"children": []\
 }';
 
+var CYCLE_DISPLAY_JSON = '{\
+	"type": "CYCLE",\
+	"dom": {\
+		"base": {\
+			"tag": "DIV",\
+			"content": "Cycle",\
+			"className": "section item display_spacing display_text",\
+			"id": "CYCLE",\
+			"draggable": true\
+		}\
+	},\
+	"json": {\
+		"serviceURL": "",\
+		"urlType" : "",\
+		"displayIndex" : 0,\
+		"cycleTime" : 60000\
+	},\
+	"children": []\
+}';
+
+
 var VARIABLE_DISPLAY_JSON = '{\
 			"type": "VARIABLE",\
 			"dom": {\

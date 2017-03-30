@@ -106,7 +106,7 @@ function finalizeWidget(widget){
         widget.children[i].dom.base.className += " " + CSS.UNTARGETABLECHILDREN;
         widget.children[i].dom.base.draggable = false;
 
-        if(widget.children[i].type == TYPE.SECTION){
+        if(widget.children[i].type == TYPE.SECTION || widget.children[i].type == TYPE.CYCLE){
           finalizeWidget(widget.children[i]);
         } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
           widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
@@ -126,7 +126,6 @@ function finalizeWidget(widget){
         widget.dom.title.id = ""; // remove title id so we dont break when building another widget
       }
       widget.dom.base.id = ""; // remove id so we dont break when building another widget
-      // console.log(widget.children);
       return widget;
   } else {
     console.log("serviceURL cannot be empty!");
@@ -194,9 +193,11 @@ function updateWidget(widgetObject){
   var serviceURL = widgetObject.json.serviceURL;
 
   for(var i=0; i < widgetObject.children.length; i++){
-    if(widgetObject.children[i].type == TYPE.SECTION){
-      console.log('Updating a section!');
+    if(widgetObject.children[i].type == TYPE.SECTION || widgetObject.children[i].type == TYPE.CYCLE){
       updateWidget(widgetObject.children[i]);
+      if(widgetObject.children[i].type == TYPE.CYCLE){
+        widgetObject.children[i].toggleInterval(true);
+      }
     } else if(widgetObject.children[i].type == TYPE.VARIABLE 
       || widgetObject.children[i].type == TYPE.VARIABLEUNIT 
       || widgetObject.children[i].type == TYPE.VARIABLEHTML
@@ -207,7 +208,7 @@ function updateWidget(widgetObject){
   }
 
   if (!serviceURL || jsonKeys.length == 0) {
-    console.log("serviceURL is null or there are no JSON keys to update.");
+    console.log("serviceURL is null or there are no JSON keys to update for type: " + widgetObject.type);
     return;
   }
 

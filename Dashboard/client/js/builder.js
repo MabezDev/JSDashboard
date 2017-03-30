@@ -165,6 +165,15 @@ function toggleBuilder() {
     sectionItem.dom.base.ondrop = builderDrop;
 
     itemContainer.appendChild(sectionItem.dom.base);
+
+    // add a cycler item 
+
+    var cyclerItem = createPositionalItem(JSON.parse(CYCLE_DISPLAY_JSON));
+    cyclerItem.dom.base.ondragstart = itemTemplateDragStart;
+    cyclerItem.dom.base.ondragover = globalDragOver;
+    cyclerItem.dom.base.ondrop = builderDrop;
+
+    itemContainer.appendChild(cyclerItem.dom.base);
   }
 
   // create slot for variable to be dropped onto

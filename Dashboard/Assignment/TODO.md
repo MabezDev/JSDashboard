@@ -18,22 +18,17 @@ TODO
 
 	Bugs
 		- changing the key on a variable once its in the widget throws an error
-		- fix deletion of items withing a section whilst in the builder
 
 
 [Minor]
 	- Implement the account creation etc if we have time
 	- Add manual update button on each widget
-	
-	- on mouse down dragging widget from widget manager, set widget display to none, and place into dashboard via drag and drop ( ondrop = dashboard drop handler) - done - nice to add a transition effect though
-
-	- spacer item (purely dom (probs a span block with css width options)) - Nice idea but doesnt really work very well, need absolute controll over positioning tbh - Might add a new line spacer
 
 - [Adding a Display item]
 	- Create model in factory.js
 	- Create the JSON for it and store it in /json/localjson.js
 	- Add it as a display item in ToggleBuilder() - builder.js
-	- Check no special treatment is required in dragndrop, if it is required, see builderDrop()
+	- Check no special treatment is required in dragndrop, if it is required, see builderDrop(), addItemHandlers() and add
 	- Finally check any finalization changes need to be made, i.e extra css added / removed
 
 

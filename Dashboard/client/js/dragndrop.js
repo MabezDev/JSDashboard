@@ -73,15 +73,22 @@ function builderDrop(event) {
     case 'variable_drag':
       if(destinationID == ID.WIPWIDGET){ // add variable to widget
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
-        if(currentItem.type = TYPE.SECTION){
+        if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
           // add service url and type to section
           currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
           currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
+          if(currentItem.type == TYPE.CYCLE){
+            // get the cycle time
+            var parentTextNode = currentItem.dom.base.childNodes[0];
+            currentItem.json.cycleTime = (parentTextNode.textContent * 1000); //convert seconds to milliseconds
+            parentTextNode.textContent = '';
+          }
         }
         currentWidget.appendItem(currentItem);
       } else if(destinationID == ID.BUILDERTRASHCAN){
         if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget 
-          if(currentItem.type == TYPE.SECTION && !currentItem.removeItem(currentItemDragging)){ // and not in a section item
+          if(currentItem.type == TYPE.SECTION && !currentItem.removeItem(currentItemDragging) // and not in a section item
+          || currentItem.type == TYPE.CYCLE && !currentItem.removeItem(currentItemDragging)){ // and not in a cycle item
             var parent = currentItemDragging.parentNode; // its in the varibale builder
             parent.removeChild(currentItemDragging);
           }
@@ -100,11 +107,11 @@ function builderDrop(event) {
           //TODO most of this could be replaced with the createItem function in factory.js - can event set up a objet with id's as keys to set the handlers
 
           currentItem = createItem(dataTransfer.data);
+          console.log(currentItem);
           addItemHandlers(dataTransfer.data,currentItem);
           currentItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           currentItem.dom.base.ondragstart = variableDragStart;
           currentItem.dom.base.ondragover = globalDragOver;
-
           variableBuilder.appendChild(currentItem.dom.base);
 
         } else {
@@ -112,7 +119,15 @@ function builderDrop(event) {
         }
       } else if(destinationID == TYPE.SECTION){
         if(currentItem && currentItem.type == TYPE.SECTION){
-          console.log('Adding ' + dataTransfer.data + ' to section.');
+          console.log('Adding ' + dataTransfer.data + ' to SECTION.');
+          var newItem = createItem(dataTransfer.data);
+          newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
+          addItemHandlers(dataTransfer.data,newItem);
+          currentItem.appendItem(newItem);
+        }
+      } else if(destinationID == TYPE.CYCLE){
+        if(currentItem && currentItem.type == TYPE.CYCLE){
+          console.log('Adding ' + dataTransfer.data + ' to CYCLE.');
           var newItem = createItem(dataTransfer.data);
           newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           addItemHandlers(dataTransfer.data,newItem);
@@ -151,6 +166,10 @@ function addItemHandlers(id, item){
     case TYPE.SECTION:
       item.dom.base.textContent = '';
       break;
+    case TYPE.CYCLE:
+      item.dom.base.textContent = 'Double Click to set cycle interval (secs) default 60';
+      item.dom.base.ondblclick = getTextInputInt;
+      break;
     default:
       console.log('Unexpected id ' + id + ' in addDisplayItemHandlers');
   }
@@ -178,7 +197,7 @@ function addKeyToItem(id, item, key){
     case TYPE.VARIABLEHTML:
       item.children[0].textContent = key;
       break;
-    case TYPE.POSITIONALOBJECT :
+    case TYPE.POSITIONALOBJECT:
       
       break;
     case TYPE.SECTION:
@@ -259,23 +278,6 @@ function globalDragOver(event) { // allow drops onto the variable builder
 
 // double click handler
 
-function variableDoubleClickHandler(event) {
-  console.log(event);
-  var keyInput = prompt('Enter a key for the data: ', 'key');
-  if(keyInput){
-    currentItem.dom.key.textContent = keyInput;
-    currentItem.json.key = keyInput;
-  }
-}
-
-function variableUnitDoubleClickHandler(event) {
-  var keyInput = prompt('Enter a key for the data: ', 'key');
-  if(keyInput){
-    currentItem.dom.unit.textContent = keyInput;
-    currentItem.json.unit = keyInput;
-  }
-}
-
 function titleDoubleClickHandler(event){
   var keyInput = prompt('Enter a title for the widget: ', 'Title');
   if(keyInput){
@@ -284,18 +286,19 @@ function titleDoubleClickHandler(event){
   }
 }
 
-function labelDoubleClickHandler(event) {
-  var keyInput = prompt('Enter label text: ', 'Text');
-  if(keyInput){
-    currentItem.dom.text.textContent = keyInput;
-    currentItem.json.text = keyInput;
-  }
-}
-
 function getTextInput(event){
-  var input = prompt('Enter label text: ', 'Text');
+  var input = prompt('Enter text: ', 'Text');
   if(input){
     event.target.textContent = input;
   }
 }
+
+function getTextInputInt(event){
+  var input = parseInt(prompt('Enter an integer value: ', '0'));
+  if(input){
+    event.target.textContent = input;
+  }
+}
+
+
 

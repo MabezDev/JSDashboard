@@ -2,6 +2,29 @@
 // Factory for creating objects used withing the dashbaord, widgets, variables etc 
 //
 
+// create any item
+function createItem(type, data){
+	if(type == TYPE.VARIABLE){// check type to create different items like labels etc
+		return createVariable(data, TYPE.VARIABLE);
+	} else if(type == TYPE.VARIABLEUNIT) {
+		return createVariable(data, TYPE.VARIABLEUNIT);
+	} else if(type == TYPE.VARIABLEDATA) {
+		return createVariable(data, TYPE.VARIABLEDATA);
+	} else if(type == TYPE.VARIABLEHTML) {
+		return createVariable(data, TYPE.VARIABLEHTML);
+	} else if(type == TYPE.LABEL){
+		return createLabel(data, TYPE.LABEL);
+	} else if(type == TYPE.POSITIONALOBJECT){
+		return createPositionalItem(data);
+	} else if(type == TYPE.SECTION){
+		return createSectionItem(data);
+	} else if(type == TYPE.CYCLE){
+		return createCycleItem(data);
+	} else {
+		console.log("Can't create item of type " + type);
+	}
+}
+
 /*
 	Item creators
 */
@@ -38,16 +61,16 @@ function createWidget(jsonData, id){
 function createVariable(jsonData, type){
 	if(type == TYPE.VARIABLE){
 	    var variable = new VariableObject();
-		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_DISPLAY_JSON)); //return display item or generate based on json input
+		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_DISPLAY_JSON));
 	} else if(type == TYPE.VARIABLEUNIT){
 		var variable = new VariableUnitObject();
-		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_UNIT_DISPLAY_JSON)); //return blank or generate based on json input
+		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_UNIT_DISPLAY_JSON)); 
 	} else if(type == TYPE.VARIABLEDATA) {
 		var variable = new VariableDataObject();
-		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_DATA_DISPLAY_JSON)); //return blank or generate based on json input
+		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_DATA_DISPLAY_JSON)); 
 	} else if(type == TYPE.VARIABLEHTML) {
 		var variable = new VariableHTMLObject();
-		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_HTML_DISPLAY_JSON)); //return blank or generate based on json input
+		return jsonData ? variable.fromJSON(jsonData) : variable.fromJSON(JSON.parse(VARIABLE_HTML_DISPLAY_JSON)); 
 	} else {
 		console.log("Can't create variable from " + type);
 	}
@@ -55,15 +78,18 @@ function createVariable(jsonData, type){
 
 function createPositionalItem(jsonData){
 	var positionalObject = new PositionalObject();
-	return jsonData ? positionalObject.fromJSON(jsonData) : positionalObject.fromJSON(JSON.parse(POSITIONAL_DISPLAY_JSON)); //return blank or generate based on json input
+	return jsonData ? positionalObject.fromJSON(jsonData) : positionalObject.fromJSON(JSON.parse(POSITIONAL_DISPLAY_JSON)); 
 }
 
 function createSectionItem(jsonData){
 	var sectionItem = new SectionObject();
-	return jsonData ? sectionItem.fromJSON(jsonData) : sectionItem.fromJSON(JSON.parse(SECTION_DISPLAY_JSON)); //return blank or generate based on json input
+	return jsonData ? sectionItem.fromJSON(jsonData) : sectionItem.fromJSON(JSON.parse(SECTION_DISPLAY_JSON)); 
 }
 
-
+function createCycleItem(jsonData){
+	var cycleItem = new CycleObject();
+	return jsonData ? cycleItem.fromJSON(jsonData) : cycleItem.fromJSON(JSON.parse(CYCLE_DISPLAY_JSON)); 
+}
 
 function createLabel(jsonData){
 	var label = new LabelObject();
@@ -162,10 +188,115 @@ function WidgetObject() {
 				var wasRemoved = this.children[i].removeItem(itemToRemoveDomBase);
 				if(wasRemoved) return true;
 			}
+			if(this.children[i].type == TYPE.CYCLE){ // check cyclers
+				var wasRemoved = this.children[i].removeItem(itemToRemoveDomBase);
+				if(wasRemoved) return true;
+			}
 		}
 		return false; 
 	};
 	return this;
+}
+
+function CycleObject() {
+	var self = this;
+	self.type = TYPE.CYCLE;
+	self.dom = {  //specific to a variable but the api will be the same on all items
+		base : "",
+	};
+	self.json = { // set these (optional keys that only apply to self type of variable)
+		serviceURL : "", // required to cycle standard variables
+		urlType : "",
+		displayIndex : 0, // what child are we showing
+		cycleTime : 60000 // default every min
+	};
+	self.children = [];
+	self.interval = undefined;
+	self.update = function(){
+		console.log("Updating Cycler");
+		for(var item of self.children) item.update();
+		// on update cycle to next widget
+		if(self.dom.base.children.length > 0){
+			self.dom.base.removeChild(self.dom.base.children[0]); //remove the currently displayed item
+		}
+		// show new one
+		self.dom.base.appendChild(self.children[self.json.displayIndex].dom.base);
+
+		self.json.displayIndex++;// increase displayIndex
+		self.json.displayIndex = self.json.displayIndex >= self.children.length ? 0 : self.json.displayIndex;
+	};
+	self.toJSON = function() {
+		var toJSON =  {
+			type : self.type,
+			dom : {  //specific to a variable but the api will be the same on all items
+				base : ""
+			},
+			json : { // set these (optional keys that only apply to self type of variable)
+				serviceURL : "", 
+				urlType : "",
+				cycleTime : 60000
+			} ,
+			children : [],
+		}
+		toJSON.dom.base = dom2json(self.dom.base);
+		var children = [];
+		var jsonVars = self.children; // As we store a reference to the child as object we just call there toJSON function
+		for(var i=0; i<jsonVars.length; i++){
+			children.push(jsonVars[i].toJSON());
+		}
+		
+		toJSON.json.serviceURL = self.json.serviceURL;
+		toJSON.json.urlType = self.json.urlType;
+		toJSON.json.cycleTime = self.json.cycleTime;
+		toJSON.children = children;
+		return toJSON;
+	};
+	self.fromJSON = function(jsonData) {
+		// reconstruct from json
+		var domObjects = jsonData.dom;
+		var base = json2dom(domObjects.base);
+
+		self.dom.base = base;
+		self.type = jsonData.type;
+		self.json.serviceURL = jsonData.json.serviceURL;
+		self.json.urlType = jsonData.json.urlType;
+		self.json.cycleTime = jsonData.json.cycleTime;
+		self.json.displayIndex = 0;
+
+		var children = jsonData.children;
+		for(var i=0; i<children.length;i++){
+			self.appendItem(createItem(children[i].type, children[i]));
+		}
+		return self;
+	};
+	self.appendItem = function (itemToAdd) {
+		self.children.push(itemToAdd); // add to children list
+		if(self.dom.base.children.length > 0){
+			self.dom.base.removeChild(self.dom.base.children[0]); //remove the currently displayed item
+		}
+		self.dom.base.appendChild(itemToAdd.dom.base); // append the new items dom content
+	};
+	self.removeItem = function (itemToRemoveDomBase) {
+		for(var i=0; i < self.children.length; i++){
+			if(self.children[i].dom.base === itemToRemoveDomBase){
+        		self.dom.base.removeChild(self.children[i].dom.base);
+        		self.children = self.children.filter(e => e !== self.children[i]);
+        		return true;
+			}
+		}
+		return false; 
+	};
+	self.toggleInterval = function (toggle){
+		if(toggle){
+			if(!self.interval){
+				self.interval = setInterval(self.update, self.json.cycleTime);
+			}
+		} else {
+			clearInterval(self.interval);
+			self.interval = undefined;
+		}
+	};
+	return self;
 };
 
 function SectionObject() {
@@ -180,6 +311,7 @@ function SectionObject() {
 	this.children = [];
 	this.update = function(){
 		for(var item of this.children) item.update();
+			console.log('Updating section');
 	};
 	this.toJSON = function() {
 		var toJSON =  {
@@ -236,7 +368,7 @@ function SectionObject() {
 		return false; 
 	};
 	return this;
-};
+}
 
 function VariableObject(){
 	this.type = TYPE.VARIABLE; // every item must have a type variable
@@ -584,24 +716,6 @@ function dom2json(domElement){
 		className : domElement.className,
 		id : domElement.id ? domElement.id : "", // stops undefined from showing up in the raw json
 		draggable : domElement.draggable
-	}
-}
-
-function createItem(type, data){
-	if(type == TYPE.VARIABLE){// check type to create different items like labels etc
-		return createVariable(data, TYPE.VARIABLE);
-	} else if(type == TYPE.VARIABLEUNIT) {
-		return createVariable(data, TYPE.VARIABLEUNIT);
-	} else if(type == TYPE.VARIABLEDATA) {
-		return createVariable(data, TYPE.VARIABLEDATA);
-	} else if(type == TYPE.VARIABLEHTML) {
-		return createVariable(data, TYPE.VARIABLEHTML);
-	} else if(type == TYPE.LABEL){
-		return createLabel(data, TYPE.LABEL);
-	} else if(type == TYPE.POSITIONALOBJECT){
-		return createPositionalItem(data);
-	} else if(type == TYPE.SECTION){
-		return createSectionItem(data);
 	}
 }
 

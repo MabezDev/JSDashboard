@@ -8,7 +8,6 @@
     left:-200vw;
     position:fixed;
     background-color:#313131;
-
     -webkit-transition: left 0.3s ease-in;
     -moz-transition: left 0.3s ease-in;
     transition: left 0.3s ease-in;
@@ -25,7 +24,6 @@
 	width: 33%;
 	height: 100%;
 	text-align: center;
-	/*border-right: solid 5px #324247;*/
 	margin-right: 2px;
 	background-color: rgb(81, 174, 189);
 	border-radius: 2px;
@@ -74,18 +72,19 @@ ul > li {
 }
 
 .layout_title a {
-	color: #dee0e2;
+	color: white;
 	font-family: Arial, Helvetica, sans-serif;
 	text-decoration: none;
 	margin-left: 20px;
 	padding: 5px;
+	border-radius: 0px;
+	transition: all 0.3s ease-in-out;
 }
 
 .layout_title a:hover {
 	background-color: #FF4A27;
 	border-radius: 25px;
-	/*color: #fff;*/
-	transition-duration: 0.2s;
+	transition: all 0.3s ease-in-out;
 }
 
 .configure_title {

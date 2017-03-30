@@ -217,6 +217,14 @@
     padding: 10px;
 }
 
+#CYCLE {
+    padding-bottom: 20px;
+}
+
+#SECTION {
+    padding-bottom: 20px;
+}
+
 .data_config_item {
     display: inline-block;
     margin-top: 20px;

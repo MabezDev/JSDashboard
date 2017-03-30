@@ -45,6 +45,10 @@ function testServiceForJSONKeys(button) {
         listElement.append(option);
       }
       serviceContainer.style.display = "block";
+
+      var outputLink = document.getElementById('service_url_display');
+      outputLink.textContent = serviceUrl;
+      outputLink.ondragstart = serviceURLDragStart;// ondragstart carry serviceURL to item
     } else if(xhr.status == 404){
       errorBox.textContent = "Unable to test the service, is the url correct?";
     } else if(xhr.status == 400){
@@ -53,10 +57,6 @@ function testServiceForJSONKeys(button) {
   };
 
   xhr.send();
-
-  // when ever we test a url pre-emptively push them intpo the widget so we can preview at any time 
-  currentWidget.json.serviceURL = serviceUrl;
-  currentWidget.json.urlType = (urlType.checked ? URL.JSON : URL.RSS);
 }
 
 function addToDashFromBuilder(){
@@ -80,7 +80,11 @@ function addToDashFromBuilder(){
 
 function editWidgetInBuilder(widgetObject){
   currentWidget = widgetObject;
+  
+  arrayOfWidgets = arrayOfWidgets.filter(e => e !== currentWidget);
+
   if(currentWidget.dom.base.parentNode){ // remove from dashboard
+    currentWidget.dom.base.parentNode.appendChild(createWidget(undefined,currentWidget.dom.base.id).dom.base);
     currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
   }
 
@@ -89,11 +93,19 @@ function editWidgetInBuilder(widgetObject){
   if (widget) {
     currentState.removeChild(widget);
   }
-  currentWidget.dom.base.id = ID.WIPWIDGET;
+
+  unfinalizeWidget(currentWidget);
+
   currentState.appendChild(currentWidget.dom.base);
 
   currentWidget.dom.base.ondrop = builderDrop;
   currentWidget.dom.base.oncontextmenu = undefined; //remove right click handler
+
+  for(var child of currentWidget.children){ // remove timers
+    if(child.type == TYPE.CYCLE){
+      child.toggleInterval(false);
+    }
+  }
 
   toggleBuilder(); // open the builder
 }
@@ -226,7 +238,7 @@ function addWidgetToBuilder(){
 
 function saveWidgetOnServer(domButton){
 
-  var fileName = prompt('Save widget with name? (Makes it searchable in the widget manager) : ', '');
+  var fileName = prompt('Save widget with tags? (Makes it searchable in the widget manager) : ', '');
   if(fileName){
 
     var xhr = new XMLHttpRequest();

@@ -15,8 +15,10 @@ TODO
 	- must validate all text boxes to do with name to not include things that will break filnames i.e / . etc
 	- add button to set service URL to current item
 	- add fade in effect for new dashboard?
-	- [Major!] - right click context menu to delete widgets, edit (bring into builder)
+	- [Major!] - right click context menu to delete widgets, edit (bring into builder) -done
 	- make trash can look good!
+	- add red border arround serction/widget if it has no service URL set
+	- stop interval on cycler after removal
 
 	Bugs
 		- setting cycle time removes all dom children?

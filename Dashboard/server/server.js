@@ -226,8 +226,10 @@ function serviceWidget(req, res) {
   var type = req.query.type; // json native or rss
   if (!updateRequest) return;
 
+  console.log();
   console.log("New Update request for the URL : ", updateRequest.serviceURL);
-  console.log("Looing for the floowing json keys : " , updateRequest);
+  console.log("Looking for the following json keys : " , updateRequest.jsonKeys);
+  console.log();
 
   if(type == "JSON"){
     request(updateRequest.serviceURL, function(error, response, body) {

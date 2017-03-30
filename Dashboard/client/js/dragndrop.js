@@ -67,9 +67,8 @@ function builderDrop(event) {
 
   var variableBuilder = document.getElementById(ID.VARIABLESLOT);
 
-  // console.log('Source : '+ source + ' || Destination : '+ destinationID);
+  console.log('Source : '+ source + ' || Destination : '+ destinationID);
   var currentItem = findItemByDomReference(document.elementFromPoint(event.clientX, event.clientY));
-  console.log(currentItem);
 
   switch (source) {
     case 'variable_drag':
@@ -95,6 +94,7 @@ function builderDrop(event) {
           }
         }
         currentWidget.appendItem(currentItem);
+        // currentItems = []; //reset all items, might not work if they take one thing of a section and put it on the 
       } else if(destinationID == ID.BUILDERTRASHCAN){
         if(!currentWidget.removeItem(currentItemDraggingDom)){ // if its not in the widget
           var removed = false;
@@ -125,7 +125,6 @@ function builderDrop(event) {
         var variableBuilder = document.getElementById(ID.VARIABLESLOT);
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
-          //TODO most of this could be replaced with the createItem function in factory.js - can event set up a objet with id's as keys to set the handlers
 
           var newItem = createItem(dataTransfer.data);
           addItemHandlers(dataTransfer.data,newItem);
@@ -162,6 +161,20 @@ function builderDrop(event) {
           currentItem.dom.base.classList.add('cycle_helper');
         }
       }
+      break;
+    case 'service_url_drag':
+      if(destinationID == ID.WIPWIDGET){
+        // set wip widget url
+        currentWidget.json.serviceURL = dataTransfer.data;
+        currentWidget.json.urlType = dataTransfer.type;
+        currentWidget.dom.base.title = dataTransfer.data;
+      } else if(destinationID == TYPE.SECTION || destinationID == TYPE.CYCLE){
+        // set current Item serviceURL
+        currentItem.json.serviceURL = dataTransfer.data;
+        currentItem.json.urlType = dataTransfer.type;
+        currentItem.dom.base.title = dataTransfer.data;
+      }
+
       break;
   }
 }
@@ -301,6 +314,18 @@ function itemTemplateDragStart(event) {
   var data = JSON.stringify({
     source: 'item_template_drag',
     data: event.target.id
+  });
+  event.dataTransfer.setData('data', data);
+  event.dataTransfer.dropEffect = 'move';
+}
+
+// serviceURL drag start
+
+function serviceURLDragStart(event) {
+  var data = JSON.stringify({
+    source: 'service_url_drag',
+    data: event.target.textContent,
+    type : (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS)
   });
   event.dataTransfer.setData('data', data);
   event.dataTransfer.dropEffect = 'move';

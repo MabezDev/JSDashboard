@@ -78,8 +78,8 @@ function builderDrop(event) {
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
         if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
           // add service url and type to section
-          currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
-          currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
+          // currentWidget.json.serviceURL = document.getElementById(ID.SERVICEURL).value; - Set this when its not a section 
+          // currentWidget.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
           if(currentItem.type == TYPE.CYCLE){
             currentItem.dom.base.classList.remove('cycle_helper');
             // get the cycle time
@@ -113,6 +113,11 @@ function builderDrop(event) {
       break;
     case 'data_drag':
       addKeyToItem(destinationID, document.elementFromPoint(event.clientX, event.clientY), dataTransfer.data);
+      if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
+        currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
+        currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
+        console.log('Setting ' + currentItem.type + ' serviceURL to : ' + currentItem.json.serviceURL);
+      }
       break;
     case 'item_template_drag': //adding a blank variable to the builder to be built
         
@@ -329,6 +334,30 @@ function getTextInputInt(event){
   if(input){
     event.target.textContent = input;
   }
+}
+
+// right click handler
+
+function widgetRightClickHandler(e){
+    e.preventDefault();
+    // show menu
+    var menu = document.getElementById('context-menu');        
+    menu.style.left = e.pageX + 'px';
+    menu.style.top = e.pageY + 'px';
+    menu.style.display = 'block';
+
+    var widgetID = document.elementFromPoint(e.clientX - 2, e.clientY - 2).id; // offset so it doesnt return the content menu itself
+
+    var editAnchor = menu.children[0].children[0].children[0];
+    var deleteAnchor = menu.children[0].children[1].children[0];
+
+    editAnchor.onclick = function(e){
+      editWidgetInBuilder(getWidgetById(widgetID));
+    }
+
+    deleteAnchor.onclick = function(e){
+      removeWidgetById(widgetID);
+    }
 }
 
 

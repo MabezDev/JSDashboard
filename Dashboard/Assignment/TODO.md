@@ -15,7 +15,8 @@ TODO
 	- must validate all text boxes to do with name to not include things that will break filnames i.e / . etc
 	- add button to set service URL to current item
 	- add fade in effect for new dashboard?
-	- use :after selector to draw a add more items here symbol for section and cycle 
+	- [Major!] - right click context menu to delete widgets, edit (bring into builder)
+	- make trash can look good!
 
 	Bugs
 		- setting cycle time removes all dom children?

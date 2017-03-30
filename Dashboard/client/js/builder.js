@@ -78,9 +78,28 @@ function addToDashFromBuilder(){
   
 }
 
+function editWidgetInBuilder(widgetObject){
+  currentWidget = widgetObject;
+  if(currentWidget.dom.base.parentNode){ // remove from dashboard
+    currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
+  }
+
+  var currentState = document.getElementById(ID.CURRENTSTATECONTAINER);
+  var widget = document.getElementById(ID.WIPWIDGET);
+  if (widget) {
+    currentState.removeChild(widget);
+  }
+  currentWidget.dom.base.id = ID.WIPWIDGET;
+  currentState.appendChild(currentWidget.dom.base);
+
+  currentWidget.dom.base.ondrop = builderDrop;
+  currentWidget.dom.base.oncontextmenu = undefined; //remove right click handler
+
+  toggleBuilder(); // open the builder
+}
+
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
-  // panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   panel.style.top = panel.style.top == '0px' ? '200vh' : '0px';
   document.getElementById(ID.SERVICEURL).focus(); //.scrollIntoView(); add?
   // make sure a builder widget is in place

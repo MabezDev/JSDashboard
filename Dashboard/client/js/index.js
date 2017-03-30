@@ -5,7 +5,7 @@
 'use strict';
 
 var arrayOfWidgets = [];
-
+var contextMenuOpen = false;
 
 function init() {
   // on load set up components
@@ -24,10 +24,14 @@ function init() {
     updateWidgets();
   }, 180000); // every 3mins
 
+  // add context menu resetter
+  document.onclick = function(e){
+    var menu = document.getElementById('context-menu');
+    menu.style.display = 'none';
+  }
+
   // debug css layouts
   //[].forEach.call(document.querySelectorAll("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)});
-
-  //jsonToLayout(JSON.parse(layoutTest));
 }
 
 function addToDashboard(newWidgetObject, slotID) {
@@ -52,6 +56,7 @@ function addToDashboard(newWidgetObject, slotID) {
     newWidgetObject.dom.base.ondragstart = widgetDragStart;
     newWidgetObject.dom.base.ondragover = globalDragOver;
     newWidgetObject.dom.base.ondrop = dashboardDrop;
+    newWidgetObject.dom.base.oncontextmenu = widgetRightClickHandler;
 
     // get the container
     var slotParent = dropSlot.parentNode;
@@ -83,8 +88,6 @@ function addToDashboard(newWidgetObject, slotID) {
 
     arrayOfWidgets.push(newWidgetObject); // add to array of widgets (global in index.js) for updating etc
 
-    //updateWidgets();
-
     updateWidget(newWidgetObject); // service for the first time
 
   } else {
@@ -109,7 +112,7 @@ function finalizeWidget(widget){
         if(widget.children[i].type == TYPE.SECTION || widget.children[i].type == TYPE.CYCLE){
           finalizeWidget(widget.children[i]);
           if(widget.children[i].type == TYPE.CYCLE){
-            widget.children[i].dom.base.className = CSS.CYCLE;
+            widget.children[i].dom.base.className = ' ' +  CSS.CYCLE;
           }
         } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
           widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
@@ -150,6 +153,7 @@ function removeWidgetById(domId){
 
   var widgetToRemove = document.getElementById(domId);
   if(widgetToRemove.parentNode){ // if element has parent remove it ( remove from page )
+    widgetToRemove.parentNode.appendChild(createWidget(undefined,domId).dom.base); // replace with blank
     widgetToRemove.parentNode.removeChild(widgetToRemove);
   }
 }

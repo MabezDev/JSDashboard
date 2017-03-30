@@ -215,15 +215,18 @@ function CycleObject() {
 	self.update = function(){
 		console.log("Updating Cycler");
 		for(var item of self.children) item.update();
-		// on update cycle to next widget
-		if(self.dom.base.children.length > 0){
-			self.dom.base.removeChild(self.dom.base.children[0]); //remove the currently displayed item
-		}
-		// show new one
-		self.dom.base.appendChild(self.children[self.json.displayIndex].dom.base);
+		
+		if(self.children.length > 0){
+			// on update cycle to next widget
+			if(self.dom.base.children.length > 0){
+				self.dom.base.removeChild(self.dom.base.children[0]); //remove the currently displayed item
+			}
+			// show new one
+			self.dom.base.appendChild(self.children[self.json.displayIndex].dom.base);
 
-		self.json.displayIndex++;// increase displayIndex
-		self.json.displayIndex = self.json.displayIndex >= self.children.length ? 0 : self.json.displayIndex;
+			self.json.displayIndex++;// increase displayIndex
+			self.json.displayIndex = self.json.displayIndex >= self.children.length ? 0 : self.json.displayIndex;
+		}
 	};
 	self.toJSON = function() {
 		var toJSON =  {

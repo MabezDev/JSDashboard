@@ -79,8 +79,9 @@
                                 </form>
                                 <p id="urlErrorBox"></p>
                                 <button class="large-btn data_config_item" onclick="testServiceForJSONKeys();return false;">Test Service</button>
+                                <button class="large-btn data_config_item" onclick="return false;">Set Service URL</button>
                                 <div id="service_output_container" class="data_config_item">
-                                    <p>Output from service: </p>
+                                    <p id="">Output from </p>
                                     <select id="service_output" multiple="multiple"></select>
                                 </div>
                             </div>
@@ -180,16 +181,13 @@
             </div>
         </div>
 
-
-        <!-- Doesnt work for commn sites, can't even view github readme with it. Probs replace with uneditable text area for how to or looking to markdown to html and load that in the iframe -->
-        <!-- <div id="web_viewer"> 
-            <iframe id="web_frame" src="https://github.com/MabezDev/MabezWatchOS/blob/master/README.md">
-              <p>Your browser does not support iframes.</p>
-            </iframe>
-            <div>
-                
-            </div>
-        </div> -->
+        <div id="context-menu">
+            <ul>
+                <li class="context_menu_item"><a href="#" target="_self">Edit in Builder</a></li>
+                <li class="context_menu_item"><a href="#" target="_self">Delete</a></li>
+                <!-- <li><a href="#">Item 3</a></li> -->
+            </ul>
+        </div>
 
         
         

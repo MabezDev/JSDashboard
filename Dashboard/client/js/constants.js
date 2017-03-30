@@ -60,6 +60,7 @@ var CSS = {
   TARGETABLECHILDREN : 'targetable',
   FADEIN : 'fade_in',
   FADEOUT : 'fade_out',
+  CYCLE : 'cycle',
 };
 
 var TYPE = {

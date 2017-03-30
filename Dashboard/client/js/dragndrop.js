@@ -3,7 +3,7 @@
 //dashboardDrop - handles drops on the the dashboard screen
 
 // currently Dragging dom element is put here for manipulation
-var currentItemDragging = undefined;
+var currentItemDraggingDom = undefined;
 
 function dashboardDrop(event) {
   event.preventDefault();
@@ -68,29 +68,45 @@ function builderDrop(event) {
   var variableBuilder = document.getElementById(ID.VARIABLESLOT);
 
   // console.log('Source : '+ source + ' || Destination : '+ destinationID);
+  var currentItem = findItemByDomReference(document.elementFromPoint(event.clientX, event.clientY));
+  console.log(currentItem);
 
   switch (source) {
     case 'variable_drag':
       if(destinationID == ID.WIPWIDGET){ // add variable to widget
+        currentItem = findItemByDomReference(currentItemDraggingDom);
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
         if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
           // add service url and type to section
           currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
           currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
           if(currentItem.type == TYPE.CYCLE){
+            currentItem.dom.base.classList.remove('cycle_helper');
             // get the cycle time
             var parentTextNode = currentItem.dom.base.childNodes[0];
-            currentItem.json.cycleTime = (parentTextNode.textContent * 1000); //convert seconds to milliseconds
+            if(parseInt(parentTextNode.textContent)){
+              currentItem.json.cycleTime = (parentTextNode.textContent * 1000); //convert seconds to milliseconds
+            } else {
+              currentItem.json.cycleTime = 60 * 1000; //default 60 seconds
+            }
             parentTextNode.textContent = '';
+          } else {
+            currentItem.dom.base.classList.remove('section_helper');
           }
         }
         currentWidget.appendItem(currentItem);
       } else if(destinationID == ID.BUILDERTRASHCAN){
-        if(!currentWidget.removeItem(currentItemDragging)){ // if its not in the widget 
-          if(currentItem.type == TYPE.SECTION && !currentItem.removeItem(currentItemDragging) // and not in a section item
-          || currentItem.type == TYPE.CYCLE && !currentItem.removeItem(currentItemDragging)){ // and not in a cycle item
-            var parent = currentItemDragging.parentNode; // its in the varibale builder
-            parent.removeChild(currentItemDragging);
+        if(!currentWidget.removeItem(currentItemDraggingDom)){ // if its not in the widget
+          var removed = false;
+          for(var item of currentItems){
+            if(item.type == TYPE.SECTION || item.type == TYPE.CYCLE){ 
+              removed = item.removeItem(currentItemDraggingDom);
+              if(removed) break;
+            }
+          }
+          if(!removed){ // its the first item
+            var parent = currentItemDraggingDom.parentNode; // its in the varibale builder
+            parent.removeChild(currentItemDraggingDom);
           }
         } 
       }
@@ -106,13 +122,13 @@ function builderDrop(event) {
           variableBuilder.textContent = ''; //reset text
           //TODO most of this could be replaced with the createItem function in factory.js - can event set up a objet with id's as keys to set the handlers
 
-          currentItem = createItem(dataTransfer.data);
-          console.log(currentItem);
-          addItemHandlers(dataTransfer.data,currentItem);
-          currentItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
-          currentItem.dom.base.ondragstart = variableDragStart;
-          currentItem.dom.base.ondragover = globalDragOver;
-          variableBuilder.appendChild(currentItem.dom.base);
+          var newItem = createItem(dataTransfer.data);
+          addItemHandlers(dataTransfer.data,newItem);
+          newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
+          newItem.dom.base.ondragstart = variableDragStart;
+          newItem.dom.base.ondragover = globalDragOver;
+          variableBuilder.appendChild(newItem.dom.base);
+          currentItems.push(newItem);
 
         } else {
           console.log("Slot full");
@@ -124,6 +140,10 @@ function builderDrop(event) {
           newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           addItemHandlers(dataTransfer.data,newItem);
           currentItem.appendItem(newItem);
+          currentItems.push(newItem);
+
+          
+          currentItem.dom.base.classList.add('section_helper');
         }
       } else if(destinationID == TYPE.CYCLE){
         if(currentItem && currentItem.type == TYPE.CYCLE){
@@ -132,9 +152,20 @@ function builderDrop(event) {
           newItem.dom.base.classList.remove(CSS.DISPLAY_SPACING);
           addItemHandlers(dataTransfer.data,newItem);
           currentItem.appendItem(newItem);
+          currentItems.push(newItem);
+
+          currentItem.dom.base.classList.add('cycle_helper');
         }
       }
       break;
+  }
+}
+
+function findItemByDomReference(domBaseObject){
+  for(var item of currentItems){
+    if(item.dom.base == domBaseObject){
+      return item;
+    }
   }
 }
 
@@ -167,7 +198,7 @@ function addItemHandlers(id, item){
       item.dom.base.textContent = '';
       break;
     case TYPE.CYCLE:
-      item.dom.base.textContent = 'Double Click to set cycle interval (secs) default 60';
+      item.dom.base.textContent = 'Double Click to set cycle interval (secs) default 60 ';
       item.dom.base.ondblclick = getTextInputInt;
       break;
     default:
@@ -254,7 +285,7 @@ function variableDragStart(event) {
     data: event.target.textContent
   });
 
-  currentItemDragging = event.target;
+  currentItemDraggingDom = event.target;
   event.dataTransfer.setData('data', data);
   event.dataTransfer.dropEffect = 'move';
 }
@@ -294,7 +325,7 @@ function getTextInput(event){
 }
 
 function getTextInputInt(event){
-  var input = parseInt(prompt('Enter an integer value: ', '0'));
+  var input = parseInt(prompt('Enter an integer value: ', '60'));
   if(input){
     event.target.textContent = input;
   }

@@ -226,8 +226,8 @@ function serviceWidget(req, res) {
   var type = req.query.type; // json native or rss
   if (!updateRequest) return;
 
-  console.log("New Update request for the URL : "+ updateRequest.serviceURL);
-  console.log(updateRequest);
+  console.log("New Update request for the URL : ", updateRequest.serviceURL);
+  console.log("Looing for the floowing json keys : " , updateRequest);
 
   if(type == "JSON"){
     request(updateRequest.serviceURL, function(error, response, body) {
@@ -237,7 +237,6 @@ function serviceWidget(req, res) {
       if(isJSON(body)){
           var serviceData = JSON.parse(body);
           var values = parseData(serviceData, updateRequest);
-          console.log(values);
           res.send(JSON.stringify(values));
       } else {
         res.sendStatus(400); // bad request
@@ -252,7 +251,6 @@ function serviceWidget(req, res) {
       if(parsed){
         var serviceData = parsed;
         var values = parseData(serviceData, updateRequest);
-        console.log(values);
         res.send(JSON.stringify(values));
       } else {
         res.sendStatus(404); // data not found

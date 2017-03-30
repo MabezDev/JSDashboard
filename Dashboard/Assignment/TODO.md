@@ -14,10 +14,11 @@ TODO
 	- instead of cycler, give dash board ability to swap widgets with an interval
 	- must validate all text boxes to do with name to not include things that will break filnames i.e / . etc
 	- add button to set service URL to current item
-	- add fade in effect for new dashboard? 
+	- add fade in effect for new dashboard?
+	- use :after selector to draw a add more items here symbol for section and cycle 
 
 	Bugs
-		- changing the key on a variable once its in the widget throws an error
+		- setting cycle time removes all dom children?
 
 
 [Minor]

@@ -1,6 +1,6 @@
 
 // Holds the wip widget, the item to be added next and the preview item
-var currentItem = undefined;
+var currentItems = [];
 var currentWidget = undefined;
 var currentPreviewWidget = undefined;
 

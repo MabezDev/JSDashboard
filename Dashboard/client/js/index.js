@@ -108,6 +108,9 @@ function finalizeWidget(widget){
 
         if(widget.children[i].type == TYPE.SECTION || widget.children[i].type == TYPE.CYCLE){
           finalizeWidget(widget.children[i]);
+          if(widget.children[i].type == TYPE.CYCLE){
+            widget.children[i].dom.base.className = CSS.CYCLE;
+          }
         } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
           widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
           widget.children[i].dom.base.textContent = '';

@@ -89,15 +89,13 @@ function editWidgetInBuilder(widgetObject){
     currentState.removeChild(widget);
   }
 
-  currentWidget = unfinalizeWidget(currentWidget);
-  //addItemsFromWidget(currentWidget);
-
   if(currentWidget.dom.base.parentNode){ // remove from dashboard
     currentWidget.dom.base.parentNode.appendChild(createWidget(undefined,currentWidget.dom.base.id).dom.base);
     currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
   }
 
-  
+  currentWidget = unfinalizeWidget(currentWidget);
+  //addItemsFromWidget(currentWidget);
 
   currentState.appendChild(currentWidget.dom.base);
 

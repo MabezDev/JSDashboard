@@ -213,10 +213,10 @@ function addItemHandlers(id, item){
       
       break;
     case TYPE.SECTION:
-      item.dom.base.textContent = '';
+      item.dom.base.childNodes[0].textContent = '';
       break;
     case TYPE.CYCLE:
-      item.dom.base.textContent = 'Double Click to set cycle interval (secs) default 60 ';
+      item.dom.base.childNodes[0].textContent = 'Double Click to set cycle interval (secs) default 60 ';
       item.dom.base.ondblclick = getTextInputInt;
       break;
     default:
@@ -357,7 +357,7 @@ function getTextInput(event){
 function getTextInputInt(event){
   var input = parseInt(prompt('Enter an integer value: ', '60'));
   if(input){
-    event.target.textContent = input;
+    event.target.childNodes[0].textContent = input;
   }
 }
 

@@ -22,3 +22,6 @@ can be used to nest different serviceURL's into a widget (see My Favourite Subre
 ##### Cycler
 The Cycler is like the Section but rotates the group of Items attacked to at a set interval (See 3 day weather portsmouth after a minute it should switch to a different day).
 
+### Updates
+Currently there is no way to set the Update time, this isnt due to a limitation, it just hasn't been implemented yet. The standard update time is 3minutes currently.
+

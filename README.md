@@ -1,6 +1,6 @@
 # Mashboard
 
-A dashboard completely customizable to you, aslong as there is a json or rss feed, you can display any data you want in a number of unique ways through a set a prebuilt Items.
+A dashboard completely customizable, aslong as there is a json or rss feed, you can display any data you want in a number of unique ways through a set a prebuilt Items.
 
 [Reflection](https://github.com/MabezDev/JSDashboard/blob/master/Dashboard/Assignment/Reflection.md) [Limitations](https://github.com/MabezDev/JSDashboard/blob/master/Dashboard/Assignment/Limitations.md)
 

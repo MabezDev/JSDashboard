@@ -119,8 +119,10 @@ function finalizeWidget(widget){
       finalizeWidget(widget.children[i]);
       if(widget.children[i].type == TYPE.CYCLE){
         widget.children[i].dom.base.className = ' ' +  CSS.CYCLE;
+        widget.children[i].dom.base.classList.remove('cycle_helper');
+      } else {
+        widget.children[i].dom.base.classList.remove('section_helper');
       }
-      widget.children[i].dom.base.title = ''; //remove service url from title
     } else if(widget.children[i].type == TYPE.POSITIONALOBJECT){
       widget.children[i].dom.base.className += ' ' + CSS.HIDDEN;
       widget.children[i].dom.base.textContent = '';
@@ -174,7 +176,6 @@ function unfinalizeWidget(widgetOriginal){
 }
 
 function getWidgetById(domID){
-  var tableRows = document.getElementById(ID.WIDGETGRID).children[0].children;
   for(var widget of arrayOfWidgets){
     if(widget.dom.base.id == domID){
       return widget;

@@ -40,9 +40,11 @@ function dashboardDrop(event) {
         destination.ondragstart = widgetDragStart;
         destination.ondragover = globalDragOver;
         destination.ondrop = dashboardDrop;
+        destination.oncontextmenu = widgetRightClickHandler;
 
         source.className = CSS.WIDGET + " " + CSS.HIDDEN;
         source.draggable = false;
+        source.oncontextmenu = undefined;
       }
 
       break;
@@ -77,9 +79,6 @@ function builderDrop(event) {
         currentItem = findItemByDomReference(currentItemDraggingDom);
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
         if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
-          // add service url and type to section
-          // currentWidget.json.serviceURL = document.getElementById(ID.SERVICEURL).value; - Set this when its not a section 
-          // currentWidget.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
           if(currentItem.type == TYPE.CYCLE){
             currentItem.dom.base.classList.remove('cycle_helper');
             // get the cycle time
@@ -114,11 +113,6 @@ function builderDrop(event) {
       break;
     case 'data_drag':
       addKeyToItem(destinationID, document.elementFromPoint(event.clientX, event.clientY), dataTransfer.data);
-      if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
-        currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
-        currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
-        console.log('Setting ' + currentItem.type + ' serviceURL to : ' + currentItem.json.serviceURL);
-      }
       break;
     case 'item_template_drag': //adding a blank variable to the builder to be built
         
@@ -168,11 +162,13 @@ function builderDrop(event) {
         currentWidget.json.serviceURL = dataTransfer.data;
         currentWidget.json.urlType = dataTransfer.type;
         currentWidget.dom.base.title = dataTransfer.data;
+        currentWidget.dom.base.style.borderColor = '#324247';
       } else if(destinationID == TYPE.SECTION || destinationID == TYPE.CYCLE){
         // set current Item serviceURL
         currentItem.json.serviceURL = dataTransfer.data;
         currentItem.json.urlType = dataTransfer.type;
         currentItem.dom.base.title = dataTransfer.data;
+        currentItem.dom.base.style.borderColor = '#324247';
       }
 
       break;
@@ -214,10 +210,12 @@ function addItemHandlers(id, item){
       break;
     case TYPE.SECTION:
       item.dom.base.childNodes[0].textContent = '';
+      item.dom.base.style.borderColor = '#77250e';
       break;
     case TYPE.CYCLE:
       item.dom.base.childNodes[0].textContent = 'Double Click to set cycle interval (secs) default 60 ';
       item.dom.base.ondblclick = getTextInputInt;
+      item.dom.base.style.borderColor = '#77250e';
       break;
     default:
       console.log('Unexpected id ' + id + ' in addDisplayItemHandlers');

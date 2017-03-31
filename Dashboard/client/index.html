@@ -30,7 +30,7 @@
                 <button class="large-btn" onclick="toggleConfigure()">Configure Dashboard</button>
                 <button class="large-btn" onclick="toggleBuilder()">Open Builder</button>
                 <button class="large-btn" onclick="toggleSavedWidgetLoader()">Widget Manager</button>
-                <!-- <button class="large-btn" onclick="">How To Use</button> -->
+                <button class="small-btn" onclick="window.open('https://www.google.com');">?</button>
             </nav>
         </header>
 
@@ -96,8 +96,8 @@
                             <div id="item_palette_container"> <!-- lists items that can be added to a widget-->
                                 <!-- variable that can be used to create custom widgets are generated here --> 
                             </div>
-                            <div id="builder_trashcan" ondragover="globalDragOver(event)" ondrop="builderDrop(event)">
-                                    
+                            <div id="builder_trashcan" class="display_text" ondragover="globalDragOver(event)" ondrop="builderDrop(event)">
+                                    Drop here to delete
                             </div>
                             <div id="builder_control">
                                 <button class="medium-btn" onclick="addToDashFromBuilder()">Add to Dashboard</button>
@@ -185,7 +185,7 @@
 
         <div id="context-menu">
             <ul>
-                <li class="context_menu_item"><a href="#" target="_self">Edit in Builder</a></li>
+                <li class="context_menu_item"><a href="#" target="_self">Add Items in Builder</a></li>
                 <li class="context_menu_item"><a href="#" target="_self">Delete</a></li>
                 <!-- <li><a href="#">Item 3</a></li> -->
             </ul>

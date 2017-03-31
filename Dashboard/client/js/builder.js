@@ -241,6 +241,7 @@ function addWidgetToBuilder(){
     widget.dom.title.onclick = titleDoubleClickHandler; // set click handler on title
     widget.dom.base.ondrop = builderDrop;
     widget.dom.base.ondragover = globalDragOver;
+    widget.dom.base.style.borderColor = '#77250e'; // signals no service URL
     currentState.append(widget.dom.base);
 
     currentWidget = widget;

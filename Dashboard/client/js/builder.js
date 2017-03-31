@@ -181,14 +181,14 @@ function toggleBuilder() {
 
     itemContainer.appendChild(label.dom.base);
 
-    // add a big label
+    // // add a big label
 
-    var bigLabel = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON));
-    bigLabel.dom.base.ondragstart = itemTemplateDragStart;
-    bigLabel.dom.base.ondragover = globalDragOver;
-    bigLabel.dom.base.ondrop = builderDrop;
+    // var bigLabel = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON));
+    // bigLabel.dom.base.ondragstart = itemTemplateDragStart;
+    // bigLabel.dom.base.ondragover = globalDragOver;
+    // bigLabel.dom.base.ondrop = builderDrop;
 
-    itemContainer.appendChild(bigLabel.dom.base);
+    // itemContainer.appendChild(bigLabel.dom.base);
 
     // add a positional item (Now onlky a new line, as percentage spans didn't really work)
 

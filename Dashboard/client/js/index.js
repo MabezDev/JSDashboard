@@ -22,7 +22,7 @@ function init() {
   updateWidgets(); // intially, if loaded from layout
   setInterval(() => {
     updateWidgets();
-  }, 30000); // 180000 = every 3mins
+  }, 180000); // 180000 = every 3mins
 
   // add context menu resetter
   document.onclick = function(e){

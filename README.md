@@ -7,12 +7,18 @@ A dashboard completely customizable to you, aslong as there is a json or rss fee
 
 ### Widgets
     
-Widgets are the base class as it were for items. Every widget has a title and widgets only require a serviceURL if they contain an item that gets data like HTML Content or Key-Value item. Widgets in the Dashboard can be drag and into empty slots and swapped with another. Currently a widget can only get data from *one* serviceURL, but there solutions below if you want to enable more than one service.
+Widgets are the base class as it were for items. Every widget has a title and widgets only require a serviceURL if they contain an item that gets data like HTML Content or Key-Value item. Widgets in the Dashboard can be drag and into empty slots and swapped with another. Currently a widget can only get data from *one* serviceURL, but there solutions below if you want to enable more than one service. If a widget doesn't have a serviceURL it will have a red border, to check its serviceURL just hover the mouse
 
 ### Items
   Items are configured and added to widgets in the Widget Builder, Blank Items are displayed in the item pallette, to configure one drag it to the Item Builder insert a serviceURL and drag and drop json keys (json dot notation paths) of what data you want to be displayed. Some Items like Labels don't display data from the service, instead there value can be set with a click.
 
-#### Standard Items
-
-
 #### Special Items
+Three of the items are a bit different to the rest.
+  ##### New Line
+Basically a line break, originally this want ment to have variable sizes but it ended up not working out(see reflection.md).
+##### Section
+The Section Item is basically a widget with no title, it follows the same rule about serviceURL (only required if pulling data)
+can be used to nest different serviceURL's into a widget (see My Favourite Subreddits in the widget Manager as an example)
+##### Cycler
+The Cycler is like the Section but rotates the group of Items attacked to at a set interval (See 3 day weather portsmouth after a minute it should switch to a different day).
+

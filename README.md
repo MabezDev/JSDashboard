@@ -3,7 +3,7 @@
 A dashboard completely customizable to you, aslong as there is a json or rss feed, you can display any data you want in a number of unique ways through a set a prebuilt Items.
   
 ## How to use
-  The main focus of the is dashboard is data customization, most dashboards I have seen limit you to certain services, or some of the more basic ones limit you in terms of widget availability. Letting the user specify there serviceURL(Rss feed or JSON feed) and giving them tools to create there own widgets enables a virtually limitless dashboard. Along with the information below I have prepared a short video demostrating the creation of a basic widget which can be viewed [![Mashboard Demo](http://img.youtube.com/vi/Dg03zkdhdqc/0.jpg)](http://www.youtube.com/watch?v=Dg03zkdhdqc)
+  The main focus of the is dashboard is data customization, most dashboards I have seen limit you to certain services, or some of the more basic ones limit you in terms of widget availability. Letting the user specify there serviceURL(Rss feed or JSON feed) and giving them tools to create there own widgets enables a virtually limitless dashboard. Along with the information below I have prepared a short video demostrating the creation of a basic widget and explores some of the functionality of Mashboard. [![Mashboard Demo](http://img.youtube.com/vi/Dg03zkdhdqc/0.jpg)](http://www.youtube.com/watch?v=Dg03zkdhdqc)
 
 ### Widgets
     

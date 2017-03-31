@@ -3,7 +3,7 @@
 A dashboard completely customizable to you, aslong as there is a json or rss feed, you can display any data you want in a number of unique ways through a set a prebuilt Items.
   
 ## How to use
-  The main focus of the is dashboard is data customization, most dashboards I have seen limit you to certain services, or some of the more basic ones limit you in terms of widget availability. Letting the user specify there serviceURL(Rss feed or JSON feed) and giving them tools to create there own widgets enables a virtually limitless dashboard. Along with the information below I have prepared a short video demostrating the creation of a basic widget and explores some of the functionality of Mashboard. [![Mashboard Demo](http://img.youtube.com/vi/Dg03zkdhdqc/0.jpg)](http://www.youtube.com/watch?v=Dg03zkdhdqc)
+  The main focus of the is dashboard is data customization, most dashboards I have seen limit you to certain services, or some of the more basic ones limit you in terms of widget availability. Letting the user specify there serviceURL(RSS feed or JSON feed) and giving them tools to create there own widgets enables a virtually limitless dashboard. Along with the information below I have prepared a short video demostrating the creation of a basic widget and explores some of the functionality of Mashboard. [![Mashboard Demo](http://img.youtube.com/vi/Dg03zkdhdqc/0.jpg)](http://www.youtube.com/watch?v=Dg03zkdhdqc)
 
 ### Widgets
     
@@ -15,7 +15,7 @@ Widgets are the base container for items. Every widget has a title. Widgets only
 #### Special Items
 Three of the items are a bit different to the rest.
   ##### New Line
-Basically a line break, originally this want ment to have variable sizes but it ended up not working out(see reflection.md).
+Basically a line break, originally this want ment to have variable sizes but it ended up not working out(see [reflection.md](https://github.com/MabezDev/JSDashboard/blob/master/Dashboard/Assignment/Reflection.md)).
 ##### Section
 The Section Item is basically a widget with no title, it follows the same rule about serviceURL (only required if pulling data)
 can be used to nest different serviceURL's into a widget (see My Favourite Subreddits in the widget Manager as an example)

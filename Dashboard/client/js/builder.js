@@ -45,6 +45,10 @@ function testServiceForJSONKeys(button) {
         listElement.append(option);
       }
       serviceContainer.style.display = "block";
+
+      var outputLink = document.getElementById('service_url_display');
+      outputLink.textContent = serviceUrl;
+      outputLink.ondragstart = serviceURLDragStart;// ondragstart carry serviceURL to item
     } else if(xhr.status == 404){
       errorBox.textContent = "Unable to test the service, is the url correct?";
     } else if(xhr.status == 400){
@@ -53,10 +57,6 @@ function testServiceForJSONKeys(button) {
   };
 
   xhr.send();
-
-  // when ever we test a url pre-emptively push them intpo the widget so we can preview at any time 
-  currentWidget.json.serviceURL = serviceUrl;
-  currentWidget.json.urlType = (urlType.checked ? URL.JSON : URL.RSS);
 }
 
 function addToDashFromBuilder(){
@@ -66,7 +66,7 @@ function addToDashFromBuilder(){
   var currentState = wipwidget.parentNode;
   currentState.removeChild(wipwidget); // remove the widget we built from the builder
 
-  var finishedWidget = finalizeWidget(currentWidget);
+  var finishedWidget = finalizeWidget(createWidget(currentWidget.toJSON()));
   if(finishedWidget){
     addToDashboard(finishedWidget);
   } else {
@@ -78,9 +78,51 @@ function addToDashFromBuilder(){
   
 }
 
+function editWidgetInBuilder(widgetObject){
+  currentWidget = widgetObject;
+  
+  arrayOfWidgets = arrayOfWidgets.filter(e => e !== widgetObject);
+
+  var currentState = document.getElementById(ID.CURRENTSTATECONTAINER);
+  var widget = document.getElementById(ID.WIPWIDGET);
+  if (widget) {
+    currentState.removeChild(widget);
+  }
+
+  if(currentWidget.dom.base.parentNode){ // remove from dashboard
+    currentWidget.dom.base.parentNode.appendChild(createWidget(undefined,currentWidget.dom.base.id).dom.base);
+    currentWidget.dom.base.parentNode.removeChild(currentWidget.dom.base);
+  }
+
+  currentWidget = unfinalizeWidget(currentWidget);
+  //addItemsFromWidget(currentWidget);
+
+  currentState.appendChild(currentWidget.dom.base);
+
+  currentWidget.dom.base.ondrop = builderDrop;
+  currentWidget.dom.base.oncontextmenu = undefined; //remove right click handler
+
+  for(var child of currentWidget.children){ // remove timers
+    if(child.type == TYPE.CYCLE){
+      child.toggleInterval(false);
+    }
+  }
+
+  toggleBuilder(); // open the builder
+}
+
+// function addItemsFromWidget(widget){
+//   for(var child of widget.children){
+//     if(child.type == TYPE.CYCLE){
+//         addItemsFromWidget(child);
+//     }
+//     addItemHandlers(child.type, child);
+//     currentItems.push(child);
+//   }
+// }
+
 function toggleBuilder() {
   var panel = document.getElementById(ID.BUILDER);
-  // panel.style.display = panel.style.display == 'block' ? 'none' : 'block';
   panel.style.top = panel.style.top == '0px' ? '200vh' : '0px';
   document.getElementById(ID.SERVICEURL).focus(); //.scrollIntoView(); add?
   // make sure a builder widget is in place
@@ -139,14 +181,14 @@ function toggleBuilder() {
 
     itemContainer.appendChild(label.dom.base);
 
-    // add a big label
+    // // add a big label
 
-    var bigLabel = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON));
-    bigLabel.dom.base.ondragstart = itemTemplateDragStart;
-    bigLabel.dom.base.ondragover = globalDragOver;
-    bigLabel.dom.base.ondrop = builderDrop;
+    // var bigLabel = createLabel(JSON.parse(BIG_LABEL_DISPLAY_JSON));
+    // bigLabel.dom.base.ondragstart = itemTemplateDragStart;
+    // bigLabel.dom.base.ondragover = globalDragOver;
+    // bigLabel.dom.base.ondrop = builderDrop;
 
-    itemContainer.appendChild(bigLabel.dom.base);
+    // itemContainer.appendChild(bigLabel.dom.base);
 
     // add a positional item (Now onlky a new line, as percentage spans didn't really work)
 
@@ -199,6 +241,7 @@ function addWidgetToBuilder(){
     widget.dom.title.onclick = titleDoubleClickHandler; // set click handler on title
     widget.dom.base.ondrop = builderDrop;
     widget.dom.base.ondragover = globalDragOver;
+    widget.dom.base.style.borderColor = '#77250e'; // signals no service URL
     currentState.append(widget.dom.base);
 
     currentWidget = widget;
@@ -207,7 +250,7 @@ function addWidgetToBuilder(){
 
 function saveWidgetOnServer(domButton){
 
-  var fileName = prompt('Save widget with name? (Makes it searchable in the widget manager) : ', '');
+  var fileName = prompt('Save widget with tags? (Makes it searchable in the widget manager) : ', '');
   if(fileName){
 
     var xhr = new XMLHttpRequest();

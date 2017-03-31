@@ -27,7 +27,7 @@
 }
 
 .section {
-    width: 99%; /* Account for the margin and padding */
+    width: 98%; /* Account for the margin and padding */
     background-color: rgb(81, 174, 189);
     border-radius: 2px;
     border-style: solid;
@@ -149,7 +149,6 @@
     display: block;
     min-height: 70vh;
     min-width: : 70vw; /* min-width: aint foing anything for some reason, min-height it working as expected */
-    /*background-color: #24677c;*/
     background-color: rgb(81, 174, 189);
     border-radius: 3px;
 
@@ -159,22 +158,30 @@
 }
 
 #item_palette_container {
-   /*display: inline-block;*/
    padding: 35px;
+   padding-top: 0px;
    max-width: 400px; 
 }
 
 #builder_control {
     width: 100%;
-    margin-top: 80px;
+    margin-top: 30px;
     align-items: center;
     text-align: center;
 }
 
 #builder_trashcan {
-    min-width: 50px;
-    min-height: 50px;
-    background-color: purple;
+    min-width: 30px;
+    min-height: 40px;
+    padding-top: 20px;
+    background-color: rgb(81, 174, 189);
+    text-align: center;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: #324247;
+    border-right: none;
+    border-left: none;
 }
 
 #variable_builder {
@@ -213,7 +220,7 @@
 }
 
 #quit_builder {
-    margin-top: 70px;
+    margin-top: 40px;
 }
 
 #widget_test_control {
@@ -273,6 +280,18 @@
 
 #service_output_container {
     display: none;
+}
+
+#service_url_display{
+    width: 80%;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: grab;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 select {

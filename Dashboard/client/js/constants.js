@@ -61,6 +61,7 @@ var CSS = {
   FADEIN : 'fade_in',
   FADEOUT : 'fade_out',
   CYCLE : 'cycle',
+  SECTION : 'section item display_spacing display_text',
 };
 
 var TYPE = {

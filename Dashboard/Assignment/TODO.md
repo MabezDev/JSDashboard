@@ -1,29 +1,22 @@
 TODO
 
 [Major]
-	- Implement last updated time to widget, with dom display
-	- Implement a trashcan to remove widgets and items in the builder - [SEMI] - functionality for the builder is there but looks like crap
-	- Display Saved widgets in a preview gallery type deal - [DONE]
-	- Implement a way to save widgets to the server - [DONE] - need to either check if the filename exists or just save a random name if we can get the view running nicely
 	- add img item
-	- set Update intervals - [SEMI] - global interval set not widget specific
-	- add clock to top bar
-	- cycler item - cycle throw multple data's
-	- to make a cycler we will need a container type first that can store items (base it off the widget just change css) - possible container colour #4d6b75
-	- add edit this widget button in widget manager, pull into widget builder for editing
-	- instead of cycler, give dash board ability to swap widgets with an interval
+	- add clock to top bar - http://davidayala.eu/current-time/
 	- must validate all text boxes to do with name to not include things that will break filnames i.e / . etc
-	- add button to set service URL to current item
-	- add fade in effect for new dashboard?
-	- use :after selector to draw a add more items here symbol for section and cycle 
+	- add saved timeout on layout saver like widget saver
+	- add some prebuilt widgets to show off all features
 
 	Bugs
 		- setting cycle time removes all dom children?
+		- can't remove things if we choose to edit from dashboard
 
 
 [Minor]
-	- Implement the account creation etc if we have time
 	- Add manual update button on each widget
+	- add fade in effect for new dashboard?
+	- delete layout button
+
 
 - [Adding a Display item]
 	- Create model in factory.js
@@ -31,9 +24,6 @@ TODO
 	- Add it as a display item in ToggleBuilder() - builder.js
 	- Check no special treatment is required in dragndrop, if it is required, see builderDrop(), addItemHandlers() and add
 	- Finally check any finalization changes need to be made, i.e extra css added / removed
-
-
-- Possible colour Scheme - http://paletton.com/#uid=13p0u0kllllpdb4nhgdjpqthtvB
 
 - Poole, GB weathe api
  https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22poole%2C%20uk%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys

@@ -115,6 +115,36 @@
     flex-direction: column;
 }
 
+#context-menu { 
+    position:absolute; 
+    display:none;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);   
+}
+
+#context-menu ul, #context-menu li {
+    margin:0; padding:0;
+    background:white;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#context-menu li a {
+    display:block;
+    text-decoration:none;
+    color:black;
+    padding: 5px;
+    border-radius: 3px;
+}
+#context-menu li a:hover {
+    background:black;
+    color:#FFF;
+    border-radius: 3px;
+}
+
+
+
+
 body {
     background-color: #f4fcfc;
     /*background-color: #273033;*/

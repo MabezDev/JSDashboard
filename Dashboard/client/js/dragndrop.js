@@ -40,9 +40,11 @@ function dashboardDrop(event) {
         destination.ondragstart = widgetDragStart;
         destination.ondragover = globalDragOver;
         destination.ondrop = dashboardDrop;
+        destination.oncontextmenu = widgetRightClickHandler;
 
         source.className = CSS.WIDGET + " " + CSS.HIDDEN;
         source.draggable = false;
+        source.oncontextmenu = undefined;
       }
 
       break;
@@ -67,7 +69,7 @@ function builderDrop(event) {
 
   var variableBuilder = document.getElementById(ID.VARIABLESLOT);
 
-  // console.log('Source : '+ source + ' || Destination : '+ destinationID);
+  console.log('Source : '+ source + ' || Destination : '+ destinationID);
   var currentItem = findItemByDomReference(document.elementFromPoint(event.clientX, event.clientY));
   console.log(currentItem);
 
@@ -77,9 +79,6 @@ function builderDrop(event) {
         currentItem = findItemByDomReference(currentItemDraggingDom);
         currentItem.dom.base.id = ""; // remove id so we don't break the builder
         if(currentItem.type == TYPE.SECTION || currentItem.type == TYPE.CYCLE){
-          // add service url and type to section
-          currentItem.json.serviceURL = document.getElementById(ID.SERVICEURL).value;
-          currentItem.json.urlType = (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS);
           if(currentItem.type == TYPE.CYCLE){
             currentItem.dom.base.classList.remove('cycle_helper');
             // get the cycle time
@@ -95,6 +94,7 @@ function builderDrop(event) {
           }
         }
         currentWidget.appendItem(currentItem);
+        // currentItems = []; //reset all items, might not work if they take one thing of a section and put it on the 
       } else if(destinationID == ID.BUILDERTRASHCAN){
         if(!currentWidget.removeItem(currentItemDraggingDom)){ // if its not in the widget
           var removed = false;
@@ -120,7 +120,6 @@ function builderDrop(event) {
         var variableBuilder = document.getElementById(ID.VARIABLESLOT);
         if (variableBuilder.children.length == 0) {
           variableBuilder.textContent = ''; //reset text
-          //TODO most of this could be replaced with the createItem function in factory.js - can event set up a objet with id's as keys to set the handlers
 
           var newItem = createItem(dataTransfer.data);
           addItemHandlers(dataTransfer.data,newItem);
@@ -141,7 +140,6 @@ function builderDrop(event) {
           addItemHandlers(dataTransfer.data,newItem);
           currentItem.appendItem(newItem);
           currentItems.push(newItem);
-
           
           currentItem.dom.base.classList.add('section_helper');
         }
@@ -157,6 +155,22 @@ function builderDrop(event) {
           currentItem.dom.base.classList.add('cycle_helper');
         }
       }
+      break;
+    case 'service_url_drag':
+      if(destinationID == ID.WIPWIDGET){
+        // set wip widget url
+        currentWidget.json.serviceURL = dataTransfer.data;
+        currentWidget.json.urlType = dataTransfer.type;
+        currentWidget.dom.base.title = dataTransfer.data;
+        currentWidget.dom.base.style.borderColor = '#324247';
+      } else if(destinationID == TYPE.SECTION || destinationID == TYPE.CYCLE){
+        // set current Item serviceURL
+        currentItem.json.serviceURL = dataTransfer.data;
+        currentItem.json.urlType = dataTransfer.type;
+        currentItem.dom.base.title = dataTransfer.data;
+        currentItem.dom.base.style.borderColor = '#324247';
+      }
+
       break;
   }
 }
@@ -195,11 +209,13 @@ function addItemHandlers(id, item){
       
       break;
     case TYPE.SECTION:
-      item.dom.base.textContent = '';
+      item.dom.base.childNodes[0].textContent = '';
+      item.dom.base.style.borderColor = '#77250e';
       break;
     case TYPE.CYCLE:
-      item.dom.base.textContent = 'Double Click to set cycle interval (secs) default 60 ';
+      item.dom.base.childNodes[0].textContent = 'Double Click to set cycle interval (secs) default 60 ';
       item.dom.base.ondblclick = getTextInputInt;
+      item.dom.base.style.borderColor = '#77250e';
       break;
     default:
       console.log('Unexpected id ' + id + ' in addDisplayItemHandlers');
@@ -301,6 +317,18 @@ function itemTemplateDragStart(event) {
   event.dataTransfer.dropEffect = 'move';
 }
 
+// serviceURL drag start
+
+function serviceURLDragStart(event) {
+  var data = JSON.stringify({
+    source: 'service_url_drag',
+    data: event.target.textContent,
+    type : (document.getElementById(ID.URLTYPEJSON).checked ? URL.JSON : URL.RSS)
+  });
+  event.dataTransfer.setData('data', data);
+  event.dataTransfer.dropEffect = 'move';
+}
+
 // global drag over
 
 function globalDragOver(event) { // allow drops onto the variable builder
@@ -327,8 +355,32 @@ function getTextInput(event){
 function getTextInputInt(event){
   var input = parseInt(prompt('Enter an integer value: ', '60'));
   if(input){
-    event.target.textContent = input;
+    event.target.childNodes[0].textContent = input;
   }
+}
+
+// right click handler
+
+function widgetRightClickHandler(e){
+    e.preventDefault();
+    // show menu
+    var menu = document.getElementById('context-menu');        
+    menu.style.left = e.pageX + 'px';
+    menu.style.top = e.pageY + 'px';
+    menu.style.display = 'block';
+
+    var widgetID = document.elementFromPoint(e.clientX - 2, e.clientY - 2).id; // offset so it doesnt return the content menu itself
+
+    var editAnchor = menu.children[0].children[0].children[0];
+    var deleteAnchor = menu.children[0].children[1].children[0];
+
+    editAnchor.onclick = function(e){
+      editWidgetInBuilder(getWidgetById(widgetID));
+    }
+
+    deleteAnchor.onclick = function(e){
+      removeWidgetById(widgetID);
+    }
 }
 
 
